@@ -13,7 +13,9 @@
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
-    <description>This is the plugin for jumping multiple lines for navigating in less time than usually spamming arrow keys</description>
+    <description>This is the plugin for jumping multiple lines for navigating in less time than usually spamming arrow
+        keys
+    </description>
 
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
@@ -24,6 +26,11 @@
     <extensions defaultExtensionNs="com.intellij">
     </extensions>
     <actions>
-        <action class="com.example.jumpinglines.JumpLines" id="JumpOverLines"/>
+        <action class="com.example.jumpinglines.JumpLines" id="JumpOverLines">
+            <keyboard-shortcut first-keystroke="shift pressed j"
+                               second-keystroke="shift pressed k"
+                               keymap="$default"
+            />
+        </action>
     </actions>
 </idea-plugin>
