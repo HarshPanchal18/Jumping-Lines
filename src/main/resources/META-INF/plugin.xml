@@ -20,21 +20,21 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationConfigurable
+        <!--<applicationConfigurable
                 displayName="Jump K Lines"
                 id="com.example.jumpinglines"
                 instance="com.example.jumpinglines.JumpLinesSettings"
-                dynamic="true"/>
+                dynamic="true"/>-->
     </extensions>
 
     <actions>
-        <action class="com.example.jumpinglines.JumpForwardLines" id="JumpOverForwardLines">
-            <keyboard-shortcut first-keystroke="control shift pressed w" keymap="$default"/>
+        <action id="com.example.jumpinglines.JumpForwardLines" class="com.example.jumpinglines.JumpForwardLines"
+                text="Forward">
+            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl COMMA"/>
         </action>
-    </actions>
-    <actions>
-        <action class="com.example.jumpinglines.JumpBackwardLines" id="JumpOverBackwardLines">
-            <keyboard-shortcut first-keystroke="control shift pressed q" keymap="$default"/>
+        <action id="com.example.jumpinglines.JumpBackwardLines" class="com.example.jumpinglines.JumpBackwardLines"
+                text="Backward">
+            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl K"/>
         </action>
     </actions>
 

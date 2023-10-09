@@ -19,7 +19,7 @@ class JumpForwardLines : AnAction() {
         val caretModel = editor.caretModel
         val currentOffset = caretModel.offset
 
-        val linesToJump = 3 // Lines to jump, Positive for down, Negative for up
+        val linesToJump = 4 // Lines to jump, Positive for down, Negative for up
 
         // Calculate the new caret position
         val currentLineNumber = document.getLineNumber(currentOffset)
