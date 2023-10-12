@@ -1,4 +1,4 @@
-package com.example.jumpinglines
+package com.harsh.jumpinglines
 
 import com.intellij.openapi.options.Configurable
 import javax.swing.JComponent

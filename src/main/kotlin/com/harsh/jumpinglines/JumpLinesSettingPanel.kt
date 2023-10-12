@@ -1,4 +1,4 @@
-package com.example.jumpinglines
+package com.harsh.jumpinglines
 
 import java.awt.BorderLayout
 import javax.swing.JLabel
