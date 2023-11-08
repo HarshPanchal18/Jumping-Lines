@@ -5,7 +5,6 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.editor.*
-import kotlin.math.abs
 
 class JumpBackwardLines : AnAction() {
 
@@ -29,6 +28,7 @@ class JumpBackwardLines : AnAction() {
                 currentLineNumber + linesToJump < 0 -> 0
                 else -> currentLineNumber + linesToJump
             }
+        val currentColumn = currentOffset - document.getLineStartOffset(currentLineNumber)
 
         // Ensure the new line number is within valid bounds
         val validLineNumber: Int = newLineNumber.coerceIn(0, document.lineCount - 1)
@@ -41,7 +41,7 @@ class JumpBackwardLines : AnAction() {
         caretModel.moveToOffset(newOffset)
 
         // Scrolling editor along with the cursor
-        val newPosition = LogicalPosition(newLineNumber, 0)
+        val newPosition = LogicalPosition(newLineNumber, currentColumn)
         caretModel.moveToLogicalPosition(newPosition)
         scrollingModel.scrollTo(newPosition, ScrollType.RELATIVE)
     }

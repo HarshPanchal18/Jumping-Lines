@@ -29,6 +29,7 @@ class JumpForwardLines : AnAction() {
         // Calculate the new caret position
         val currentLineNumber: Int = document.getLineNumber(currentOffset)
         val newLineNumber: Int = currentLineNumber + linesToJump
+        val currentColumn = currentOffset - document.getLineStartOffset(currentLineNumber)
 
         // Ensure the new line number is within valid bounds
         val validLineNumber: Int = newLineNumber.coerceIn(0, document.lineCount - 1)
@@ -41,7 +42,7 @@ class JumpForwardLines : AnAction() {
         caretModel.moveToOffset(newOffset)
 
         // Scrolling editor along with the cursor
-        val newPosition = LogicalPosition(newLineNumber, 0)
+        val newPosition = LogicalPosition(newLineNumber, currentColumn)
         caretModel.moveToLogicalPosition(newPosition)
         scrollingModel.scrollTo(newPosition, ScrollType.RELATIVE)
     }
