@@ -1,6 +1,6 @@
-# Jump-K-Lines
+# Jumping-Lines
 
-<iframe width="245px" height="48px" src="https://plugins.jetbrains.com/embeddable/install/22878"></iframe>
+<a href="https://plugins.jetbrains.com/plugin/22878-jumping-lines"><img src="https://img.shields.io/website?down_color=red&down_message=Under%20work&label=Plugin&logo=jetbrains&style=for-the-badge&up_color=blue&up_message=Stable&url=https://plugins.jetbrains.com/plugin/22878-jumping-lines"></a>
 
 * Jump Lines is a plugin for JetBrains IDEs that allows you to navigate your code more efficiently by jumping multiple lines at once.
 
