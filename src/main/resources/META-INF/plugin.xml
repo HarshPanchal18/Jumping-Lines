@@ -13,7 +13,10 @@
         <p>Jump Lines is a plugin for JetBrains IDEs that allows you to navigate your code more efficiently by jumping multiple lines at once.
         </p>
 
-        <p>With Jump Lines, you can move your cursor 2 lines upward by pressing <kbd>Ctrl+Shift+Comma</kbd> or 4 lines downward by pressing <kbd>Ctrl+Shift+Period</kbd>, saving you time and reducing the strain on your hands.
+        <p>With Jumping Lines, you can move your cursor 2 lines upward by pressing <kbd>Ctrl+Shift+Comma</kbd> or 4 lines downward by pressing <kbd>Ctrl+Shift+Period</kbd>, saving you time and reducing the strain on your hands.
+        </p>
+
+        <p>The amount of lines to jump in both directions can also be changed in settings.
         </p>
 
         <p style=”text-indent: 40px”>Once upon a time when <a href="https://github.com/HarshPanchal18">developer</a> of this plugin started using <b>VIM</b> and then he addicted to one of its feature about jumping multiple lines through <i><b>5j</b></i> or <i><b>5k</b></i> and later the developer started developing Android and Kotlin based projects on Jetbrains based IDEs.
@@ -35,11 +38,11 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!--<applicationConfigurable
-                displayName="Jump K Lines"
+        <applicationConfigurable
+                displayName="Jumping Lines"
                 id="com.harsh.jumpinglines"
-                instance="com.harsh.jumpinglines.JumpLinesSettings"
-                dynamic="true"/>-->
+                instance="com.harsh.jumpinglines.settings.JumpLinesSettings"
+                dynamic="true"/>
     </extensions>
 
     <actions>

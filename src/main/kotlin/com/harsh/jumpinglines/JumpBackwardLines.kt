@@ -1,5 +1,6 @@
 package com.harsh.jumpinglines
 
+import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -19,29 +20,25 @@ class JumpBackwardLines : AnAction() {
         val currentOffset: Int = caretModel.offset
         val scrollingModel: ScrollingModel = editor.scrollingModel
 
-        val linesToJump = -2 // Lines to jump, Positive for down, Negative for up
+        val properties = PropertiesComponent.getInstance()
+        val currentForwardNoOfLines = properties.getValue("JumpLines.NumberOfBLines", "2").toInt()
 
         // Calculate the new caret position
         val currentLineNumber: Int = document.getLineNumber(currentOffset)
         val newLineNumber: Int =
             when {
-                currentLineNumber + linesToJump < 0 -> 0
-                else -> currentLineNumber + linesToJump
+                currentLineNumber + currentForwardNoOfLines < 0 -> 0
+                else -> currentLineNumber + (-currentForwardNoOfLines)
             }
         val currentColumn = currentOffset - document.getLineStartOffset(currentLineNumber)
 
         // Ensure the new line number is within valid bounds
         val validLineNumber: Int = newLineNumber.coerceIn(0, document.lineCount - 1)
-        /*val validLineNumber: Int = when {
-            newLineNumber < 0 -> 0
-            newLineNumber >= document.lineCount -> document.textLength - 1
-            else -> document.getLineStartOffset(newLineNumber)
-        }*/
         val newOffset: Int = document.getLineStartOffset(validLineNumber)
         caretModel.moveToOffset(newOffset)
 
         // Scrolling editor along with the cursor
-        val newPosition = LogicalPosition(newLineNumber, currentColumn)
+        val newPosition = LogicalPosition(validLineNumber, currentColumn)
         caretModel.moveToLogicalPosition(newPosition)
         scrollingModel.scrollTo(newPosition, ScrollType.RELATIVE)
     }
