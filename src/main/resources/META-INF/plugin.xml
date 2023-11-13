@@ -56,4 +56,25 @@
         </action>
     </actions>
 
+    <change-notes>
+        <![CDATA[
+
+        <p>
+
+        <b>1.2 (2023-11-08)</b><br/>
+        +++++++++++++++<br/>
+        Introduced option for changing number of lines to jump.<br/><br/>
+
+        <b>1.1 (2023-10-12)</b><br/>
+        +++++++++++++++<br/>
+        Minor fixes and improvements.<br/><br/>
+
+        <b>1.0 (2023-10-09)</b><br/>
+        +++++++++++++++<br/>
+        Initial version.<br/><br/>
+
+        </p>
+
+        ]]>
+    </change-notes>
 </idea-plugin>

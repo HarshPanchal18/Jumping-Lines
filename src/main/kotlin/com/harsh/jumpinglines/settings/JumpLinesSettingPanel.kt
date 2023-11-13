@@ -4,6 +4,7 @@ import com.intellij.ui.components.panels.VerticalLayout
 import javax.swing.JLabel
 import javax.swing.JPanel
 import javax.swing.JTextField
+import javax.swing.SwingConstants
 
 class JumpLinesSettingPanel {
 
@@ -12,7 +13,7 @@ class JumpLinesSettingPanel {
     private val numberOfLinesBackwardTextField = JTextField()
 
     init {
-        val layout = VerticalLayout(2)
+        val layout = VerticalLayout(/* gap = */ 2,/* alignment = */ SwingConstants.LEFT)
         panel = JPanel(layout)
 
         val forwardLabel = JLabel("Number of lines to jump forward:")
