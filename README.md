@@ -1,6 +1,7 @@
 ## Jumping Lines - Smoothly Navigate Through Your Code with Ease
 
 <a href="https://plugins.jetbrains.com/plugin/22878-jumping-lines"><img src="https://img.shields.io/website?down_color=red&down_message=Under%20work&label=Plugin&logo=jetbrains&style=for-the-badge&up_color=blue&up_message=Stable&url=https://plugins.jetbrains.com/plugin/22878-jumping-lines"></a>
+![JetBrains Plugin Downloads](https://img.shields.io/jetbrains/plugin/d/22878?style=for-the-badge&logo=jetbrains&label=Total%20Downloads&color=blue)
 
 _`Introduction:`_
 Jumping Lines is a powerful plugin for JetBrains IDEs that allows you to easily navigate through your code by jumping multiple lines forward or backward with just a few keystrokes. With this plugin, you can easily switch between different parts of your code, reducing the need to scroll through long files or navigate through complex codebases.
