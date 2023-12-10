@@ -2,7 +2,7 @@
 
 <a href="https://plugins.jetbrains.com/plugin/22878-jumping-lines"><img src="https://img.shields.io/website?down_color=red&down_message=Under%20work&label=Plugin&logo=jetbrains&style=for-the-badge&up_color=blue&up_message=Stable&url=https://plugins.jetbrains.com/plugin/22878-jumping-lines"></a>
 ![JetBrains Plugin Downloads](https://img.shields.io/jetbrains/plugin/d/22878?style=for-the-badge&logo=jetbrains&label=Total%20Downloads&color=blue)
-![JetBrains Plugin Rating](https://img.shields.io/jetbrains/plugin/r/rating/22878?style=for-the-badge&label=Rating&color=blue&logo=jetbrains)
+![JetBrains Plugin Rating](https://img.shields.io/jetbrains/plugin/r/rating/22878?style=for-the-badge&label=Rating&color=blue)
 
 _`Introduction:`_
 Jumping Lines is a powerful plugin for JetBrains IDEs that allows you to easily navigate through your code by jumping
@@ -38,6 +38,12 @@ _`Benefits:`_
    complete control over your navigation experience.
 
 _`Conclusion:`_
+<<<<<<< HEAD
 Jumping Lines is a powerful and customizable plugin that simplifies the process of navigating through your code. With
 its intuitive interface and efficient performance, you can save time and increase your productivity, making it an
 essential tool for any developer. Try it out today and see the difference it can make in your coding experience!  
+=======
+Jumping Lines is a powerful and customizable plugin that simplifies the process of navigating through your code. With
+its intuitive interface and efficient performance, you can save time and increase your productivity, making it an
+essential tool for any developer. Try it out today and see the difference it can make in your coding experience!
+> > > > > > > d9084928ddba0a57ef9cdeb697551132afd3728f
