@@ -61,6 +61,11 @@
 
         <p>
 
+        <b>1.3 (2023-12-10)</b><br/>
+        +++++++++++++++<br/>
+        Reduced width of text field on setting panel
+        Made plugin compatible with latest builds
+
         <b>1.2 (2023-11-08)</b><br/>
         +++++++++++++++<br/>
         Introduced option for changing number of lines to jump.<br/><br/>

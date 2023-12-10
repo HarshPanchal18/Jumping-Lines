@@ -41,8 +41,10 @@ class JumpLinesSettings : Configurable {
 
     override fun reset() {
         val properties = PropertiesComponent.getInstance()
-        val currentForwardNoOfLines = properties.getValue("JumpLines.NumberOfFLines", "4").toInt()
-        val currentBackwardNoOfLines = properties.getValue("JumpLines.NumberOfBLines", "2").toInt()
+        val currentForwardNoOfLines =
+            properties.getValue(/* name = */ "JumpLines.NumberOfFLines", /* defaultValue = */ "4").toInt()
+        val currentBackwardNoOfLines =
+            properties.getValue(/* name = */ "JumpLines.NumberOfBLines", /* defaultValue = */ "2").toInt()
 
         settingsPanel.setNumberOfLines(currentForwardNoOfLines, currentBackwardNoOfLines)
 

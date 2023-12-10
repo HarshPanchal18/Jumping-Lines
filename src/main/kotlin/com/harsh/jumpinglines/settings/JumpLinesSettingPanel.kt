@@ -16,11 +16,11 @@ class JumpLinesSettingPanel {
         val layout = VerticalLayout(/* gap = */ 2,/* alignment = */ SwingConstants.LEFT)
         panel = JPanel(layout)
 
-        val forwardLabel = JLabel("Number of lines to jump forward:")
+        val forwardLabel = JLabel(/* text = */ "Number of lines to jump forward:")
         panel.add(forwardLabel)
         panel.add(numberOfLinesForwardTextField)
 
-        val backwardLabel = JLabel("Number of lines to jump backward:")
+        val backwardLabel = JLabel(/* text = */ "Number of lines to jump backward:")
         panel.add(backwardLabel)
         panel.add(numberOfLinesBackwardTextField)
     }
