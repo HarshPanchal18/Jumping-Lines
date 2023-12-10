@@ -19,11 +19,6 @@
         <p>The amount of lines to jump in both directions can also be changed in settings.
         </p>
 
-        <p style=”text-indent: 40px”>Once upon a time when <a href="https://github.com/HarshPanchal18">developer</a> of this plugin started using <b>VIM</b> and then he addicted to one of its feature about jumping multiple lines through <i><b>5j</b></i> or <i><b>5k</b></i> and later the developer started developing Android and Kotlin based projects on Jetbrains based IDEs.
-        So he was missing this feature in Jetbrains IDEs in order to being more productive while writing or editing codes. So he developed this useful plugin.
-        </p>
-        <br/>
-
         <b>Features:</b>
         <ul>
             <li>Jump multiple lines at once</li>
@@ -31,7 +26,11 @@
             <li>Works with all JetBrains IDEs</li>
         </ul>
 
+        <p style=”text-indent: 40px”>Once upon a time when <a href="https://github.com/HarshPanchal18">developer</a> of this plugin started using <b>VIM</b> and then he addicted to one of its feature about jumping multiple lines through <i><b>5j</b></i> or <i><b>5k</b></i> and later the developer started developing Android and Kotlin based projects on Jetbrains based IDEs.
+        So he was missing this feature in Jetbrains IDEs in order to being more productive while writing or editing codes. So he developed this useful plugin.
+        </p>
         <br/>
+
         ]]>
     </description>
 
@@ -64,7 +63,7 @@
         <b>1.3 (2023-12-10)</b><br/>
         +++++++++++++++<br/>
         Reduced width of text field on setting panel
-        Made plugin compatible with latest builds
+        Made plugin compatible with latest builds<br/><br/>
 
         <b>1.2 (2023-11-08)</b><br/>
         +++++++++++++++<br/>

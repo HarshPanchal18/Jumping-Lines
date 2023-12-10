@@ -16,7 +16,7 @@ repositories {
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
     version.set("2022.2.5")
-    //updateSinceUntilBuild.set(false)
+    updateSinceUntilBuild.set(false)
     type.set("IC") // Target IDE Platform
 
     plugins.set(listOf(/* Plugin Dependencies */))
