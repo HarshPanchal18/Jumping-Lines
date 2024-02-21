@@ -11,14 +11,14 @@ class JumpBackwardLines : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
 
-        if (e.project == null)
-            return
+        e.project ?: return
 
         val editor: Editor = e.getRequiredData(CommonDataKeys.EDITOR)
         val document: Document = editor.document
         val caretModel: CaretModel = editor.caretModel
         val currentOffset: Int = caretModel.offset
         val scrollingModel: ScrollingModel = editor.scrollingModel
+        val selectionModel: SelectionModel = editor.selectionModel
 
         val properties = PropertiesComponent.getInstance()
         val currentForwardNoOfLines = properties.getValue("JumpLines.NumberOfBLines", "2").toInt()
@@ -40,6 +40,12 @@ class JumpBackwardLines : AnAction() {
         // Scrolling editor along with the cursor
         val newPosition = LogicalPosition(validLineNumber, currentColumn)
         caretModel.moveToLogicalPosition(newPosition)
+
+        // If the target line is already selected, extend the selection
+        if (selectionModel.hasSelection()) {
+            selectionModel.removeSelection(/* allCarets = */ true)
+        }
+
         scrollingModel.scrollTo(newPosition, ScrollType.RELATIVE)
     }
 
