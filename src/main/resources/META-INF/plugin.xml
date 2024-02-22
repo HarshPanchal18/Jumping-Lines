@@ -14,6 +14,7 @@
         </p>
 
         <p>With Jumping Lines, you can move your cursor 2 lines upward by pressing <kbd>Ctrl+Shift+Comma</kbd> or 4 lines downward by pressing <kbd>Ctrl+Shift+Period</kbd>, saving you time and reducing the strain on your hands.
+        You can also jump lines with selection by pressing <kbd>Ctrl+Shift+Comma</kbd> for upward and <kbd>Ctrl+Shift+Period</kbd> for downward.
         </p>
 
         <p>The amount of lines to jump in both directions can also be changed in settings.
@@ -22,12 +23,13 @@
         <b>Features:</b>
         <ul>
             <li>Jump multiple lines at once</li>
+            <li>Jump multiple lines at once with selection</li>
             <!--<li>Customizable keybindings</li>-->
             <li>Works with all JetBrains IDEs</li>
         </ul>
 
         <p style=”text-indent: 40px”>Once upon a time when <a href="https://github.com/HarshPanchal18">developer</a> of this plugin started using <b>VIM</b> and then he addicted to one of its feature about jumping multiple lines through <i><b>5j</b></i> or <i><b>5k</b></i> and later the developer started developing Android and Kotlin based projects on Jetbrains based IDEs.
-        So he was missing this feature in Jetbrains IDEs in order to being more productive while writing or editing codes. So he developed this useful plugin.
+        So he was missing this feature in Jetbrains IDEs in order to be more productive while writing or editing codes. So he developed this useful plugin.
         </p>
         <br/>
 
@@ -45,13 +47,22 @@
     </extensions>
 
     <actions>
-        <action id="com.harsh.jumpinglines.JumpForwardLines" class="com.harsh.jumpinglines.JumpForwardLines"
+        <action id="com.harsh.jumpinglines.jumps.JumpForwardLines" class="com.harsh.jumpinglines.jumps.JumpForwardLines"
                 text="Forward">
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl PERIOD"/>
         </action>
-        <action id="com.harsh.jumpinglines.JumpBackwardLines" class="com.harsh.jumpinglines.JumpBackwardLines"
+        <action id="com.harsh.jumpinglines.jumps.JumpBackwardLines"
+                class="com.harsh.jumpinglines.jumps.JumpBackwardLines"
                 text="Backward">
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl COMMA"/>
+        </action>
+        <action id="com.harsh.jumpinglines.selectionjump.JumpForwardSelected"
+                class="com.harsh.jumpinglines.selectionjump.JumpForwardSelected" text="Jump Forward with Selection">
+            <keyboard-shortcut keymap="$default" first-keystroke="shift alt PERIOD"/>
+        </action>
+        <action id="com.harsh.jumpinglines.selectionjump.JumpBackwardSelected"
+                class="com.harsh.jumpinglines.selectionjump.JumpBackwardSelected" text="Jump Backward with Selection">
+            <keyboard-shortcut keymap="$default" first-keystroke="shift alt COMMA"/>
         </action>
     </actions>
 
@@ -59,6 +70,11 @@
         <![CDATA[
 
         <p>
+
+        <b>1.4 (2024-02-22)</b><br/>
+        +++++++++++++++<br/>
+        Introducing jumping lines with selection through ALT+SHIFT+COMMA/ALT+SHIFT+PERIOD<br/>
+        Fixed: Removing selection from all carets before an ordinary jump.<br/><br/>
 
         <b>1.3 (2023-12-10)</b><br/>
         +++++++++++++++<br/>

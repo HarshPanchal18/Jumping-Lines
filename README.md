@@ -14,8 +14,8 @@ parts of your code, reducing the need to scroll through long files or navigate t
 
 _`Key Features:`_
 
-1. **Line Jumping:** Jump forward or backward multiple lines at a time using the shortcut keys <kbd>
-   Ctrl+Shift+Period</kbd> and <kbd>Ctrl+Shift+Comma</kbd>.
+1. **Line Jumping:** Jump forward or backward multiple lines at a time.
+2. **Line Jumping with selection:** Jump forward or backward multiple lines at a time with selection.
 2. **Customizable Lines:** Define the number of lines to jump forward and backward through the IDE settings dialog.
 3. **Compatible with All JetBrains IDEs:** This plugin is compatible with all JetBrains IDEs, including IntelliJ IDEA,
    PyCharm, Android Studio, PHPStorm, and RubyMine.
@@ -29,7 +29,8 @@ _`How to Use:`_
 2. **Configure the plugin:** Open the IDE settings dialog and navigate to the "Jumping Lines" section to configure the
    number of lines to jump forward and backward.
 3. **Start navigating:** Use the shortcut keys <kbd>Ctrl+Shift+Period</kbd> or <kbd>Ctrl+Shift+Comma</kbd> to jump lines
-   forward or backward.
+   forward or backward. Use the shortcut keys <kbd>Alt+Shift+Period</kbd> or <kbd>Alt+Shift+Comma</kbd> to jump lines
+   forward or backward with selection.
 
 _`Benefits:`_
 

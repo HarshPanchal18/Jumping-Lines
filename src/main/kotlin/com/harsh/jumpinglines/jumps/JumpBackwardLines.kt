@@ -1,4 +1,4 @@
-package com.harsh.jumpinglines
+package com.harsh.jumpinglines.jumps
 
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.actionSystem.ActionUpdateThread
@@ -7,7 +7,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.editor.*
 
-class JumpForwardLines : AnAction() {
+class JumpBackwardLines : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
 
@@ -21,11 +21,15 @@ class JumpForwardLines : AnAction() {
         val selectionModel: SelectionModel = editor.selectionModel
 
         val properties = PropertiesComponent.getInstance()
-        val currentForwardNoOfLines = properties.getValue("JumpLines.NumberOfFLines", "4").toInt()
+        val currentForwardNoOfLines = properties.getValue("JumpLines.NumberOfBLines", "2").toInt()
 
         // Calculate the new caret position
         val currentLineNumber: Int = document.getLineNumber(currentOffset)
-        val newLineNumber: Int = currentLineNumber + currentForwardNoOfLines
+        val newLineNumber: Int =
+            when {
+                currentLineNumber + currentForwardNoOfLines < 0 -> 0
+                else -> currentLineNumber + (-currentForwardNoOfLines)
+            }
         val currentColumn = currentOffset - document.getLineStartOffset(currentLineNumber)
 
         // Ensure the new line number is within valid bounds
@@ -34,7 +38,7 @@ class JumpForwardLines : AnAction() {
         caretModel.moveToOffset(newOffset)
 
         // Scrolling editor along with the cursor
-        val newPosition = LogicalPosition(newLineNumber, currentColumn)
+        val newPosition = LogicalPosition(validLineNumber, currentColumn)
         caretModel.moveToLogicalPosition(newPosition)
 
         // If the target line is already selected, extend the selection
