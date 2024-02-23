@@ -37,7 +37,7 @@ class JumpForwardLines : AnAction() {
         val newPosition = LogicalPosition(newLineNumber, currentColumn)
         caretModel.moveToLogicalPosition(newPosition)
 
-        // If the target line is already selected, extend the selection
+        // Remove selection blocks before jumping
         if (selectionModel.hasSelection()) {
             selectionModel.removeSelection(/* allCarets = */ true)
         }

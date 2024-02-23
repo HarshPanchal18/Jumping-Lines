@@ -21,31 +21,26 @@ class JumpBackwardSelected : AnAction() {
         val selectionModel: SelectionModel = editor.selectionModel
 
         val properties = PropertiesComponent.getInstance()
-        val currentForwardNoOfLines = properties.getValue("JumpLines.NumberOfBLines", "2").toInt()
+        val currentBackwardNoOfLines =
+            properties.getValue(/* name = */ "JumpLines.NumberOfBLines", /* defaultValue = */"2").toInt()
+
+        val startOffset: Int = if (selectionModel.hasSelection()) selectionModel.leadSelectionOffset else currentOffset
 
         // Calculate the new caret position
         val currentLineNumber: Int = document.getLineNumber(currentOffset)
-        val newLineNumber: Int =
-            when {
-                currentLineNumber + currentForwardNoOfLines < 0 -> 0
-                else -> currentLineNumber + (-currentForwardNoOfLines)
-            }
-        val currentColumn = currentOffset - document.getLineStartOffset(currentLineNumber)
+        val newLineNumber: Int = currentLineNumber - currentBackwardNoOfLines
 
         // Ensure the new line number is within valid bounds
-        val validLineNumber: Int = newLineNumber.coerceIn(0, document.lineCount - 1)
+        val validLineNumber: Int = newLineNumber.coerceIn(0, maximumValue = document.lineCount - 1)
         val newOffset: Int = document.getLineStartOffset(validLineNumber)
         caretModel.moveToOffset(newOffset)
 
-        // Scrolling editor along with the cursor
-        val newPosition = LogicalPosition(validLineNumber, currentColumn)
-        caretModel.moveToLogicalPosition(newPosition)
+        // extend the selection
+        selectionModel.setSelection(/* startOffset = */ startOffset, /* endOffset = */ caretModel.offset)
 
-        // If the target line is already selected, extend the selection
-        if (selectionModel.hasSelection()) {
-            val startSelectionOffset = selectionModel.selectionEnd
-            selectionModel.setSelection(startSelectionOffset, caretModel.offset)
-        }
+        // Scrolling editor along with the cursor
+        val newPosition = LogicalPosition(/* line = */ validLineNumber, /* column = */ 0)
+        caretModel.moveToLogicalPosition(newPosition)
 
         scrollingModel.scrollTo(newPosition, ScrollType.RELATIVE)
     }

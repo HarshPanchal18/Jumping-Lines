@@ -21,15 +21,11 @@ class JumpBackwardLines : AnAction() {
         val selectionModel: SelectionModel = editor.selectionModel
 
         val properties = PropertiesComponent.getInstance()
-        val currentForwardNoOfLines = properties.getValue("JumpLines.NumberOfBLines", "2").toInt()
+        val currentBackwardNoOfLines = properties.getValue("JumpLines.NumberOfBLines", "2").toInt()
 
         // Calculate the new caret position
         val currentLineNumber: Int = document.getLineNumber(currentOffset)
-        val newLineNumber: Int =
-            when {
-                currentLineNumber + currentForwardNoOfLines < 0 -> 0
-                else -> currentLineNumber + (-currentForwardNoOfLines)
-            }
+        val newLineNumber: Int = currentLineNumber - currentBackwardNoOfLines
         val currentColumn = currentOffset - document.getLineStartOffset(currentLineNumber)
 
         // Ensure the new line number is within valid bounds
@@ -41,7 +37,7 @@ class JumpBackwardLines : AnAction() {
         val newPosition = LogicalPosition(validLineNumber, currentColumn)
         caretModel.moveToLogicalPosition(newPosition)
 
-        // If the target line is already selected, extend the selection
+        // Remove selection blocks before jumping
         if (selectionModel.hasSelection()) {
             selectionModel.removeSelection(/* allCarets = */ true)
         }

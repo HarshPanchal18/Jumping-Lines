@@ -71,6 +71,11 @@
 
         <p>
 
+        <b>1.5 (2024-02-22)</b><br/>
+        +++++++++++++++<br/>
+        Now you don't need to select the block manually, just start hitting ALT+SHIFT+COMMA/ALT+SHIFT+PERIOD.
+        Fixed the cursor position while doing jumping with selection.<br/><br/>
+
         <b>1.4 (2024-02-22)</b><br/>
         +++++++++++++++<br/>
         Introducing jumping lines with selection through ALT+SHIFT+COMMA/ALT+SHIFT+PERIOD<br/>
