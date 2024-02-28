@@ -1,4 +1,6 @@
-## Jumping Lines - Smoothly Navigate Through Your Code with Ease <img align="right" src="src/main/resources/META-INF/pluginIcon.svg" style ="padding:4px" alt="Plugin Logo">
+<img align="right" src="src/main/resources/META-INF/pluginIcon.svg" style ="padding:4px" alt="Plugin Logo">
+
+## Jumping Lines - Smoothly Navigate Through Your Code with Ease
 
 <a href="https://plugins.jetbrains.com/plugin/22878-jumping-lines"><img src="https://img.shields.io/website?down_color=red&down_message=Under%20work&label=Plugin&logo=jetbrains&style=for-the-badge&up_color=blue&up_message=Stable&url=https://plugins.jetbrains.com/plugin/22878-jumping-lines"></a>
 ![JetBrains Plugin Downloads](https://img.shields.io/jetbrains/plugin/d/22878?style=for-the-badge&logo=jetbrains&label=Total%20Downloads&color=blue)
