@@ -10,11 +10,12 @@
 
     <description>
         <![CDATA[
-        <p>Jump Lines is a plugin for JetBrains IDEs that allows you to navigate your code more efficiently by jumping multiple lines at once.
+        <p>Jumping Lines is a plugin for JetBrains IDEs that allows you to navigate your code more efficiently by jumping multiple lines at once.
         </p>
 
         <p>With Jumping Lines, you can move your cursor 2 lines upward by pressing <kbd>Ctrl+Shift+Comma</kbd> or 4 lines downward by pressing <kbd>Ctrl+Shift+Period</kbd>, saving you time and reducing the strain on your hands.
         You can also jump lines with selection by pressing <kbd>Ctrl+Shift+Comma</kbd> for upward and <kbd>Ctrl+Shift+Period</kbd> for downward.
+        For jumping on middle of editor, press <kbd>Shift+J+K</kbd>.
         </p>
 
         <p>The amount of lines to jump in both directions can also be changed in settings.
@@ -24,6 +25,7 @@
         <ul>
             <li>Jump multiple lines at once</li>
             <li>Jump multiple lines at once with selection</li>
+            <li>Jump on a middle line</li>
             <!--<li>Customizable keybindings</li>-->
             <li>Works with all JetBrains IDEs</li>
         </ul>
@@ -48,12 +50,12 @@
 
     <actions>
         <action id="com.harsh.jumpinglines.jumps.JumpForwardLines" class="com.harsh.jumpinglines.jumps.JumpForwardLines"
-                text="Forward">
+                text="Jump Forward">
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl PERIOD"/>
         </action>
         <action id="com.harsh.jumpinglines.jumps.JumpBackwardLines"
                 class="com.harsh.jumpinglines.jumps.JumpBackwardLines"
-                text="Backward">
+                text="Jump Backward">
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl COMMA"/>
         </action>
         <action id="com.harsh.jumpinglines.selectionjump.JumpForwardSelected"
@@ -64,12 +66,20 @@
                 class="com.harsh.jumpinglines.selectionjump.JumpBackwardSelected" text="Jump Backward with Selection">
             <keyboard-shortcut keymap="$default" first-keystroke="shift alt COMMA"/>
         </action>
+        <action id="com.harsh.jumpinglines.middle.JumpOnMiddle" class="com.harsh.jumpinglines.middle.JumpOnMiddle"
+                text="Jump on Middle Line" description="Place cursor on middle line of editor.">
+            <keyboard-shortcut keymap="$default" first-keystroke="shift J" second-keystroke="K"/>
+        </action>
     </actions>
 
     <change-notes>
         <![CDATA[
 
         <p>
+
+        <b>1.6 (2024-02-28)</b><br/>
+        +++++++++++++++<br/>
+        Introducing jumping on middle line of an editor with keymap SHIFT+J+K.<br/><br/>
 
         <b>1.5 (2024-02-22)</b><br/>
         +++++++++++++++<br/>
