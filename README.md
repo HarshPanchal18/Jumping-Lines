@@ -7,8 +7,9 @@
 
 _`Introduction:`_
 Jumping Lines is a powerful plugin for JetBrains IDEs that allows you to easily navigate through your code by jumping
-multiple lines forward or backward with just a few keystrokes. With this plugin, you can easily switch between different
-parts of your code, reducing the need to scroll through long files or navigate through complex codebases.
+multiple lines forward or backward with fewer keystrokes than ever. With this plugin, you can easily switch between
+different parts of your code, select multiple lines in most easier way, reducing the need to scroll through long files
+or navigate through complex codebases.
 
 ![Preview GIF](Jumping-Lines.gif)
 
@@ -16,10 +17,12 @@ _`Key Features:`_
 
 1. **Line Jumping:** Jump forward or backward multiple lines at a time.
 2. **Line Jumping with selection:** Jump forward or backward multiple lines at a time with selection.
-2. **Customizable Lines:** Define the number of lines to jump forward and backward through the IDE settings dialog.
-3. **Compatible with All JetBrains IDEs:** This plugin is compatible with all JetBrains IDEs, including IntelliJ IDEA,
+3. **Customizable number of Lines:** Define the number of lines to jump forward and backward through the IDE settings
+   dialog.
+4. **Jump on Middle line:** Jump on middle line of an editor
+5. **Compatible with All JetBrains IDEs:** This plugin is compatible with all JetBrains IDEs, including IntelliJ IDEA,
    PyCharm, Android Studio, PHPStorm, and RubyMine.
-4. **Written in Kotlin:** The plugin is entirely written in Kotlin programming language, ensuring a smooth and efficient
+6. **Written in Kotlin:** The plugin is entirely written in Kotlin programming language, ensuring a smooth and efficient
    performance.
 
 _`How to Use:`_
@@ -30,7 +33,7 @@ _`How to Use:`_
    number of lines to jump forward and backward.
 3. **Start navigating:** Use the shortcut keys <kbd>Ctrl+Shift+Period</kbd> or <kbd>Ctrl+Shift+Comma</kbd> to jump lines
    forward or backward. Use the shortcut keys <kbd>Alt+Shift+Period</kbd> or <kbd>Alt+Shift+Comma</kbd> to jump lines
-   forward or backward with selection.
+   forward or backward with selection. Use the shortcut keys <kbd>Shift+J+K</kbd> to jump on the middle line of editor.
 
 _`Benefits:`_
 
