@@ -12,7 +12,7 @@ class JumpLinesSettings : Configurable {
     private var savedNumberOfBLines: Int = 0
 
     override fun createComponent(): JComponent {
-        return settingsPanel.panel
+        return settingsPanel.parentPanel
     }
 
     override fun isModified(): Boolean {

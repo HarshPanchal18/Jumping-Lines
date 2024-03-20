@@ -35,7 +35,7 @@ _`How to Use:`_
    number of lines to jump forward and backward.
 3. **Start navigating:** Use the shortcut keys <kbd>Ctrl+Shift+Period</kbd> or <kbd>Ctrl+Shift+Comma</kbd> to jump lines
    forward or backward. Use the shortcut keys <kbd>Alt+Shift+Period</kbd> or <kbd>Alt+Shift+Comma</kbd> to jump lines
-   forward or backward with selection. Use the shortcut keys <kbd>Shift+J+K</kbd> to jump on the middle line of editor.
+   forward or backward with selection. Use the shortcut keys <kbd>Ctrl+Comma</kbd> to jump on the middle line of editor.
 
 _`Benefits:`_
 

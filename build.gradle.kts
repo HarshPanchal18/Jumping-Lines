@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.harsh"
-version = "1.6"
+version = "1.6.1"
 
 repositories {
     mavenCentral()

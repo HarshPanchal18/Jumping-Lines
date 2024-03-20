@@ -15,7 +15,7 @@
 
         <p>With Jumping Lines, you can move your cursor 2 lines upward by pressing <kbd>Ctrl+Shift+Comma</kbd> or 4 lines downward by pressing <kbd>Ctrl+Shift+Period</kbd>, saving you time and reducing the strain on your hands.
         You can also jump lines with selection by pressing <kbd>Ctrl+Shift+Comma</kbd> for upward and <kbd>Ctrl+Shift+Period</kbd> for downward.
-        For jumping on middle of editor, press <kbd>Shift+J+K</kbd>.
+        For jumping on middle of editor, press <kbd>Ctrl+Comma</kbd>.
         </p>
 
         <p>The amount of lines to jump in both directions can also be changed in settings.
@@ -68,7 +68,7 @@
         </action>
         <action id="com.harsh.jumpinglines.middle.JumpOnMiddle" class="com.harsh.jumpinglines.middle.JumpOnMiddle"
                 text="Jump on Middle Line" description="Place cursor on middle line of editor.">
-            <keyboard-shortcut keymap="$default" first-keystroke="shift J" second-keystroke="K"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl COMMA"/>
         </action>
     </actions>
 
@@ -77,23 +77,28 @@
 
         <p>
 
+        <b>1.6.1 (2024-03-20)</b><br/>
+        +++++++++++++++<br/>
+        Reformatted plugin setting panel.<br/>
+        Changed default keymap of Jump on middle line to CTRL+COMMA in order to avoid conflict.<br/><br/>
+
         <b>1.6 (2024-02-28)</b><br/>
         +++++++++++++++<br/>
-        Introducing jumping on middle line of an editor with keymap SHIFT+J+K.<br/><br/>
+        Introducing jumping on a middle line of an editor with keymap SHIFT+J+K.<br/><br/>
 
         <b>1.5 (2024-02-22)</b><br/>
         +++++++++++++++<br/>
-        Now you don't need to select the block manually, just start hitting ALT+SHIFT+COMMA/ALT+SHIFT+PERIOD.
+        Now you don't need to select the block manually, just start hitting ALT+SHIFT+COMMA / ALT+SHIFT+PERIOD.<br/>
         Fixed the cursor position while doing jumping with selection.<br/><br/>
 
         <b>1.4 (2024-02-22)</b><br/>
         +++++++++++++++<br/>
-        Introducing jumping lines with selection through ALT+SHIFT+COMMA/ALT+SHIFT+PERIOD<br/>
+        Introducing jumping lines with selection through ALT+SHIFT+COMMA / ALT+SHIFT+PERIOD<br/>
         Fixed: Removing selection from all carets before an ordinary jump.<br/><br/>
 
         <b>1.3 (2023-12-10)</b><br/>
         +++++++++++++++<br/>
-        Reduced width of text field on setting panel
+        Reduced width of text field on setting panel.<br/>
         Made plugin compatible with latest builds<br/><br/>
 
         <b>1.2 (2023-11-08)</b><br/>
