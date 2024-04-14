@@ -76,7 +76,7 @@
 
         <p>
 
-        <b>1.7 (2024-03-20)</b><br/>
+        <b>1.7 (2024-04-14)</b><br/>
         +++++++++++++++<br/>
         Prevented Jumping on Find dialog and Replace dialog.
         Showing Information Notification if the "Jumping" is attempted on dialogs.
