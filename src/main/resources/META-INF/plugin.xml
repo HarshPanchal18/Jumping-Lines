@@ -26,7 +26,6 @@
             <li>Jump multiple lines at once</li>
             <li>Jump multiple lines at once with selection</li>
             <li>Jump on a middle line</li>
-            <!--<li>Customizable keybindings</li>-->
             <li>Works with all JetBrains IDEs</li>
         </ul>
 
@@ -76,6 +75,11 @@
         <![CDATA[
 
         <p>
+
+        <b>1.7 (2024-03-20)</b><br/>
+        +++++++++++++++<br/>
+        Prevented Jumping on Find dialog and Replace dialog.
+        Showing Information Notification if the "Jumping" is attempted on dialogs.
 
         <b>1.6.1 (2024-03-20)</b><br/>
         +++++++++++++++<br/>

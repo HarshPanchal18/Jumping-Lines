@@ -1,47 +1,52 @@
 package com.harsh.jumpinglines.middle
 
+import com.harsh.jumpinglines.notification.showNotification
+import com.harsh.jumpinglines.utils.editor
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.CommonDataKeys
-import com.intellij.openapi.editor.Document
-import com.intellij.openapi.editor.Editor
-import com.intellij.openapi.editor.ScrollingModel
-import com.intellij.openapi.editor.SelectionModel
+import com.intellij.openapi.editor.*
 
 class JumpOnMiddle : AnAction() {
 	override fun actionPerformed(event: AnActionEvent) {
 
 		event.project ?: return
 
-		val editor: Editor = event.getRequiredData(CommonDataKeys.EDITOR)
-		val scrollingModel: ScrollingModel = editor.scrollingModel
-		val selectionModel: SelectionModel = editor.selectionModel
-		val document: Document = editor.document
+		try {
 
-		// Get vertical scroll offset and line height of editor
-		val verticalScrollOffset = scrollingModel.verticalScrollOffset
-		val lineHeight = editor.lineHeight
+			val editor: Editor = event.editor
+			val scrollingModel: ScrollingModel = editor.scrollingModel
+			val selectionModel: SelectionModel = editor.selectionModel
+			val caretModel: CaretModel = editor.caretModel
+			val document: Document = editor.document
 
-		// Calculate the first visible line
-		val firstVisibleLine = verticalScrollOffset / lineHeight
+			// Get vertical scroll offset and line height of editor
+			val verticalScrollOffset = scrollingModel.verticalScrollOffset
+			val lineHeight = editor.lineHeight
 
-		// Calculate the number of visible lines in the editor's visible area
-		val visibleAreaHeight = scrollingModel.visibleArea.height
-		val visibleLineCount = visibleAreaHeight / lineHeight
+			// Calculate the first visible line
+			val firstVisibleLine = verticalScrollOffset / lineHeight
 
-		val lastVisibleLine = firstVisibleLine + visibleLineCount
+			// Calculate the number of visible lines in the editor's visible area
+			val visibleAreaHeight = scrollingModel.visibleArea.height
+			val visibleLineCount = visibleAreaHeight / lineHeight
 
-		// Calculate the middle visible line
-		val middleVisibleLine = (firstVisibleLine + lastVisibleLine) / 2
+			val lastVisibleLine = firstVisibleLine + visibleLineCount
 
-		// Move the cursor to the calculated middle line, considering to stay within document bounds
-		val middleLineOffset = document.getLineStartOffset(middleVisibleLine.coerceIn(0, document.lineCount - 1))
-		editor.caretModel.moveToOffset(middleLineOffset)
+			// Calculate the middle visible line
+			val middleVisibleLine = (firstVisibleLine + lastVisibleLine) / 2
 
-		// Remove selection blocks before jumping
-		if (selectionModel.hasSelection()) {
-			selectionModel.removeSelection(/* allCarets = */ true)
+			// Move the cursor to the calculated middle line, considering to stay within document bounds
+			val middleLineOffset = document.getLineStartOffset(middleVisibleLine.coerceIn(0, document.lineCount - 1))
+			caretModel.moveToOffset(middleLineOffset)
+
+			// Remove selection blocks before jumping
+			if (selectionModel.hasSelection()) {
+				selectionModel.removeSelection(/* allCarets = */ true)
+			}
+
+		} catch (e: AssertionError) {
+			showNotification("Nope, cursor can't jump outside the editor.")
 		}
 
 	}

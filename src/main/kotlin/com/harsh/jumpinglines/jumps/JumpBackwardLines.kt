@@ -1,10 +1,11 @@
 package com.harsh.jumpinglines.jumps
 
+import com.harsh.jumpinglines.notification.showNotification
+import com.harsh.jumpinglines.utils.editor
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.editor.*
 
 class JumpBackwardLines : AnAction() {
@@ -13,36 +14,43 @@ class JumpBackwardLines : AnAction() {
 
 		event.project ?: return
 
-		val editor: Editor = event.getRequiredData(CommonDataKeys.EDITOR)
-		val document: Document = editor.document
-		val caretModel: CaretModel = editor.caretModel
-		val currentOffset: Int = caretModel.offset
-		val scrollingModel: ScrollingModel = editor.scrollingModel
-		val selectionModel: SelectionModel = editor.selectionModel
+		try {
 
-		val properties = PropertiesComponent.getInstance()
-		val currentBackwardNoOfLines = properties.getValue("JumpLines.NumberOfBLines", "2").toInt()
+			val editor: Editor = event.editor
+			val document: Document = editor.document
+			val caretModel: CaretModel = editor.caretModel
+			val currentOffset: Int = caretModel.offset
+			val scrollingModel: ScrollingModel = editor.scrollingModel
+			val selectionModel: SelectionModel = editor.selectionModel
 
-		// Calculate the new caret position
-		val currentLineNumber: Int = document.getLineNumber(currentOffset)
-		val newLineNumber: Int = currentLineNumber - currentBackwardNoOfLines
-		val currentColumn = currentOffset - document.getLineStartOffset(currentLineNumber)
+			val properties = PropertiesComponent.getInstance()
+			val currentBackwardNoOfLines = properties.getValue("JumpLines.NumberOfBLines", "2").toInt()
 
-		// Ensure the new line number is within valid bounds
-		val validLineNumber: Int = newLineNumber.coerceIn(0, document.lineCount - 1)
-		val newOffset: Int = document.getLineStartOffset(validLineNumber)
-		caretModel.moveToOffset(newOffset)
+			// Calculate the new caret position
+			val currentLineNumber: Int = document.getLineNumber(currentOffset)
+			val newLineNumber: Int = currentLineNumber - currentBackwardNoOfLines
+			val currentColumn = currentOffset - document.getLineStartOffset(currentLineNumber)
 
-		// Scrolling editor along with the cursor
-		val newPosition = LogicalPosition(validLineNumber, currentColumn)
-		caretModel.moveToLogicalPosition(newPosition)
+			// Ensure the new line number is within valid bounds
+			val validLineNumber: Int = newLineNumber.coerceIn(0, document.lineCount - 1)
+			val newOffset: Int = document.getLineStartOffset(validLineNumber)
+			caretModel.moveToOffset(newOffset)
 
-		// Remove selection blocks before jumping
-		if (selectionModel.hasSelection()) {
-			selectionModel.removeSelection(/* allCarets = */ true)
+			// Scrolling editor along with the cursor
+			val newPosition = LogicalPosition(validLineNumber, currentColumn)
+			caretModel.moveToLogicalPosition(newPosition)
+
+			// Remove selection blocks before jumping
+			if (selectionModel.hasSelection()) {
+				selectionModel.removeSelection(/* allCarets = */ true)
+			}
+
+			scrollingModel.scrollTo(newPosition, ScrollType.RELATIVE)
+
+		} catch (e: AssertionError) {
+			showNotification("Nope, cursor can't jump outside the editor.")
 		}
 
-		scrollingModel.scrollTo(newPosition, ScrollType.RELATIVE)
 	}
 
 	override fun update(e: AnActionEvent) {

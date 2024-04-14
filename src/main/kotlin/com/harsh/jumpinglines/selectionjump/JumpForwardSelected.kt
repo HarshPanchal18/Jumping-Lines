@@ -1,10 +1,11 @@
 package com.harsh.jumpinglines.selectionjump
 
+import com.harsh.jumpinglines.notification.showNotification
+import com.harsh.jumpinglines.utils.editor
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.editor.*
 
 class JumpForwardSelected : AnAction() {
@@ -13,37 +14,45 @@ class JumpForwardSelected : AnAction() {
 
 		event.project ?: return
 
-		val editor: Editor = event.getRequiredData(CommonDataKeys.EDITOR)
-		val document: Document = editor.document
-		val caretModel: CaretModel = editor.caretModel
-		val currentOffset: Int = caretModel.offset
-		val scrollingModel: ScrollingModel = editor.scrollingModel
-		val selectionModel: SelectionModel = editor.selectionModel
+		try {
 
-		val properties = PropertiesComponent.getInstance()
-		val currentForwardNoOfLines =
-			properties.getValue(/* name = */ "JumpLines.NumberOfFLines", /* defaultValue = */"4").toInt()
+			val editor: Editor = event.editor
+			val document: Document = editor.document
+			val caretModel: CaretModel = editor.caretModel
+			val currentOffset: Int = caretModel.offset
+			val scrollingModel: ScrollingModel = editor.scrollingModel
+			val selectionModel: SelectionModel = editor.selectionModel
 
-		// If there is a selection, start from the beginning of the selection; otherwise, start from the current caret position
-		val startOffset: Int = if (selectionModel.hasSelection()) selectionModel.leadSelectionOffset else currentOffset
+			val properties = PropertiesComponent.getInstance()
+			val currentForwardNoOfLines =
+				properties.getValue(/* name = */ "JumpLines.NumberOfFLines", /* defaultValue = */"4").toInt()
 
-		// Calculate the new caret position
-		val currentLineNumber: Int = document.getLineNumber(currentOffset)
-		val newLineNumber: Int = currentLineNumber + currentForwardNoOfLines
+			// If there is a selection, start from the beginning of the selection; otherwise, start from the current caret position
+			val startOffset: Int =
+				if (selectionModel.hasSelection()) selectionModel.leadSelectionOffset else currentOffset
 
-		// Ensure the new line number is within valid bounds
-		val validLineNumber: Int = newLineNumber.coerceIn(0, maximumValue = document.lineCount - 1)
-		val newOffset: Int = document.getLineStartOffset(validLineNumber)
-		caretModel.moveToOffset(newOffset)
+			// Calculate the new caret position
+			val currentLineNumber: Int = document.getLineNumber(currentOffset)
+			val newLineNumber: Int = currentLineNumber + currentForwardNoOfLines
 
-		// extend the selection
-		selectionModel.setSelection(/* startOffset = */ startOffset, /* endOffset = */ caretModel.offset)
+			// Ensure the new line number is within valid bounds
+			val validLineNumber: Int = newLineNumber.coerceIn(0, maximumValue = document.lineCount - 1)
+			val newOffset: Int = document.getLineStartOffset(validLineNumber)
+			caretModel.moveToOffset(newOffset)
 
-		// Scrolling editor along with the cursor
-		val newPosition = LogicalPosition(/* line = */ newLineNumber, /* column = */ 0)
-		caretModel.moveToLogicalPosition(newPosition)
+			// extend the selection
+			selectionModel.setSelection(/* startOffset = */ startOffset, /* endOffset = */ caretModel.offset)
 
-		scrollingModel.scrollTo(newPosition, ScrollType.RELATIVE)
+			// Scrolling editor along with the cursor
+			val newPosition = LogicalPosition(/* line = */ newLineNumber, /* column = */ 0)
+			caretModel.moveToLogicalPosition(newPosition)
+
+			scrollingModel.scrollTo(newPosition, ScrollType.RELATIVE)
+
+		} catch (e: AssertionError) {
+			showNotification("Nope, cursor can't jump outside the editor.")
+		}
+
 	}
 
 	override fun update(e: AnActionEvent) {
