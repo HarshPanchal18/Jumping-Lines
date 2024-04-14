@@ -13,7 +13,7 @@ multiple lines forward or backward with fewer keystrokes than ever. With this pl
 different parts of your code, select multiple lines in most easier way, reducing the need to scroll through long files
 or navigate through complex codebases.
 
-![Preview](JumpingLinesPreview.mp4)
+[Preview](https://github.com/HarshPanchal18/Jumping-Lines/assets/63415584/fe86d298-7875-4744-ba4b-68e21a876d70)
 
 _`Key Features:`_
 
