@@ -4,11 +4,11 @@ import com.harsh.jumpinglines.notification.showNotification
 import com.harsh.jumpinglines.utils.editor
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.actionSystem.ActionUpdateThread
-import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.editor.*
+import com.intellij.openapi.project.DumbAwareAction
 
-class JumpBackwardLines : AnAction() {
+class JumpBackwardLines : DumbAwareAction() {
 
 	override fun actionPerformed(event: AnActionEvent) {
 

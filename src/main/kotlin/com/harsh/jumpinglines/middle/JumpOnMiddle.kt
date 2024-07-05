@@ -3,11 +3,11 @@ package com.harsh.jumpinglines.middle
 import com.harsh.jumpinglines.notification.showNotification
 import com.harsh.jumpinglines.utils.editor
 import com.intellij.openapi.actionSystem.ActionUpdateThread
-import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.editor.*
+import com.intellij.openapi.project.DumbAwareAction
 
-class JumpOnMiddle : AnAction() {
+class JumpOnMiddle : DumbAwareAction() {
 	override fun actionPerformed(event: AnActionEvent) {
 
 		event.project ?: return
