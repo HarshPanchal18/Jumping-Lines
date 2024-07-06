@@ -1,8 +1,9 @@
 package com.harsh.jumpinglines.jumps
 
 import com.harsh.jumpinglines.notification.showNotification
+import com.harsh.jumpinglines.utils.currentBackwardNoOfLines
 import com.harsh.jumpinglines.utils.editor
-import com.intellij.ide.util.PropertiesComponent
+import com.harsh.jumpinglines.utils.getTargetOffsetBackward
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.editor.*
@@ -22,22 +23,23 @@ class JumpBackwardLines : DumbAwareAction() {
 			val currentOffset: Int = caretModel.offset
 			val scrollingModel: ScrollingModel = editor.scrollingModel
 			val selectionModel: SelectionModel = editor.selectionModel
+			val foldingModel: FoldingModel = editor.foldingModel
 
-			val properties = PropertiesComponent.getInstance()
-			val currentBackwardNoOfLines = properties.getValue("JumpLines.NumberOfBLines", "2").toInt()
+			val targetOffset = getTargetOffsetBackward(
+				document = document,
+				foldingModel = foldingModel,
+				currentOffset = currentOffset,
+				linesToJump = currentBackwardNoOfLines
+			)
 
 			// Calculate the new caret position
-			val currentLineNumber: Int = document.getLineNumber(currentOffset)
-			val newLineNumber: Int = currentLineNumber - currentBackwardNoOfLines
-			val currentColumn = currentOffset - document.getLineStartOffset(currentLineNumber)
+			val currentLineNumber: Int = document.getLineNumber(targetOffset)
+			val currentColumn = caretModel.logicalPosition.column
 
-			// Ensure the new line number is within valid bounds
-			val validLineNumber: Int = newLineNumber.coerceIn(0, document.lineCount - 1)
-			val newOffset: Int = document.getLineStartOffset(validLineNumber)
-			caretModel.moveToOffset(newOffset)
+			caretModel.moveToOffset(targetOffset)
 
 			// Scrolling editor along with the cursor
-			val newPosition = LogicalPosition(validLineNumber, currentColumn)
+			val newPosition = LogicalPosition(currentLineNumber, currentColumn)
 			caretModel.moveToLogicalPosition(newPosition)
 
 			// Remove selection blocks before jumping

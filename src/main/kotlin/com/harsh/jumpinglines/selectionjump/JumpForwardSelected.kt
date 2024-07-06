@@ -1,8 +1,8 @@
 package com.harsh.jumpinglines.selectionjump
 
 import com.harsh.jumpinglines.notification.showNotification
+import com.harsh.jumpinglines.utils.currentForwardNoOfLines
 import com.harsh.jumpinglines.utils.editor
-import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.editor.*
@@ -23,10 +23,6 @@ class JumpForwardSelected : DumbAwareAction() {
 			val scrollingModel: ScrollingModel = editor.scrollingModel
 			val selectionModel: SelectionModel = editor.selectionModel
 
-			val properties = PropertiesComponent.getInstance()
-			val currentForwardNoOfLines =
-				properties.getValue(/* name = */ "JumpLines.NumberOfFLines", /* defaultValue = */"4").toInt()
-
 			// If there is a selection, start from the beginning of the selection; otherwise, start from the current caret position
 			val startOffset: Int =
 				if (selectionModel.hasSelection()) selectionModel.leadSelectionOffset else currentOffset
@@ -38,6 +34,7 @@ class JumpForwardSelected : DumbAwareAction() {
 			// Ensure the new line number is within valid bounds
 			val validLineNumber: Int = newLineNumber.coerceIn(0, maximumValue = document.lineCount - 1)
 			val newOffset: Int = document.getLineStartOffset(validLineNumber)
+
 			caretModel.moveToOffset(newOffset)
 
 			// extend the selection
