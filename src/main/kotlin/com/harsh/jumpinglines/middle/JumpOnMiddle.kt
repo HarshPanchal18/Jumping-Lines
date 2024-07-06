@@ -24,20 +24,24 @@ class JumpOnMiddle : DumbAwareAction() {
 			val verticalScrollOffset = scrollingModel.verticalScrollOffset
 			val lineHeight = editor.lineHeight
 
-			// Calculate the first visible line
-			val firstVisibleLine = verticalScrollOffset / lineHeight
+			// Calculate the first visible visual line
+			val firstVisibleVisualLine = editor.yToVisualLine(verticalScrollOffset)
 
 			// Calculate the number of visible lines in the editor's visible area
 			val visibleAreaHeight = scrollingModel.visibleArea.height
 			val visibleLineCount = visibleAreaHeight / lineHeight
 
-			val lastVisibleLine = firstVisibleLine + visibleLineCount
+			val lastVisibleLine = firstVisibleVisualLine + visibleLineCount
+
+			val middleVisibleVisualLine = (firstVisibleVisualLine + lastVisibleLine) / 2
 
 			// Calculate the middle visible line
-			val middleVisibleLine = (firstVisibleLine + lastVisibleLine) / 2
+			val middleVisibleLogicalLine =
+				editor.visualToLogicalPosition(VisualPosition(middleVisibleVisualLine, 0)).line
 
 			// Move the cursor to the calculated middle line, considering to stay within document bounds
-			val middleLineOffset = document.getLineStartOffset(middleVisibleLine.coerceIn(0, document.lineCount - 1))
+			val middleLineOffset =
+				document.getLineStartOffset(middleVisibleLogicalLine.coerceIn(0, document.lineCount - 1))
 			caretModel.moveToOffset(middleLineOffset)
 
 			// Remove selection blocks before jumping

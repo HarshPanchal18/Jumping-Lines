@@ -76,10 +76,16 @@
 
         <p>
 
+        <b>1.8 (2024-07-05)</b><br/>
+        +++++++++++++++<br/>
+        Cursor can jump over folded blocks.
+        Fixed behaviour of Jump on Middle action.
+        Jumping is allowed while indexing.<br/><br/>
+
         <b>1.7 (2024-04-14)</b><br/>
         +++++++++++++++<br/>
         Prevented Jumping on Find dialog and Replace dialog.
-        Showing Information Notification if the "Jumping" is attempted on dialogs.
+        Showing Information Notification if the "Jumping" is attempted outside the editor.<br/><br/>
 
         <b>1.6.1 (2024-03-20)</b><br/>
         +++++++++++++++<br/>
