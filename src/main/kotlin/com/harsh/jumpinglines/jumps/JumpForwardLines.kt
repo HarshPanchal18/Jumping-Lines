@@ -34,13 +34,13 @@ class JumpForwardLines : DumbAwareAction() {
 			)
 
 			// Calculate the new caret position
-			val currentLineNumber: Int = document.getLineNumber(targetOffset)
+			val targetLineNumber: Int = document.getLineNumber(targetOffset)
 			val currentColumn = caretModel.logicalPosition.column
 
 			caretModel.moveToOffset(targetOffset)
 
 			// Scrolling editor along with the cursor
-			val newPosition = LogicalPosition(currentLineNumber, currentColumn)
+			val newPosition = LogicalPosition(targetLineNumber, currentColumn)
 			caretModel.moveToLogicalPosition(newPosition)
 
 			// Remove selection blocks before jumping
