@@ -2,54 +2,64 @@ package com.harsh.jumpinglines.settings
 
 import com.intellij.ui.components.panels.VerticalLayout
 import java.awt.FlowLayout
-import javax.swing.JLabel
-import javax.swing.JPanel
-import javax.swing.JTextField
-import javax.swing.SwingConstants
+import javax.swing.*
 
 class JumpLinesSettingPanel {
 
-	val parentPanel: JPanel
-	private var forwardRowLayout: JPanel
-	private var backwardRowLayout: JPanel
-	private val forwardLineTextField = JTextField()
-	private val backwardLineTextField = JTextField()
+    val parentPanel: JPanel
+    private var forwardRowPanel: JPanel
+    private var backwardRowPanel: JPanel
+    private val forwardLineSpinner = JSpinner(
+        SpinnerNumberModel(
+            /* value = */ 0,
+            /* minimum = */ 0,
+            /* maximum = */ 50,
+            /* stepSize = */ 1
+        )
+    )
+    private val backwardLineSpinner = JSpinner(
+        SpinnerNumberModel(
+            /* value = */ 0,
+            /* minimum = */ 0,
+            /* maximum = */ 50,
+            /* stepSize = */ 1
+        )
+    )
 
-	init {
-		val fwdRow = FlowLayout(FlowLayout.LEFT, /* hgap = */ 5, /* vgap = */ 2)
-		val forwardLabel = JLabel(/* text = */ "Number of lines to jump forward:   ")
-		forwardRowLayout = JPanel(fwdRow).apply {
-			add(forwardLabel)
-			add(forwardLineTextField)
-		}
+    init {
+        val forwardRow = FlowLayout(/* align = */ FlowLayout.LEFT, /* hgap = */ 5, /* vgap = */ 2)
+        val forwardLabel = JLabel(/* text = */ "Number of lines to jump forward:   ")
 
-		val bwdRow = FlowLayout(FlowLayout.LEFT, /* hgap = */ 5, /* vgap = */ 2)
-		val backwardLabel = JLabel(/* text = */ "Number of lines to jump backward:")
-		backwardRowLayout = JPanel(bwdRow).apply {
-			add(backwardLabel)
-			add(backwardLineTextField)
-		}
+        forwardRowPanel = JPanel(forwardRow).apply {
+            add(forwardLabel)
+            add(forwardLineSpinner)
+        }
 
-		val layout = VerticalLayout(/* gap = */ 2,/* alignment = */ SwingConstants.LEFT)
-		parentPanel = JPanel(layout).apply {
-			add(forwardRowLayout)
-			add(backwardRowLayout)
-		}
-	}
+        val backwardRow = FlowLayout(/* align = */ FlowLayout.LEFT, /* hgap = */ 5, /* vgap = */ 2)
+        val backwardLabel = JLabel(/* text = */ "Number of lines to jump backward:")
+        backwardRowPanel = JPanel(backwardRow).apply {
+            add(backwardLabel)
+            add(backwardLineSpinner)
+        }
 
-	fun getForwardLines(): Int {
-		val textFieldValue = forwardLineTextField.text
-		return textFieldValue.filter { it.isDigit() }.toInt()
-	}
+        val layout = VerticalLayout(/* gap = */ 2,/* alignment = */ SwingConstants.LEFT)
+        parentPanel = JPanel(layout).apply {
+            add(forwardRowPanel)
+            add(backwardRowPanel)
+        }
+    }
 
-	fun getBackwardLines(): Int {
-		val textFieldValue = backwardLineTextField.text
-		return textFieldValue.filter { it.isDigit() }.toInt()
-	}
+    fun getForwardLines(): Int {
+        return forwardLineSpinner.value as Int
+    }
 
-	fun setNumberOfLines(forwardLine: Int, backwardLine: Int) {
-		forwardLineTextField.text = forwardLine.toString()
-		backwardLineTextField.text = backwardLine.toString()
-	}
+    fun getBackwardLines(): Int {
+        return backwardLineSpinner.value as Int
+    }
+
+    fun setNumberOfLines(forwardLine: Int, backwardLine: Int) {
+        forwardLineSpinner.value = forwardLine
+        backwardLineSpinner.value = backwardLine
+    }
 
 }
