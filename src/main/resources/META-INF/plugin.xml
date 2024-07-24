@@ -10,16 +10,15 @@
 
     <description>
         <![CDATA[
-        <p>Jumping Lines is a plugin for JetBrains IDEs that allows you to navigate your code more efficiently by jumping multiple lines at once.
+        <p>Jumping Lines is a plugin for JetBrains IDEs that allows you to navigate your code more efficiently by jumping multiple lines at once, saving your time and reducing the strain on your hands.
         </p>
 
-        <p>With Jumping Lines, you can move your cursor 2 lines upward by pressing <kbd>Ctrl+Shift+Comma</kbd> or 4 lines downward by pressing <kbd>Ctrl+Shift+Period</kbd>, saving you time and reducing the strain on your hands.
+        <p>With Jumping Lines, you can move your cursor 2 lines upward by pressing <kbd>Ctrl+Shift+Comma</kbd> or 4 lines downward by pressing <kbd>Ctrl+Shift+Period</kbd>.
         You can also jump lines with selection by pressing <kbd>Ctrl+Shift+Comma</kbd> for upward and <kbd>Ctrl+Shift+Period</kbd> for downward.
-        For jumping on middle of editor, press <kbd>Ctrl+Comma</kbd>.
+        For jumping on middle line of the editor, press <kbd>Ctrl+Comma</kbd>.
         </p>
 
-        <p>The amount of lines to jump in both directions can also be changed in settings.
-        </p>
+        <p>In the settings, you can adjust the number of lines to jump in each direction.</p>
 
         <b>Features:</b>
         <ul>
@@ -29,9 +28,9 @@
             <li>Works with all JetBrains IDEs</li>
         </ul>
 
-        <p style=”text-indent: 40px”>Once upon a time when <a href="https://github.com/HarshPanchal18">developer</a> of this plugin started using <b>VIM</b> and then he addicted to one of its feature about jumping multiple lines through <i><b>5j</b></i> or <i><b>5k</b></i> and later the developer started developing Android and Kotlin based projects on Jetbrains based IDEs.
-        So he was missing this feature in Jetbrains IDEs in order to be more productive while writing or editing codes. So he developed this useful plugin.
-        </p>
+<!--        <p style=”text-indent: 40px”>Once upon a time when <a href="https://github.com/HarshPanchal18">developer</a> of this plugin started using <b>VIM</b> and then he addicted to one of its feature about jumping multiple lines through <i><b>5j</b></i> or <i><b>5k</b></i> and later the developer started developing Android and Kotlin based projects on Jetbrains based IDEs.-->
+<!--        So he was missing this feature in Jetbrains IDEs in order to be more productive while writing or editing codes. So he developed this useful plugin.-->
+<!--        </p>-->
         <br/>
 
         ]]>
@@ -75,6 +74,12 @@
         <![CDATA[
 
         <p>
+
+        <b>1.9 (2024-07-23)</b><br/>
+        +++++++++++++++<br/>
+        Cursor can jump with selection over folded blocks.<br/>
+        Redesigned Plugin Icon.<br/>
+        Replaced TextField with Spinner on Settings Panel for more convenience.<br/>
 
         <b>1.8 (2024-07-05)</b><br/>
         +++++++++++++++<br/>
