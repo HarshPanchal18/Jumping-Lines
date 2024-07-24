@@ -1,7 +1,7 @@
 package com.harsh.jumpinglines.settings
 
-import com.harsh.jumpinglines.utils.currentBackwardNoOfLines
-import com.harsh.jumpinglines.utils.currentForwardNoOfLines
+import com.harsh.jumpinglines.utils.NumberOfBackwardLines
+import com.harsh.jumpinglines.utils.NumberOfForwardLines
 import com.harsh.jumpinglines.utils.propertiesComponent
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.options.Configurable
@@ -43,8 +43,8 @@ class JumpLinesSettings : Configurable {
 
     override fun reset() {
         // Set default values
-        settingsPanel.setNumberOfLines(currentForwardNoOfLines, currentBackwardNoOfLines)
-        savedNumberOfFLines = currentForwardNoOfLines
-        savedNumberOfBLines = currentBackwardNoOfLines
+        settingsPanel.setNumberOfLines(NumberOfForwardLines, NumberOfBackwardLines)
+        savedNumberOfFLines = NumberOfForwardLines
+        savedNumberOfBLines = NumberOfBackwardLines
     }
 }

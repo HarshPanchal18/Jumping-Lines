@@ -1,5 +1,7 @@
 package com.harsh.jumpinglines.settings
 
+import com.harsh.jumpinglines.utils.jumpScore
+import com.harsh.jumpinglines.utils.toHumanReadable
 import com.intellij.ui.components.panels.VerticalLayout
 import java.awt.FlowLayout
 import javax.swing.*
@@ -7,8 +9,10 @@ import javax.swing.*
 class JumpLinesSettingPanel {
 
     val parentPanel: JPanel
-    private var forwardRowPanel: JPanel
-    private var backwardRowPanel: JPanel
+    private var forwardJumpRow: JPanel
+    private var backwardJumpRow: JPanel
+    private var scoreRow: JPanel
+    private var scoreLabel: JLabel
     private val forwardLineSpinner = JSpinner(
         SpinnerNumberModel(
             /* value = */ 0,
@@ -27,25 +31,35 @@ class JumpLinesSettingPanel {
     )
 
     init {
-        val forwardRow = FlowLayout(/* align = */ FlowLayout.LEFT, /* hgap = */ 5, /* vgap = */ 2)
-        val forwardLabel = JLabel(/* text = */ "Number of lines to jump forward:   ")
-
-        forwardRowPanel = JPanel(forwardRow).apply {
-            add(forwardLabel)
+        val forwardJumpLayout = FlowLayout(/* align = */ FlowLayout.LEFT, /* hgap = */ 5, /* vgap = */ 2)
+        forwardJumpRow = JPanel(forwardJumpLayout).apply {
+            add(JLabel(/* text = */ "Number of lines to jump forward:   "))
             add(forwardLineSpinner)
         }
 
-        val backwardRow = FlowLayout(/* align = */ FlowLayout.LEFT, /* hgap = */ 5, /* vgap = */ 2)
-        val backwardLabel = JLabel(/* text = */ "Number of lines to jump backward:")
-        backwardRowPanel = JPanel(backwardRow).apply {
-            add(backwardLabel)
+        val backwardJumpLayout = FlowLayout(/* align = */ FlowLayout.LEFT, /* hgap = */ 5, /* vgap = */ 2)
+        backwardJumpRow = JPanel(backwardJumpLayout).apply {
+            add(JLabel(/* text = */ "Number of lines to jump backward:"))
             add(backwardLineSpinner)
+        }
+
+        val jumpScoreLayout = FlowLayout(/* align = */ FlowLayout.LEFT, /* hgap = */ 5, /* vgap = */ 2)
+        scoreLabel =
+            JLabel(
+                "<html>" +
+                        "Your progress is <b>remarkable!</b> " +
+                        "You've jumped <b>~${jumpScore.toHumanReadable()}</b> lines." +
+                        "</html>"
+            )
+        scoreRow = JPanel(jumpScoreLayout).apply {
+            add(scoreLabel)
         }
 
         val layout = VerticalLayout(/* gap = */ 2,/* alignment = */ SwingConstants.LEFT)
         parentPanel = JPanel(layout).apply {
-            add(forwardRowPanel)
-            add(backwardRowPanel)
+            add(forwardJumpRow)
+            add(backwardJumpRow)
+            add(scoreRow)
         }
     }
 
