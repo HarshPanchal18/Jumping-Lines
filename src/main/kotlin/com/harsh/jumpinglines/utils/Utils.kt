@@ -21,7 +21,7 @@ val NumberOfBackwardLines: Int
 val jumpScore: Long
     get() = propertiesComponent().getLong("JumpingLines.JumpScore", 0)
 
-fun Long.toHumanReadable(): String {
+fun Long.toHumanReadableForm(): String {
     return when {
         this >= 1000000000 -> String.format("%.2fB", this / 1000000000.0)
         this >= 1000000 -> String.format("%.2fM", this / 1000000.0)
@@ -31,7 +31,7 @@ fun Long.toHumanReadable(): String {
     }
 }
 
-fun increaseJumpScore(score: Int) {
+fun increaseJumpScoreBy(score: Int) {
     propertiesComponent().setValue("JumpingLines.JumpScore", (jumpScore + score).toString())
 }
 

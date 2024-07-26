@@ -2,7 +2,7 @@ package com.harsh.jumpinglines.middle
 
 import com.harsh.jumpinglines.notification.showNotification
 import com.harsh.jumpinglines.utils.editor
-import com.harsh.jumpinglines.utils.increaseJumpScore
+import com.harsh.jumpinglines.utils.increaseJumpScoreBy
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.editor.*
@@ -54,7 +54,7 @@ class JumpOnMiddle : DumbAwareAction() {
 
             if (document.getLineNumber(middleLineOffset) != document.getLineNumber(currentOffset)) {
                 val score = abs(document.getLineNumber(middleLineOffset) - document.getLineNumber(currentOffset))
-                increaseJumpScore(score)
+                increaseJumpScoreBy(score)
             }
 
         } catch (e: AssertionError) {

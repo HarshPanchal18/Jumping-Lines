@@ -4,7 +4,7 @@ import com.harsh.jumpinglines.notification.showNotification
 import com.harsh.jumpinglines.utils.NumberOfBackwardLines
 import com.harsh.jumpinglines.utils.editor
 import com.harsh.jumpinglines.utils.getTargetOffsetBackward
-import com.harsh.jumpinglines.utils.increaseJumpScore
+import com.harsh.jumpinglines.utils.increaseJumpScoreBy
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.editor.*
@@ -50,7 +50,7 @@ class JumpBackwardLines : DumbAwareAction() {
 
             if (document.getLineNumber(currentOffset) != document.getLineNumber(targetOffset)) {
                 val score = document.getLineNumber(currentOffset) - document.getLineNumber(targetOffset)
-                increaseJumpScore(score = score)
+                increaseJumpScoreBy(score)
             }
 
         } catch (e: AssertionError) {

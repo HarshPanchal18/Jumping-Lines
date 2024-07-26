@@ -1,7 +1,9 @@
 package com.harsh.jumpinglines.settings
 
 import com.harsh.jumpinglines.utils.jumpScore
-import com.harsh.jumpinglines.utils.toHumanReadable
+import com.harsh.jumpinglines.utils.propertiesComponent
+import com.harsh.jumpinglines.utils.toHumanReadableForm
+import com.intellij.icons.AllIcons
 import com.intellij.ui.components.panels.VerticalLayout
 import java.awt.FlowLayout
 import javax.swing.*
@@ -13,6 +15,7 @@ class JumpLinesSettingPanel {
     private var backwardJumpRow: JPanel
     private var scoreRow: JPanel
     private var scoreLabel: JLabel
+    private var scoreResetButton: JButton
     private val forwardLineSpinner = JSpinner(
         SpinnerNumberModel(
             /* value = */ 0,
@@ -48,11 +51,25 @@ class JumpLinesSettingPanel {
             JLabel(
                 "<html>" +
                         "Your progress is <b>remarkable!</b> " +
-                        "You've jumped <b>~${jumpScore.toHumanReadable()}</b> lines." +
+                        "You've jumped <b>~${jumpScore.toHumanReadableForm()}</b> lines." +
                         "</html>"
-            )
+            ) //.apply { icon = AllIcons.General.Information }
+
+        scoreResetButton = JButton("Reset").apply {
+            icon = AllIcons.Diff.Revert
+            iconTextGap = 5
+            addActionListener {
+                propertiesComponent().setValue("JumpingLines.JumpScore", "0")
+                scoreLabel.text = "<html>" +
+                        "Your progress is <b>remarkable!</b> " +
+                        "You've jumped <b>~${jumpScore.toHumanReadableForm()}</b> lines." +
+                        "</html>"
+            }
+        }
+
         scoreRow = JPanel(jumpScoreLayout).apply {
             add(scoreLabel)
+            add(scoreResetButton)
         }
 
         val layout = VerticalLayout(/* gap = */ 2,/* alignment = */ SwingConstants.LEFT)

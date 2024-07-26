@@ -4,7 +4,7 @@ import com.harsh.jumpinglines.notification.showNotification
 import com.harsh.jumpinglines.utils.NumberOfForwardLines
 import com.harsh.jumpinglines.utils.editor
 import com.harsh.jumpinglines.utils.getTargetOffsetForward
-import com.harsh.jumpinglines.utils.increaseJumpScore
+import com.harsh.jumpinglines.utils.increaseJumpScoreBy
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.editor.*
@@ -47,7 +47,7 @@ class JumpForwardSelected : DumbAwareAction() {
 
             if (document.getLineNumber(currentOffset) != document.getLineNumber(targetOffset)) {
                 val score = document.getLineNumber(targetOffset) - document.getLineNumber(currentOffset)
-                increaseJumpScore(score = score)
+                increaseJumpScoreBy(score)
             }
 
         } catch (e: AssertionError) {
