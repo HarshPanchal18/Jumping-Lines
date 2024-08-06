@@ -2,8 +2,8 @@ package com.harsh.jumpinglines.jumps
 
 import com.harsh.jumpinglines.notification.showNotification
 import com.harsh.jumpinglines.utils.NumberOfForwardLines
+import com.harsh.jumpinglines.utils.calculateForwardOffset
 import com.harsh.jumpinglines.utils.editor
-import com.harsh.jumpinglines.utils.getTargetOffsetForward
 import com.harsh.jumpinglines.utils.increaseJumpScoreBy
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -27,7 +27,7 @@ class JumpForwardLines : DumbAwareAction() {
             val foldingModel: FoldingModel = editor.foldingModel
 
             // Calculate the new caret position while skipping folded regions
-            val targetOffset = getTargetOffsetForward(
+            val targetOffset = calculateForwardOffset(
                 document = document,
                 foldingModel = foldingModel,
                 currentOffset = currentOffset,

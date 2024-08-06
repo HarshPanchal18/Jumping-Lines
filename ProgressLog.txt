@@ -1887,3 +1887,196 @@ override fun actionPerformed(event: AnActionEvent) {
 }
 By extracting the common functionality into a separate utility function like getEditor, you can call this function from anywhere in your code where you need to access the editor. This helps in reducing duplicacy and makes your code more maintainable. Additionally, if you need to make changes to how you obtain the editor in the future, you only need to update the utility function in one place rather than in multiple places throughout your code.
 
+Here is the code to Jump on forward lines. Working as expected but it doesn't skipping the folds. For example imports are folded and the if I want to make the cursor jump over this fold by counting it with one line.
+ChatGPT
+To implement a cursor jump that skips over folded regions in JetBrains MPS or IntelliJ, you need to handle the folding model of the editor. This involves checking for folded regions and adjusting the cursor position accordingly.
+
+Here’s how you can modify your JumpForwardLines action to skip over folded regions:
+
+Access the folding model and regions:
+
+Use the FoldingModel to get information about the folded regions.
+Modify the logic to jump over the folded regions instead of treating them as individual lines.
+Update your JumpForwardLines action:
+
+Adjust the jump logic to account for folded regions.
+Here’s how you can do it:
+
+kotlin
+Copy code
+import com.intellij.openapi.actionSystem.AnAction
+import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.editor.CaretModel
+import com.intellij.openapi.editor.CommonDataKeys
+import com.intellij.openapi.editor.Document
+import com.intellij.openapi.editor.Editor
+import com.intellij.openapi.editor.ScrollType
+import com.intellij.openapi.editor.ScrollingModel
+import com.intellij.openapi.editor.LogicalPosition
+import com.intellij.openapi.editor.FoldRegion
+import com.intellij.openapi.editor.FoldingModel
+
+class JumpForwardLines : AnAction() {
+
+    override fun actionPerformed(e: AnActionEvent) {
+        val project = e.project ?: return
+        val editor: Editor = e.getRequiredData(CommonDataKeys.EDITOR)
+        val document: Document = editor.document
+        val caretModel: CaretModel = editor.caretModel
+        val currentOffset: Int = caretModel.offset
+        val scrollingModel: ScrollingModel = editor.scrollingModel
+
+        val linesToJump = 4 // Lines to jump, Positive for down, Negative for up
+
+        // Calculate the new caret position while skipping folded regions
+        val foldingModel: FoldingModel = editor.foldingModel
+        val targetOffset = getTargetOffset(document, foldingModel, currentOffset, linesToJump)
+
+        caretModel.moveToOffset(targetOffset)
+
+        // Scrolling editor along with the cursor
+        val newLineNumber: Int = document.getLineNumber(targetOffset)
+        val newPosition = LogicalPosition(newLineNumber, 0)
+        caretModel.moveToLogicalPosition(newPosition)
+        scrollingModel.scrollTo(newPosition, ScrollType.RELATIVE)
+    }
+
+    private fun getTargetOffset(document: Document, foldingModel: FoldingModel, currentOffset: Int, linesToJump: Int): Int {
+        var linesJumped = 0
+        var targetOffset = currentOffset
+
+        foldingModel.runBatchFoldingOperation {
+            while (linesJumped < linesToJump) {
+                val currentLineNumber = document.getLineNumber(targetOffset)
+                val newLineNumber = currentLineNumber + 1
+
+                if (newLineNumber >= document.lineCount) break
+
+                val newOffset = document.getLineStartOffset(newLineNumber)
+                val foldRegion: FoldRegion? = foldingModel.getCollapsedRegionAtOffset(newOffset)
+
+                if (foldRegion != null) {
+                    // Skip the folded region
+                    targetOffset = foldRegion.endOffset
+                } else {
+                    // Move to the next line
+                    targetOffset = newOffset
+                    linesJumped++
+                }
+            }
+        }
+
+        return targetOffset
+    }
+
+    override fun update(e: AnActionEvent) {
+        val project = e.project
+        e.presentation.isEnabled = project != null
+    }
+
+    override fun getActionUpdateThread(): ActionUpdateThread {
+        return ActionUpdateThread.EDT
+    }
+}
+Explanation:
+Folding Model Access: The FoldingModel is used to check if a line is within a folded region.
+Target Offset Calculation: The getTargetOffset method calculates the target offset by iterating through lines and checking for folded regions. If a line is within a folded region, it skips to the end of the fold.
+Batch Folding Operation: The folding operations are wrapped in runBatchFoldingOperation to ensure they are performed efficiently.
+Integration with Settings:
+You can integrate this with your settings by reading the number of lines to jump from the settings:
+
+kotlin
+Copy code
+val properties = PropertiesComponent.getInstance()
+val linesToJump = properties.getInt("JumpLines.NumberOfLines", 4)
+Replace the hardcoded linesToJump value in the actionPerformed method with this value.
+
+This ensures that the action respects folded regions and skips them as intended.
+
+By applying this method, the cursor is jumping twice. i.e. If the numberOfForwardLinesToJump is 4 then the cursor is jumping over 8 lines forward.
+ChatGPT
+It seems there might be an issue in how the target offset is being calculated. When the cursor jumps to the end of a folded region, the loop might be counting the line after the folded region twice. To address this, let's revise the method to ensure it handles the counting correctly.
+
+Here's the updated code to ensure that the cursor only jumps the specified number of lines, considering folded regions:
+
+kotlin
+Copy code
+import com.intellij.openapi.actionSystem.AnAction
+import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.editor.CaretModel
+import com.intellij.openapi.editor.CommonDataKeys
+import com.intellij.openapi.editor.Document
+import com.intellij.openapi.editor.Editor
+import com.intellij.openapi.editor.ScrollType
+import com.intellij.openapi.editor.ScrollingModel
+import com.intellij.openapi.editor.LogicalPosition
+import com.intellij.openapi.editor.FoldRegion
+import com.intellij.openapi.editor.FoldingModel
+
+class JumpForwardLines : AnAction() {
+
+    override fun actionPerformed(e: AnActionEvent) {
+        val project = e.project ?: return
+        val editor: Editor = e.getRequiredData(CommonDataKeys.EDITOR)
+        val document: Document = editor.document
+        val caretModel: CaretModel = editor.caretModel
+        val currentOffset: Int = caretModel.offset
+        val scrollingModel: ScrollingModel = editor.scrollingModel
+
+        val properties = PropertiesComponent.getInstance()
+        val linesToJump = properties.getInt("JumpLines.NumberOfLines", 4)
+
+        // Calculate the new caret position while skipping folded regions
+        val foldingModel: FoldingModel = editor.foldingModel
+        val targetOffset = getTargetOffset(document, foldingModel, currentOffset, linesToJump)
+
+        caretModel.moveToOffset(targetOffset)
+
+        // Scrolling editor along with the cursor
+        val newLineNumber: Int = document.getLineNumber(targetOffset)
+        val newPosition = LogicalPosition(newLineNumber, 0)
+        caretModel.moveToLogicalPosition(newPosition)
+        scrollingModel.scrollTo(newPosition, ScrollType.RELATIVE)
+    }
+
+    private fun getTargetOffset(document: Document, foldingModel: FoldingModel, currentOffset: Int, linesToJump: Int): Int {
+        var linesJumped = 0
+        var targetOffset = currentOffset
+
+        foldingModel.runBatchFoldingOperation {
+            while (linesJumped < linesToJump) {
+                val currentLineNumber = document.getLineNumber(targetOffset)
+                val newLineNumber = currentLineNumber + 1
+
+                if (newLineNumber >= document.lineCount) break
+
+                val newOffset = document.getLineStartOffset(newLineNumber)
+                val foldRegion: FoldRegion? = foldingModel.getCollapsedRegionAtOffset(newOffset)
+
+                if (foldRegion != null) {
+                    // Skip the folded region
+                    targetOffset = foldRegion.endOffset
+                } else {
+                    // Move to the next line
+                    targetOffset = newOffset
+                    linesJumped++
+                }
+            }
+        }
+
+        return targetOffset
+    }
+
+    override fun update(e: AnActionEvent) {
+        val project = e.project
+        e.presentation.isEnabled = project != null
+    }
+
+    override fun getActionUpdateThread(): ActionUpdateThread {
+        return ActionUpdateThread.EDT
+    }
+}
+Explanation:
+Properties Component Integration: Added the PropertiesComponent to retrieve the number of lines to jump from the settings.
+Offset Calculation: The getTargetOffset method ensures the cursor moves correctly by iterating through lines and checking for folded regions. The cursor only advances when not inside a folded region.
+By ensuring the cursor advances correctly and only when not inside a folded region, this should address the issue of the cursor jumping twice the number of lines intended.

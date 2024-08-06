@@ -2,8 +2,8 @@ package com.harsh.jumpinglines.selectionjump
 
 import com.harsh.jumpinglines.notification.showNotification
 import com.harsh.jumpinglines.utils.NumberOfBackwardLines
+import com.harsh.jumpinglines.utils.calculateBackwardOffset
 import com.harsh.jumpinglines.utils.editor
-import com.harsh.jumpinglines.utils.getTargetOffsetBackward
 import com.harsh.jumpinglines.utils.increaseJumpScoreBy
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -30,7 +30,12 @@ class JumpBackwardSelected : DumbAwareAction() {
                 if (selectionModel.hasSelection()) selectionModel.leadSelectionOffset else currentOffset
 
             // Calculate the new caret position
-            val targetOffset = getTargetOffsetBackward(document, foldingModel, currentOffset, NumberOfBackwardLines)
+            val targetOffset = calculateBackwardOffset(
+                document = document,
+                foldingModel = foldingModel,
+                currentOffset = currentOffset,
+                linesToJump = NumberOfBackwardLines
+            )
 
             caretModel.moveToOffset(targetOffset)
 

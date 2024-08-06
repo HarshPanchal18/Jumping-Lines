@@ -2,8 +2,8 @@ package com.harsh.jumpinglines.jumps
 
 import com.harsh.jumpinglines.notification.showNotification
 import com.harsh.jumpinglines.utils.NumberOfBackwardLines
+import com.harsh.jumpinglines.utils.calculateBackwardOffset
 import com.harsh.jumpinglines.utils.editor
-import com.harsh.jumpinglines.utils.getTargetOffsetBackward
 import com.harsh.jumpinglines.utils.increaseJumpScoreBy
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -26,7 +26,7 @@ class JumpBackwardLines : DumbAwareAction() {
             val selectionModel: SelectionModel = editor.selectionModel
             val foldingModel: FoldingModel = editor.foldingModel
 
-            val targetOffset = getTargetOffsetBackward(
+            val targetOffset = calculateBackwardOffset(
                 document = document,
                 foldingModel = foldingModel,
                 currentOffset = currentOffset,
