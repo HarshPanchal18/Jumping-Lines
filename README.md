@@ -9,7 +9,7 @@
 
 _`Introduction:`_
 Jumping Lines is a powerful plugin for JetBrains IDEs that allows you to easily navigate through your code by jumping
-multiple lines forward or backward with fewer keystrokes than ever. 
+multiple lines forward or backward with fewer keystrokes than ever.
 
 With this plugin, you can easily switch between
 different parts of your code, select multiple lines in most easier way, reducing the need to scroll through long files
@@ -24,9 +24,10 @@ _`Key Features:`_
 3. **Customizable number of Lines:** Define the number of lines to jump forward and backward through the IDE settings
    dialog.
 4. **Jump on Middle line:** Jump on middle line of an editor.
-5. **Compatible with All JetBrains IDEs:** This plugin is compatible with all JetBrains IDEs, including IntelliJ IDEA,
+5. **Jump Score:** A score that counts the number of lines you've jumped.
+6. **Compatible with All JetBrains IDEs:** This plugin is compatible with all JetBrains IDEs, including IntelliJ IDEA,
    PyCharm, Android Studio, PHPStorm, and RubyMine.
-6. **Written in Kotlin:** The plugin is entirely written in Kotlin programming language, ensuring a smooth and efficient
+7. **Written in Kotlin:** The plugin is entirely written in Kotlin programming language, ensuring a smooth and efficient
    performance.
 
 _`How to Use:`_
