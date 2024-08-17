@@ -48,7 +48,7 @@ class JumpLinesSettingPanel {
             JLabel(
                 "<html>" +
                         "Your progress is <b>remarkable!</b> " +
-                        "You've jumped <b>~${jumpScore.inHumanReadableForm()}</b> lines." +
+                        "You've jumped over <b>~${jumpScore.inHumanReadableForm()}</b> lines." +
                         "</html>"
             ) //.apply { icon = AllIcons.General.Information }
 

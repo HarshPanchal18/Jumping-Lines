@@ -43,7 +43,10 @@ class JumpBackwardSelected : DumbAwareAction() {
             selectionModel.setSelection(/* startOffset = */ startOffset,/* endOffset = */ caretModel.visualLineStart)
 
             // Scrolling editor along with the cursor
-            val newLineNumber = document.getLineNumber(targetOffset)
+            val newLineNumber =
+                document.getLineNumber(
+                    minOf(targetOffset, caretModel.visualLineStart)
+                ) // Fixed the behaviour of expanding block while selection
             val newPosition = LogicalPosition(/* line = */ newLineNumber, /* column = */ 0)
             caretModel.moveToLogicalPosition(newPosition)
 

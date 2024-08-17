@@ -76,6 +76,11 @@
 
         <p>
 
+        <b>2.1 (2024-08-17)</b><br/>
+        +++++++++++++++<br/>
+        Folded block will not be expanded while jumping backward with selection.<br/>
+        Unified key names through constants for consistency.<br/><br/>
+
         <b>2.0 (2024-08-15)</b><br/>
         +++++++++++++++<br/>
         Introduced Jump Score, indicates the number of lines you've jumped through this plugin.<br/>

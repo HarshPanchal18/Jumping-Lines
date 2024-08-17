@@ -13,13 +13,13 @@ val AnActionEvent.editor: Editor
 fun propertiesComponent(): PropertiesComponent = PropertiesComponent.getInstance()
 
 val NumberOfForwardLines: Int
-    get() = propertiesComponent().getInt("JumpingLines.NumberOfFLines", 4)
+    get() = propertiesComponent().getInt(Const.FORWARD_LINES, 4)
 
 val NumberOfBackwardLines: Int
-    get() = propertiesComponent().getInt("JumpingLines.NumberOfBLines", 2)
+    get() = propertiesComponent().getInt(Const.BACKWARD_LINES, 2)
 
 val jumpScore: Long
-    get() = propertiesComponent().getLong("JumpingLines.JumpScore", 0)
+    get() = propertiesComponent().getLong(Const.JUMP_SCORE, 0)
 
 fun Long.inHumanReadableForm(): String {
     return when {
@@ -32,7 +32,7 @@ fun Long.inHumanReadableForm(): String {
 }
 
 fun increaseJumpScoreBy(score: Int) {
-    propertiesComponent().setValue("JumpingLines.JumpScore", (jumpScore + score).toString())
+    propertiesComponent().setValue(Const.JUMP_SCORE, (jumpScore + score).toString())
 }
 
 fun calculateForwardOffset(document: Document, foldingModel: FoldingModel, currentOffset: Int, linesToJump: Int): Int {

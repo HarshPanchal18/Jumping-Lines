@@ -11,9 +11,8 @@ _`Introduction:`_
 Jumping Lines is a powerful plugin for JetBrains IDEs that allows you to easily navigate through your code by jumping
 multiple lines forward or backward with fewer keystrokes than ever.
 
-With this plugin, you can easily switch between
-different parts of your code, select multiple lines in most easier way, reducing the need to scroll through long files
-or navigate through complex codebases.
+With this plugin, you can easily switch between different parts of your code, select multiple lines in most easier way,
+reducing the need to scroll through long files or navigate through complex codebases.
 
 [Preview](https://github.com/HarshPanchal18/Jumping-Lines/assets/63415584/fe86d298-7875-4744-ba4b-68e21a876d70)
 
@@ -27,16 +26,13 @@ _`Key Features:`_
 5. **Jump Score:** A score that counts the number of lines you've jumped.
 6. **Compatible with All JetBrains IDEs:** This plugin is compatible with all JetBrains IDEs, including IntelliJ IDEA,
    PyCharm, Android Studio, PHPStorm, and RubyMine.
-7. **Written in Kotlin:** The plugin is entirely written in Kotlin programming language, ensuring a smooth and efficient
-   performance.
 
 _`How to Use:`_
 
 1. **Install the plugin:** [Download](https://plugins.jetbrains.com/plugin/22878-jumping-lines) and install the plugin
    from the JetBrains plugin repository or search from `Settings -> Plugins` in IDE.
 2. **Configure the plugin:** Open the IDE settings dialog and navigate to the `Jumping Lines` or `Other Settings`
-   section to configure the
-   number of lines to jump forward and backward.
+   section to configure the number of lines to jump forward and backward.
 3. **Start navigating:** Use the shortcut keys <kbd>Ctrl+Shift+Period</kbd> or <kbd>Ctrl+Shift+Comma</kbd> to jump lines
    forward or backward. Use the shortcut keys <kbd>Alt+Shift+Period</kbd> or <kbd>Alt+Shift+Comma</kbd> to jump lines
    forward or backward with selection. Use the shortcut key <kbd>Ctrl+Comma</kbd> to jump on the middle line of editor.
