@@ -48,7 +48,8 @@
     </extensions>
 
     <actions>
-        <action id="com.harsh.jumpinglines.jumps.JumpForwardLines" class="com.harsh.jumpinglines.jumps.JumpForwardLines"
+        <action id="com.harsh.jumpinglines.jumps.JumpForwardLines"
+                class="com.harsh.jumpinglines.jumps.JumpForwardLines"
                 text="Jump Forward">
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl PERIOD"/>
         </action>
@@ -58,16 +59,27 @@
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl COMMA"/>
         </action>
         <action id="com.harsh.jumpinglines.selectionjump.JumpForwardSelected"
-                class="com.harsh.jumpinglines.selectionjump.JumpForwardSelected" text="Jump Forward with Selection">
+                class="com.harsh.jumpinglines.selectionjump.JumpForwardSelected"
+                text="Jump Forward with Selection">
             <keyboard-shortcut keymap="$default" first-keystroke="shift alt PERIOD"/>
         </action>
         <action id="com.harsh.jumpinglines.selectionjump.JumpBackwardSelected"
-                class="com.harsh.jumpinglines.selectionjump.JumpBackwardSelected" text="Jump Backward with Selection">
+                class="com.harsh.jumpinglines.selectionjump.JumpBackwardSelected"
+                text="Jump Backward with Selection">
             <keyboard-shortcut keymap="$default" first-keystroke="shift alt COMMA"/>
         </action>
-        <action id="com.harsh.jumpinglines.middle.JumpOnMiddle" class="com.harsh.jumpinglines.middle.JumpOnMiddle"
-                text="Jump on Middle Line" description="Place cursor on middle line of editor.">
+        <action id="com.harsh.jumpinglines.middle.JumpOnMiddle"
+                class="com.harsh.jumpinglines.middle.JumpOnMiddle"
+                text="Jump on Middle Line"
+                description="Place cursor on the middle line of editor.">
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl COMMA"/>
+        </action>
+        <action id="com.harsh.jumpinglines.settings.OpenSettingsAction"
+                class="com.harsh.jumpinglines.settings.OpenSettingsAction"
+                text="Jumping Lines"
+                icon="/META-INF/pluginIcon16.svg"
+                description="Open the settings for Jumping Lines plugin">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>
     </actions>
 
@@ -75,6 +87,11 @@
         <![CDATA[
 
         <p>
+
+        <b>2.2 (2024-08-23)</b><br/>
+        +++++++++++++++<br/>
+        Created shortcut of plugin settings inside 'Tools' menu.<br/>
+        Improved plugin-icon.<br/><br/>
 
         <b>2.1 (2024-08-17)</b><br/>
         +++++++++++++++<br/>
