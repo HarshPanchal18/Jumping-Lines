@@ -2,7 +2,7 @@ package com.harsh.jumpinglines.notification
 
 import com.harsh.jumpinglines.utils.Const
 import com.harsh.jumpinglines.utils.getPluginVersion
-import com.harsh.jumpinglines.utils.propertiesComponent
+import com.harsh.jumpinglines.utils.properties
 import com.intellij.notification.NotificationType
 import com.intellij.notification.Notifications
 import com.intellij.openapi.options.ShowSettingsUtil
@@ -13,7 +13,7 @@ import com.intellij.openapi.updateSettings.impl.pluginsAdvertisement.notificatio
 class PluginUpdateNotifier : StartupActivity {
     override fun runActivity(project: Project) {
 
-        val previousKnownVersion = propertiesComponent().getValue(Const.PREVIOUS_KNOWN_VERSION)
+        val previousKnownVersion = properties().getValue(Const.PREVIOUS_KNOWN_VERSION)
         val currentVersion = getPluginVersion()
 
         if (previousKnownVersion != currentVersion) {
@@ -31,7 +31,7 @@ class PluginUpdateNotifier : StartupActivity {
 
             Notifications.Bus.notify(notification)
 
-            propertiesComponent().setValue(Const.PREVIOUS_KNOWN_VERSION, currentVersion)
+            properties().setValue(Const.PREVIOUS_KNOWN_VERSION, currentVersion)
         }
 
     }

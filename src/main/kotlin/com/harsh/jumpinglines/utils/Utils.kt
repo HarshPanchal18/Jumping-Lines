@@ -12,29 +12,29 @@ import com.intellij.openapi.extensions.PluginId
 val AnActionEvent.editor: Editor
     get() = this.getRequiredData(CommonDataKeys.EDITOR)
 
-fun propertiesComponent(): PropertiesComponent = PropertiesComponent.getInstance()
+fun properties(): PropertiesComponent = PropertiesComponent.getInstance()
 
 val NumberOfForwardLines: Int
-    get() = propertiesComponent().getInt(Const.FORWARD_LINES, 4)
+    get() = properties().getInt(Const.FORWARD_LINES, 4)
 
 val NumberOfBackwardLines: Int
-    get() = propertiesComponent().getInt(Const.BACKWARD_LINES, 2)
+    get() = properties().getInt(Const.BACKWARD_LINES, 2)
 
 val jumpScore: Long
-    get() = propertiesComponent().getLong(Const.JUMP_SCORE, 0)
+    get() = properties().getLong(Const.JUMP_SCORE, 0)
 
 fun Long.inHumanReadableForm(): String {
     return when {
-        this >= 1000000000 -> String.format("%.2fB", this / 1000000000.0)
-        this >= 1000000 -> String.format("%.2fM", this / 1000000.0)
-        this >= 100000 -> String.format("%.2fL", this / 100000.0)
-        this >= 1000 -> String.format("%.2fK", this / 1000.0)
+        this >= 1_000_000_000 -> String.format("%.2fB", this / 1_000_000_000.0)
+        this >= 1_000_000 -> String.format("%.2fM", this / 1_000_000.0)
+        this >= 1_00_000 -> String.format("%.2fL", this / 1_00_000.0)
+        this >= 1_000 -> String.format("%.2fK", this / 1_000.0)
         else -> this.toString()
     }
 }
 
 fun increaseJumpScoreBy(score: Int) {
-    propertiesComponent().setValue(Const.JUMP_SCORE, (jumpScore + score).toString())
+    properties().setValue(Const.JUMP_SCORE, (jumpScore + score).toString())
 }
 
 fun getPluginVersion(): String? {

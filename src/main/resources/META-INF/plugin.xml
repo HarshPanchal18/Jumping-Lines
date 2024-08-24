@@ -46,6 +46,8 @@
                 instance="com.harsh.jumpinglines.settings.JumpLinesSettings"
                 dynamic="true"/>
         <postStartupActivity implementation="com.harsh.jumpinglines.notification.PluginUpdateNotifier"/>
+        <statusBarWidgetFactory id="JumpingLines"
+                                implementation="com.harsh.jumpinglines.statusbar.JumpingLinesStatusBarWidgetFactory"/>
     </extensions>
 
     <actions>
@@ -89,8 +91,9 @@
 
         <p>
 
-        <b>2.2 (2024-08-23)</b><br/>
+        <b>2.2 (2024-08-25)</b><br/>
         +++++++++++++++<br/>
+        Created Status-bar widget for displaying Jump score.<br/>
         Notifying user after updating plugin and restarting IDE.<br/>
         Created shortcut of plugin settings inside 'Tools' menu.<br/>
         Improved plugin-icon.<br/><br/>

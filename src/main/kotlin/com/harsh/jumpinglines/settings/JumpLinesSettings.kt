@@ -3,7 +3,7 @@ package com.harsh.jumpinglines.settings
 import com.harsh.jumpinglines.utils.Const
 import com.harsh.jumpinglines.utils.NumberOfBackwardLines
 import com.harsh.jumpinglines.utils.NumberOfForwardLines
-import com.harsh.jumpinglines.utils.propertiesComponent
+import com.harsh.jumpinglines.utils.properties
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.options.Configurable
 import javax.swing.JComponent
@@ -29,8 +29,8 @@ class JumpLinesSettings : Configurable {
 
         ApplicationManager.getApplication().runWriteAction {
             // Set value or unset if equals to default value
-            propertiesComponent().setValue(Const.FORWARD_LINES, newForwardNumberOfLines, 4)
-            propertiesComponent().setValue(Const.BACKWARD_LINES, newBackwardNumberOfLines, 2)
+            properties().setValue(Const.FORWARD_LINES, newForwardNumberOfLines, 4)
+            properties().setValue(Const.BACKWARD_LINES, newBackwardNumberOfLines, 2)
         }
 
         // Save the value to plugin's settings
