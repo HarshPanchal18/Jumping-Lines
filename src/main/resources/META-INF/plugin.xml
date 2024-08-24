@@ -45,6 +45,7 @@
                 id="com.harsh.jumpinglines"
                 instance="com.harsh.jumpinglines.settings.JumpLinesSettings"
                 dynamic="true"/>
+        <postStartupActivity implementation="com.harsh.jumpinglines.notification.PluginUpdateNotifier"/>
     </extensions>
 
     <actions>
@@ -90,6 +91,7 @@
 
         <b>2.2 (2024-08-23)</b><br/>
         +++++++++++++++<br/>
+        Notifying user after updating plugin and restarting IDE.<br/>
         Created shortcut of plugin settings inside 'Tools' menu.<br/>
         Improved plugin-icon.<br/><br/>
 

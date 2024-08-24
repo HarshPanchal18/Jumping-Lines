@@ -1,11 +1,13 @@
 package com.harsh.jumpinglines.utils
 
+import com.intellij.ide.plugins.PluginManager
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.FoldingModel
+import com.intellij.openapi.extensions.PluginId
 
 val AnActionEvent.editor: Editor
     get() = this.getRequiredData(CommonDataKeys.EDITOR)
@@ -33,6 +35,13 @@ fun Long.inHumanReadableForm(): String {
 
 fun increaseJumpScoreBy(score: Int) {
     propertiesComponent().setValue(Const.JUMP_SCORE, (jumpScore + score).toString())
+}
+
+fun getPluginVersion(): String? {
+    val pluginId = PluginId.getId("com.example.JumpingLines")
+    val pluginDescriptor = PluginManager.getPlugin(pluginId)
+
+    return pluginDescriptor?.version
 }
 
 fun calculateForwardOffset(document: Document, foldingModel: FoldingModel, currentOffset: Int, linesToJump: Int): Int {
