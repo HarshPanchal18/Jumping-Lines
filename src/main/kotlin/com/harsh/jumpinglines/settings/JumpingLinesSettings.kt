@@ -8,9 +8,9 @@ import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.options.Configurable
 import javax.swing.JComponent
 
-class JumpLinesSettings : Configurable {
+class JumpingLinesSettings : Configurable {
 
-    private val settingsPanel = JumpLinesSettingPanel()
+    private val settingsPanel = JumpingLinesSettingPanel()
     private var savedNumberOfFLines: Int = 0
     private var savedNumberOfBLines: Int = 0
 

@@ -43,7 +43,7 @@
         <applicationConfigurable
                 displayName="Jumping Lines"
                 id="com.harsh.jumpinglines"
-                instance="com.harsh.jumpinglines.settings.JumpLinesSettings"
+                instance="com.harsh.jumpinglines.settings.JumpingLinesSettings"
                 dynamic="true"/>
         <postStartupActivity implementation="com.harsh.jumpinglines.notification.PluginUpdateNotifier"/>
         <statusBarWidgetFactory id="JumpingLines"
@@ -77,12 +77,13 @@
                 description="Place cursor on the middle line of editor.">
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl COMMA"/>
         </action>
-        <action id="com.harsh.jumpinglines.settings.OpenSettingsAction"
-                class="com.harsh.jumpinglines.settings.OpenSettingsAction"
-                text="Jumping Lines"
+        <action id="com.harsh.jumpinglines.settings.OpenSettings"
+                class="com.harsh.jumpinglines.settings.OpenSettings"
+                text="Jumping _Lines"
                 icon="/META-INF/pluginIcon16.svg"
                 description="Open the settings for Jumping Lines plugin">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
+            <keyboard-shortcut first-keystroke="alt L" keymap="$default"/>
         </action>
     </actions>
 

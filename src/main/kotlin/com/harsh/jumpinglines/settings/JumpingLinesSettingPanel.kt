@@ -6,7 +6,7 @@ import com.intellij.ui.components.panels.VerticalLayout
 import java.awt.FlowLayout
 import javax.swing.*
 
-class JumpLinesSettingPanel {
+class JumpingLinesSettingPanel {
 
     val parentPanel: JPanel
     private var forwardJumpRow: JPanel
