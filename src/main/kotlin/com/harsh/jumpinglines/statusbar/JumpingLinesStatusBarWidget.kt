@@ -1,5 +1,6 @@
 package com.harsh.jumpinglines.statusbar
 
+import com.harsh.jumpinglines.utils.Const
 import com.harsh.jumpinglines.utils.inHumanReadableForm
 import com.harsh.jumpinglines.utils.jumpScore
 import com.intellij.openapi.util.Disposer
@@ -21,19 +22,17 @@ class JumpingLinesStatusBarWidget : StatusBarWidget,
 
     private var statusBar: StatusBar? = null
 
-    override fun ID(): String = "JumpingLines"
+    override fun ID(): String = Const.PLUGIN_ID
 
 //    override fun getIcon(): Icon = IconLoader.getIcon("/META-INF/pluginIcon16.svg", javaClass)
 
     override fun getText(): String = jumpScore.inHumanReadableForm()
 
-    override fun getTooltipText(): String = "Jumping Lines"
+    override fun getTooltipText(): String = Const.PLUGIN_NAME
 
     override fun getAlignment(): Float = Component.CENTER_ALIGNMENT
 
-    override fun getPresentation(): StatusBarWidget.WidgetPresentation {
-        return this
-    }
+    override fun getPresentation(): StatusBarWidget.WidgetPresentation = this
 
     override fun dispose() {
         Disposer.dispose(this)

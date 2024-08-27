@@ -14,9 +14,7 @@ class JumpingLinesSettings : Configurable {
     private var savedNumberOfFLines: Int = 0
     private var savedNumberOfBLines: Int = 0
 
-    override fun createComponent(): JComponent {
-        return settingsPanel.parentPanel
-    }
+    override fun createComponent(): JComponent = settingsPanel.parentPanel
 
     override fun isModified(): Boolean {
         return settingsPanel.getForwardLines() != savedNumberOfFLines ||
@@ -38,9 +36,7 @@ class JumpingLinesSettings : Configurable {
         savedNumberOfBLines = newBackwardNumberOfLines
     }
 
-    override fun getDisplayName(): String {
-        return "Jumping Lines Settings" // Display name in the settings dialog
-    }
+    override fun getDisplayName(): String = Const.JUMPING_LINES_SETTINGS // Display name in the settings dialog
 
     override fun reset() {
         // Set default values

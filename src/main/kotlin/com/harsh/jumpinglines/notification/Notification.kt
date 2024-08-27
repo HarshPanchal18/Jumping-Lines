@@ -1,17 +1,20 @@
 package com.harsh.jumpinglines.notification
 
+import com.harsh.jumpinglines.utils.Const
+import com.intellij.notification.Notification
 import com.intellij.notification.NotificationType
 import com.intellij.notification.Notifications
 import com.intellij.openapi.updateSettings.impl.pluginsAdvertisement.notificationGroup
+import javax.swing.event.HyperlinkEvent
 
-fun showNotification(message: String) {
-	// Create a notification with the specified message and notification group
-	val notification = notificationGroup.createNotification(
-		title = "Jumping Lines",
-		content = message,
-		type = NotificationType.INFORMATION // The notification type (ERROR, WARNING, INFORMATION, IDE_UPDATE)
-	)
-	Notifications.Bus.notify(notification)
+fun showNotification(message: String, listener: (Notification?, HyperlinkEvent?) -> Unit = { notification, event -> }) {
+    // Create a notification with the specified message and notification group
+    val notification = notificationGroup.createNotification(
+        title = Const.PLUGIN_NAME,
+        content = message,
+        type = NotificationType.INFORMATION // The notification type (ERROR, WARNING, INFORMATION, IDE_UPDATE)
+    ).setListener { notification, hyperlinkEvent -> listener(notification, hyperlinkEvent) }
+    Notifications.Bus.notify(notification)
 }
 
 /* Error prompts
