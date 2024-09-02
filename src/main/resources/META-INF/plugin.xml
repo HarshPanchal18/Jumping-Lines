@@ -92,11 +92,12 @@
 
         <p>
 
-        <b>2.2 (2024-08-25)</b><br/>
+        <b>2.2 (2024-09-02)</b><br/>
         +++++++++++++++<br/>
         Created Status-bar widget for displaying Jump score.<br/>
         Notifying user after updating plugin and restarting IDE.<br/>
         Created shortcut of plugin settings inside 'Tools' menu.<br/>
+        Open Jumping Lines Setting with Alt + L.<br/>
         Improved plugin-icon.<br/><br/>
 
         <b>2.1 (2024-08-17)</b><br/>

@@ -6,7 +6,9 @@ import com.harsh.jumpinglines.utils.jumpScore
 import com.intellij.openapi.util.Disposer
 import com.intellij.openapi.wm.StatusBar
 import com.intellij.openapi.wm.StatusBarWidget
+import com.intellij.util.Consumer
 import java.awt.Component
+import java.awt.event.MouseEvent
 import java.util.*
 
 class JumpingLinesStatusBarWidget : StatusBarWidget,
@@ -41,6 +43,10 @@ class JumpingLinesStatusBarWidget : StatusBarWidget,
 
     override fun install(statusBar: StatusBar) {
         this.statusBar = statusBar
+    }
+
+    override fun getClickConsumer(): Consumer<MouseEvent>? {
+        return super.getClickConsumer()
     }
 
     // Method to refresh the widget

@@ -8,5 +8,5 @@ object Const {
     const val PLUGIN_ID = "JumpingLines"
     const val PLUGIN_NAME = "Jumping Lines"
     const val JUMPING_LINES_SETTINGS = "Jumping Lines Settings"
-    const val JUMPING_LINES_SCORE = "Jumping Lines Score"
+    const val JUMP_SCORE_TITLE = "Jump Score"
 }
