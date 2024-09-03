@@ -1,8 +1,12 @@
 package com.harsh.jumpinglines.statusbar
 
+import com.harsh.jumpinglines.settings.JumpingLinesSettings
 import com.harsh.jumpinglines.utils.Const
 import com.harsh.jumpinglines.utils.inHumanReadableForm
 import com.harsh.jumpinglines.utils.jumpScore
+import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.options.ShowSettingsUtil
+import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Disposer
 import com.intellij.openapi.wm.StatusBar
 import com.intellij.openapi.wm.StatusBarWidget
@@ -11,7 +15,7 @@ import java.awt.Component
 import java.awt.event.MouseEvent
 import java.util.*
 
-class JumpingLinesStatusBarWidget : StatusBarWidget,
+class JumpingLinesStatusBarWidget(private val project: Project) : StatusBarWidget,
 //    IconLikeCustomStatusBarWidget
 //    StatusBarWidget.IconPresentation,
     StatusBarWidget.TextPresentation {
@@ -45,8 +49,12 @@ class JumpingLinesStatusBarWidget : StatusBarWidget,
         this.statusBar = statusBar
     }
 
-    override fun getClickConsumer(): Consumer<MouseEvent>? {
-        return super.getClickConsumer()
+    override fun getClickConsumer(): Consumer<MouseEvent> {
+        return Consumer {
+            ApplicationManager.getApplication().invokeLater {
+                ShowSettingsUtil.getInstance().showSettingsDialog(project, JumpingLinesSettings::class.java)
+            }
+        }
     }
 
     // Method to refresh the widget

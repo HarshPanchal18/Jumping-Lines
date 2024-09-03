@@ -10,15 +10,13 @@ class JumpingLinesStatusBarWidgetFactory : StatusBarWidgetFactory {
 
     override fun getId(): String = Const.PLUGIN_ID
 
-    override fun canBeEnabledOn(statusBar: StatusBar): Boolean {
-        return super.canBeEnabledOn(statusBar)
-    }
+    override fun canBeEnabledOn(statusBar: StatusBar): Boolean = true
 
     override fun getDisplayName(): String = Const.JUMP_SCORE_TITLE
 
     override fun isAvailable(project: Project) = true
 
-    override fun createWidget(project: Project): StatusBarWidget = JumpingLinesStatusBarWidget()
+    override fun createWidget(project: Project): StatusBarWidget = JumpingLinesStatusBarWidget(project)
 
     override fun disposeWidget(widget: StatusBarWidget) {
         widget.dispose()
