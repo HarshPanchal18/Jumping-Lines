@@ -1,6 +1,6 @@
 package com.harsh.jumpinglines.utils
 
-import com.intellij.ide.plugins.PluginManager
+import com.intellij.ide.plugins.PluginManagerCore
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
@@ -39,7 +39,7 @@ fun increaseJumpScoreBy(score: Int) {
 
 fun getPluginVersion(): String? {
     val pluginId = PluginId.getId("com.example.JumpingLines")
-    val pluginDescriptor = PluginManager.getPlugin(pluginId)
+    val pluginDescriptor = PluginManagerCore.getPlugin(pluginId)
 
     return pluginDescriptor?.version
 }
