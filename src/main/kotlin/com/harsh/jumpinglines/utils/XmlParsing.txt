@@ -1,0 +1,136 @@
+import org.json.JSONException
+import org.json.JSONObject
+import org.w3c.dom.CDATASection
+import org.w3c.dom.Document
+import org.w3c.dom.Element
+import org.w3c.dom.NodeList
+import java.io.File
+import java.nio.file.Paths
+import javax.xml.parsers.DocumentBuilderFactory
+
+fun main() {
+    println(calculateScore())
+}
+
+fun parseXml(filePath: String) = DocumentBuilderFactory.newInstance()
+    .newDocumentBuilder()
+    .parse(filePath)
+
+// Convert NodeList to Kotlin Sequence
+fun NodeList.asSequence() = sequence {
+    for (i in 0 until length) {
+        yield(item(i))
+    }
+}
+
+fun getXmlPaths(): List<String> {
+    val osName = System.getProperty("os.name").lowercase()
+    val baseDir = when {
+        osName.contains("win", true) -> System.getenv("APPDATA") + "\\JetBrains"
+        osName.contains("mac", true) -> System.getenv("user.home") + "/Library/Application Support/JetBrains"
+        else -> System.getenv("user.home") + "/.config/JetBrains"
+    }
+
+    val xmlPaths = mutableListOf<String>()
+
+    if (baseDir.isNotEmpty() && File(baseDir).exists()) {
+        File(baseDir).listFiles()?.forEach { ideDir ->
+            val xmlPath = Paths.get(ideDir.path, "options", "other.xml").toString()
+            if (File(xmlPath).isFile) {
+                println("Path: $xmlPath")
+                xmlPaths.add(xmlPath)
+            }
+        }
+    }
+
+    return xmlPaths
+}
+
+fun getIdeNameAndScoreFromXml(path: String): Pair<String, Double> {
+    val document: Document = parseXml(path)
+    var ideCode = "N/A"
+
+    /*
+    <component name="PropertyService">
+        <![CDATA[{
+          "keyToString": {
+            ...
+          }
+        }]]>
+    </component>
+    */
+
+    val propertyService = document.getElementsByTagName("component")
+        .asSequence()
+        .map { it as Element }
+        .find { it.getAttribute("name") == "PropertyService" }
+
+    if (propertyService != null) {
+        val cdataSection = propertyService.firstChild
+
+        if (cdataSection is CDATASection) {
+            try {
+                val cdataContent = cdataSection.data
+                // println(cdataContent)
+
+                val json = JSONObject(cdataContent)
+                val keyToString = json.getJSONObject("keyToString")
+
+                // Determine the IDE name.
+                // LAST_EXTRACTOR_SCRIPTS_CLEANUP_VERSION/data/aggregators - A key in other.xml which I found existed among all the installed products.
+                val ideBuild = keyToString.getString("LAST_EXTRACTOR_SCRIPTS_CLEANUP_VERSION/data/aggregators")
+                ideCode = ideBuild.substringBefore("-") // IU-233.14808.21 => IU
+                println("IDE Code: $ideCode")
+
+                return Pair(getProductName(ideCode), keyToString.getDouble("JumpingLines.JumpScore"))
+
+            } catch (_: JSONException) {
+                // In case of JSONObject["JumpingLines.JumpScore"] not found.
+                // Obviously it occurs when the plugin is not installed :)
+            }
+        }
+    }
+
+    return Pair(getProductName(ideCode), 0.0)
+}
+
+fun calculateScore(): Double {
+    val paths = getXmlPaths()
+    var grandScore = 0.0
+
+    paths.forEach { path ->
+        val nameScorePair = getIdeNameAndScoreFromXml(path)
+        println("IDE: " + nameScorePair.first)
+        grandScore += nameScorePair.second
+    }
+
+    return grandScore
+}
+
+fun getProductName(ideCode: String) = when (ideCode) {
+    "IC" -> "IntelliJ IDEA Community"
+    "IU" -> "IntelliJ IDEA Ultimate"
+    "CL" -> "CLion"
+    "PY" -> "PyCharm Professional"
+    "PC" -> "PyCharm Community"
+    "PS" -> "PhpStorm"
+    "RD" -> "Rider"
+    "GO" -> "GoLand"
+    "AI" -> "Android Studio"
+    "RR" -> "Rust Rover"
+    else -> "Other"
+}
+
+/*
+IntelliJ IDEA	IntelliJIdea2024.3
+PyCharm (Professional)	PyCharm2024.3
+PyCharm (Community)	PyCharmCE2024.3
+WebStorm	WebStorm2024.3
+GoLand	GoLand2024.3
+PhpStorm	PhpStorm2024.3
+Rider	Rider2024.3
+CLion	CLion2024.3
+DataGrip	DataGrip2024.3
+RubyMine	RubyMine2024.3
+AppCode	AppCode2024.3
+*/
