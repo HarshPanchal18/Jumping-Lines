@@ -6,10 +6,10 @@ import com.harsh.jumpinglines.utils.getPluginVersion
 import com.harsh.jumpinglines.utils.properties
 import com.intellij.openapi.options.ShowSettingsUtil
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.startup.StartupActivity
+import com.intellij.openapi.startup.ProjectActivity
 
-class PluginUpdateNotifier : StartupActivity {
-    override fun runActivity(project: Project) {
+class PluginUpdateNotifier : ProjectActivity {
+    override suspend fun execute(project: Project) {
 
         val previousKnownVersion = properties().getValue(Const.PREVIOUS_KNOWN_VERSION)
         val currentVersion = getPluginVersion()
