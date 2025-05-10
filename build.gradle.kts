@@ -4,8 +4,11 @@ plugins {
     id("org.jetbrains.intellij") version "1.16.0"
 }
 
-group = "com.harsh"
-version = "2.2"
+// Getting values defined inside gradle.properties
+fun properties(key: String) = project.findProperty(key).toString()
+
+group = properties("pluginGroup")
+version = properties("pluginVersion")
 
 repositories {
     mavenCentral()
@@ -14,9 +17,9 @@ repositories {
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    version.set("241.15989.150")
+    version.set(properties("platformVersion"))
     updateSinceUntilBuild.set(false)
-    type.set("IC") // Target IDE Platform
+    type.set(properties("platformType")) // Target IDE Platform
 
     plugins.set(listOf(/* Plugin Dependencies */))
 }
@@ -32,7 +35,7 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("222")
+        sinceBuild.set(properties("pluginSinceBuild"))
         //untilBuild.set("232.*")
     }
 
