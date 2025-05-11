@@ -93,6 +93,11 @@
 
         <p>
 
+        <b>2.3 (2025-05-08)</b><br/>
+        +++++++++++++++<br/>
+        Moved plugin settings inside Editor settings</br>
+        Migrated deprecated class.<br/><br/>
+
         <b>2.2 (2024-09-02)</b><br/>
         +++++++++++++++<br/>
         Created Status-bar widget for displaying Jump score.<br/>

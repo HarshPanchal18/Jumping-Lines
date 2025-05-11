@@ -37,8 +37,8 @@ reducing the need to scroll through long files or navigate through complex codeb
 
 2. **Configure plugin via any of following ways:**
 
-> * Open IDE settings and navigate to the `Jumping Lines` or `Other Settings` section, or
->* Go through `Tools -> Jumping Lines`, or
+> * Open IDE settings and navigate to the `Editor -> Jumping Lines` section, or
+>* Go through `Tools Menu -> Jumping Lines`, or
 >* Simply press <kbd>Alt + L</kbd>.
 
 3. **Start navigating through following keymaps:**
