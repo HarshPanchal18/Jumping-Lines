@@ -86,6 +86,19 @@
             <add-to-group group-id="ToolsMenu" anchor="last"/>
             <keyboard-shortcut first-keystroke="alt L" keymap="$default"/>
         </action>
+        <action id="com.harsh.jumpinglines.cursortrace.CursorTraceForward"
+                class="com.harsh.jumpinglines.cursortrace.CursorTraceForward"
+                text="Cursor Trace Forward"
+                description="Putting cursors over lines the cursor jumped forward.">
+            <keyboard-shortcut keymap="$default" first-keystroke="shift alt QUOTE"/>
+        </action>
+        <action id="com.harsh.jumpinglines.cursortrace.CursorTraceBackward"
+                class="com.harsh.jumpinglines.cursortrace.CursorTraceBackward"
+                text="Cursor Trace Backward"
+                description="Putting cursors over lines the cursor jumped backward.">
+            <keyboard-shortcut keymap="$default" first-keystroke="shift alt SEMICOLON"/>
+        </action>
+
     </actions>
 
     <change-notes>
