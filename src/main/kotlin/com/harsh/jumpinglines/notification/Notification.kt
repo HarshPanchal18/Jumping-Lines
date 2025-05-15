@@ -2,6 +2,7 @@ package com.harsh.jumpinglines.notification
 
 import com.harsh.jumpinglines.settings.JumpingLinesSettings
 import com.harsh.jumpinglines.utils.Const
+import com.intellij.ide.BrowserUtil
 import com.intellij.notification.Notification
 import com.intellij.notification.NotificationAction
 import com.intellij.notification.NotificationType
@@ -18,15 +19,40 @@ fun showNotification(message: String) {
         content = message,
         type = NotificationType.INFORMATION // The notification type (ERROR, WARNING, INFORMATION, IDE_UPDATE)
     ).apply {
-        addAction(object : NotificationAction("Plugin settings") {
-            override fun actionPerformed(event: AnActionEvent, notification: Notification) {
-                // Simulate hyperlink event if needed
-                ShowSettingsUtil.getInstance().showSettingsDialog(event.project, JumpingLinesSettings::class.java)
+        if (message.contains("plugin updates")) { // Show plugin settings link only post update of plugin
+            addAction(object : NotificationAction("Plugin settings") {
+                override fun actionPerformed(event: AnActionEvent, notification: Notification) {
+                    notification.expire()
+                    ShowSettingsUtil.getInstance().showSettingsDialog(event.project, JumpingLinesSettings::class.java)
+                }
+            })
+        }
+    }
+
+    Notifications.Bus.notify(notification)
+
+}
+
+fun promptPluginReviewNotification() {
+    val notificationRating = notificationGroup.createNotification(
+        title = "Enjoying Jumping Lines?",
+        content = "If you find this plugin helpful, please consider leaving a review!",
+        type = NotificationType.INFORMATION
+    ).apply {
+        addAction(object : NotificationAction("Leave a Review") {
+            override fun actionPerformed(e: AnActionEvent, notification: Notification) {
+                BrowserUtil.browse(Const.PLUGIN_URL + "/reviews")
+                notification.expire()
+            }
+        })
+        addAction(object : NotificationAction("Maybe Later") {
+            override fun actionPerformed(e: AnActionEvent, notification: Notification) {
+                notification.expire()
             }
         })
     }
 
-    Notifications.Bus.notify(notification)
+    Notifications.Bus.notify(notificationRating)
 }
 
 /* Error prompts

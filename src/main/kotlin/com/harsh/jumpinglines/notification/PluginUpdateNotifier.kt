@@ -12,8 +12,10 @@ class PluginUpdateNotifier : ProjectActivity {
         val previousKnownVersion = properties().getValue(Const.PREVIOUS_KNOWN_VERSION)
         val currentVersion = getPluginVersion()
 
-        if (previousKnownVersion != currentVersion) {
-            showNotification(message = "<b>New plugin updates are applied. Jump higher.</b>")
+        if (previousKnownVersion != currentVersion) { // Version mismatched
+            promptPluginReviewNotification()
+
+            showNotification(message = "<b>New plugin updates are applied. Jump more higher.</b>")
             properties().setValue(Const.PREVIOUS_KNOWN_VERSION, currentVersion)
         }
     }
