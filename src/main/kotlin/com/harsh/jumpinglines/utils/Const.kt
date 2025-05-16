@@ -9,4 +9,7 @@ object Const {
     const val PLUGIN_NAME = "Jumping Lines"
     const val JUMPING_LINES_SETTINGS = "Jumping Lines Settings"
     const val JUMP_SCORE_TITLE = "Jump Score"
+    const val PLUGIN_URL = "https://plugins.jetbrains.com/plugin/22878-jumping-lines"
+    const val LAST_RATING_PROMPT = "Asked last rating"
+    const val HAS_PLUGIN_REVIEWED = "IsPluginReviewedByUser"
 }

@@ -2,6 +2,7 @@ package com.harsh.jumpinglines.notification
 
 import com.harsh.jumpinglines.settings.JumpingLinesSettings
 import com.harsh.jumpinglines.utils.Const
+import com.harsh.jumpinglines.utils.properties
 import com.intellij.ide.BrowserUtil
 import com.intellij.notification.Notification
 import com.intellij.notification.NotificationAction
@@ -43,6 +44,7 @@ fun promptPluginReviewNotification() {
             override fun actionPerformed(e: AnActionEvent, notification: Notification) {
                 BrowserUtil.browse(Const.PLUGIN_URL + "/reviews")
                 notification.expire()
+                properties().setValue(Const.HAS_PLUGIN_REVIEWED, true)
             }
         })
         addAction(object : NotificationAction("Maybe Later") {

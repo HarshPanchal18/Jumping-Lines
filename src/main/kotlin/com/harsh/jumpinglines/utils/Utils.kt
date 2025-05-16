@@ -4,13 +4,15 @@ import com.intellij.ide.plugins.PluginManagerCore
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
+import com.intellij.openapi.editor.CaretModel
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.FoldingModel
 import com.intellij.openapi.extensions.PluginId
 
 val AnActionEvent.editor: Editor
-    get() = this.getRequiredData(CommonDataKeys.EDITOR)
+    get() = this.getData(CommonDataKeys.EDITOR)
+        ?: error("Editor is required but not available in this context.")
 
 fun properties(): PropertiesComponent = PropertiesComponent.getInstance()
 
@@ -22,6 +24,12 @@ val NumberOfBackwardLines: Int
 
 val jumpScore: Long
     get() = properties().getLong(Const.JUMP_SCORE, 0)
+
+val lastNotificationShown: Long
+    get() = properties().getLong(Const.LAST_RATING_PROMPT, 0L)
+
+val hasPluginReviewed: Boolean
+    get() = properties().getBoolean(Const.HAS_PLUGIN_REVIEWED, false)
 
 fun Long.inHumanReadableForm(): String {
     return when {
@@ -112,4 +120,29 @@ fun calculateBackwardOffset(document: Document, foldingModel: FoldingModel, curr
     }
 
     return targetOffset
+}
+
+fun addCaretsOnJumpedLines(
+    editor: Editor,
+    document: Document,
+    caretModel: CaretModel,
+    currentLine: Int,
+    targetLine: Int,
+    column: Int
+) {
+
+    val lines = if (targetLine > currentLine) {
+        currentLine + 1..targetLine  // Forward direction
+    } else {
+        targetLine + 1..currentLine  // Backward direction
+    }
+
+    for (line in lines) {
+        // if (line == caretModel.logicalPosition.line) continue  // Skip original caret line
+
+        val lineStartOffset = document.getLineStartOffset(line)
+        val lineEndOffset = document.getLineEndOffset(line)
+        val offset = minOf(lineStartOffset + column, lineEndOffset)
+        caretModel.addCaret(editor.offsetToVisualPosition(offset))
+    }
 }
