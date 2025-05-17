@@ -1,0 +1,32 @@
+name: Publish Plugin
+on:
+  #  push:
+  #    tags:
+  #      - 'v*'
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Build Plugin
+        run: ./gradlew buildPlugin
+
+      - name: Publish to JetBrains Marketplace
+        run: ./gradlew publishPlugin
+        env:
+          ORG_GRADLE_PROJECT_intellijPublishToken: ${{ secrets.JETBRAINS_TOKEN }}
+          ORG_GRADLE_PROJECT_intellijPublishChannels: stable  # or 'alpha', 'beta', etc.

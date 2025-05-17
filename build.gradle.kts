@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "2.0.0"
@@ -25,13 +27,15 @@ intellij {
 }
 
 tasks {
+
     // Set the JVM compatibility versions
     withType<JavaCompile> {
         sourceCompatibility = "17"
         targetCompatibility = "17"
     }
+
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions.jvmTarget = "17"
+        compilerOptions.jvmTarget.set(JvmTarget.JVM_17) // https://kotlinlang.org/docs/gradle-compiler-options.html#types-for-compiler-options
     }
 
     patchPluginXml {
@@ -39,13 +43,13 @@ tasks {
         //untilBuild.set("232.*")
     }
 
-    signPlugin {
+    signPlugin { // https://plugins.jetbrains.com/docs/intellij/plugin-signing.html
         certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
         privateKey.set(System.getenv("PRIVATE_KEY"))
         password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
     }
 
-    publishPlugin {
+    publishPlugin { // https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html
         token.set(System.getenv("PUBLISH_TOKEN"))
     }
 }
