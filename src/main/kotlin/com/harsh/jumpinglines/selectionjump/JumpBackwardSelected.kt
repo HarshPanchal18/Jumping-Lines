@@ -1,13 +1,10 @@
 package com.harsh.jumpinglines.selectionjump
 
 import com.harsh.jumpinglines.notification.showNotification
-import com.harsh.jumpinglines.utils.NumberOfBackwardLines
-import com.harsh.jumpinglines.utils.calculateBackwardOffset
-import com.harsh.jumpinglines.utils.editor
-import com.harsh.jumpinglines.utils.increaseJumpScoreBy
+import com.harsh.jumpinglines.utils.*
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.editor.*
+import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.DumbAwareAction
 
 class JumpBackwardSelected : DumbAwareAction() {
@@ -19,43 +16,19 @@ class JumpBackwardSelected : DumbAwareAction() {
         try {
 
             val editor: Editor = event.editor
-            val document: Document = editor.document
-            val caretModel: CaretModel = editor.caretModel
-            val currentOffset: Int = caretModel.offset
-            val scrollingModel: ScrollingModel = editor.scrollingModel
-            val selectionModel: SelectionModel = editor.selectionModel
-            val foldingModel: FoldingModel = editor.foldingModel
-
-            val startOffset: Int =
-                if (selectionModel.hasSelection()) selectionModel.leadSelectionOffset else currentOffset
+            val currentOffset: Int = editor.caretModel.offset
 
             // Calculate the new caret position
             val targetOffset = calculateBackwardOffset(
-                document = document,
-                foldingModel = foldingModel,
+                document = editor.document,
+                foldingModel = editor.foldingModel,
                 currentOffset = currentOffset,
                 linesToJump = NumberOfBackwardLines
             )
 
-            caretModel.moveToOffset(targetOffset)
+            moveCaretAndScrollWithSelection(editor = editor, currentOffset = currentOffset, targetOffset = targetOffset)
 
-            // extend the selection
-            selectionModel.setSelection(/* startOffset = */ startOffset,/* endOffset = */ caretModel.visualLineStart)
-
-            // Scrolling editor along with the cursor
-            val newLineNumber =
-                document.getLineNumber(
-                    minOf(targetOffset, caretModel.visualLineStart)
-                ) // Fixed the behaviour of expanding block while selection
-            val newPosition = LogicalPosition(/* line = */ newLineNumber, /* column = */ 0)
-            caretModel.moveToLogicalPosition(newPosition)
-
-            scrollingModel.scrollTo(newPosition, ScrollType.RELATIVE)
-
-            if (document.getLineNumber(currentOffset) != document.getLineNumber(targetOffset)) {
-                val score = document.getLineNumber(currentOffset) - document.getLineNumber(targetOffset)
-                increaseJumpScoreBy(score)
-            }
+            updateJumpScore(document = editor.document, fromOffset = currentOffset, toOffset = targetOffset)
 
         } catch (e: AssertionError) {
             showNotification("Nope, cursor can't jump outside the editor.")

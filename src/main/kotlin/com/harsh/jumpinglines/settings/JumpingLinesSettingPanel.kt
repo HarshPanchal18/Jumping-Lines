@@ -2,6 +2,7 @@ package com.harsh.jumpinglines.settings
 
 import com.harsh.jumpinglines.utils.inHumanReadableForm
 import com.harsh.jumpinglines.utils.jumpScore
+import com.intellij.icons.AllIcons
 import com.intellij.ui.components.panels.VerticalLayout
 import java.awt.FlowLayout
 import javax.swing.*
@@ -31,15 +32,20 @@ class JumpingLinesSettingPanel {
     )
 
     init {
+
         val forwardJumpLayout = FlowLayout(/* align = */ FlowLayout.LEFT, /* hgap = */ 5, /* vgap = */ 2)
         forwardJumpRow = JPanel(forwardJumpLayout).apply {
-            add(JLabel(/* text = */ "Number of lines to jump forward:   "))
+            add(JLabel(AllIcons.General.ArrowDown))
+            val forwardLabel = "<html>Number of lines to jump <b>forward:" + "&nbsp;".repeat(3) + "</b></html>"
+            add(JLabel(forwardLabel))
             add(forwardLineSpinner)
         }
 
         val backwardJumpLayout = FlowLayout(/* align = */ FlowLayout.LEFT, /* hgap = */ 5, /* vgap = */ 2)
         backwardJumpRow = JPanel(backwardJumpLayout).apply {
-            add(JLabel(/* text = */ "Number of lines to jump backward:"))
+            add(JLabel(AllIcons.General.ArrowUp))
+            val backwardLabel = "<html>Number of lines to jump <b>backward:</b></html>"
+            add(JLabel(backwardLabel))
             add(backwardLineSpinner)
         }
 
@@ -50,16 +56,17 @@ class JumpingLinesSettingPanel {
                         "Your progress is <b>remarkable!</b> " +
                         "You've jumped over <b>~${jumpScore.inHumanReadableForm()}</b> lines." +
                         "</html>"
-            ) //.apply { icon = AllIcons.General.Information }
+            ).apply { icon = AllIcons.General.GreenCheckmark }
 
         scoreRow = JPanel(jumpScoreLayout).apply {
             add(scoreLabel)
         }
 
-        val layout = VerticalLayout(/* gap = */ 2,/* alignment = */ SwingConstants.LEFT)
-        parentPanel = JPanel(layout).apply {
-            add(forwardJumpRow)
+
+        val parentLayout = VerticalLayout(/* gap = */ 2,/* alignment = */ SwingConstants.LEFT)
+        parentPanel = JPanel(parentLayout).apply {
             add(backwardJumpRow)
+            add(forwardJumpRow)
             add(scoreRow)
         }
     }

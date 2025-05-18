@@ -1,13 +1,10 @@
 package com.harsh.jumpinglines.jumps
 
 import com.harsh.jumpinglines.notification.showNotification
-import com.harsh.jumpinglines.utils.NumberOfBackwardLines
-import com.harsh.jumpinglines.utils.calculateBackwardOffset
-import com.harsh.jumpinglines.utils.editor
-import com.harsh.jumpinglines.utils.increaseJumpScoreBy
+import com.harsh.jumpinglines.utils.*
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.editor.*
+import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.DumbAwareAction
 
 class JumpBackwardLines : DumbAwareAction() {
@@ -19,39 +16,19 @@ class JumpBackwardLines : DumbAwareAction() {
         try {
 
             val editor: Editor = event.editor
-            val document: Document = editor.document
-            val caretModel: CaretModel = editor.caretModel
-            val currentOffset: Int = caretModel.offset
-            val scrollingModel: ScrollingModel = editor.scrollingModel
-            val selectionModel: SelectionModel = editor.selectionModel
-            val foldingModel: FoldingModel = editor.foldingModel
+            val currentOffset: Int = editor.caretModel.offset
 
+            // Calculate the new caret position while skipping folded regions
             val targetOffset = calculateBackwardOffset(
-                document = document,
-                foldingModel = foldingModel,
+                document = editor.document,
+                foldingModel = editor.foldingModel,
                 currentOffset = currentOffset,
                 linesToJump = NumberOfBackwardLines
             )
 
-            // Calculate the new caret position
-            val targetLineNumber: Int = document.getLineNumber(targetOffset)
-            val caretColumn = caretModel.logicalPosition.column
-            caretModel.moveToOffset(targetOffset)
+            moveCaretAndScroll(editor = editor, toOffset = targetOffset)
 
-            // Scrolling editor along with the cursor
-            val newPosition = LogicalPosition(targetLineNumber, caretColumn)
-            caretModel.moveToLogicalPosition(newPosition)
-
-            // Remove selection blocks before jumping
-            if (selectionModel.hasSelection())
-                selectionModel.removeSelection(/* allCarets = */ true)
-
-            scrollingModel.scrollTo(newPosition, ScrollType.RELATIVE)
-
-            if (document.getLineNumber(currentOffset) != document.getLineNumber(targetOffset)) {
-                val score = document.getLineNumber(currentOffset) - document.getLineNumber(targetOffset)
-                increaseJumpScoreBy(score)
-            }
+            updateJumpScore(document = editor.document, fromOffset = currentOffset, toOffset = targetOffset)
 
         } catch (e: AssertionError) {
             showNotification("Nope, cursor can't jump outside the editor.")

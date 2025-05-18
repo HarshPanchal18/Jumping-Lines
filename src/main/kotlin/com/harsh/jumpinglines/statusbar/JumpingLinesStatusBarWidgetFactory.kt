@@ -1,6 +1,7 @@
 package com.harsh.jumpinglines.statusbar
 
 import com.harsh.jumpinglines.utils.Const
+import com.harsh.jumpinglines.utils.jumpScore
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.StatusBar
 import com.intellij.openapi.wm.StatusBarWidget
@@ -12,7 +13,7 @@ class JumpingLinesStatusBarWidgetFactory : StatusBarWidgetFactory {
 
     override fun canBeEnabledOn(statusBar: StatusBar): Boolean = true
 
-    override fun getDisplayName(): String = Const.JUMP_SCORE_TITLE
+    override fun getDisplayName(): String = Const.JUMP_SCORE_TITLE + ": " + jumpScore
 
     override fun isAvailable(project: Project) = true
 

@@ -10,20 +10,20 @@ import javax.swing.JComponent
 
 class JumpingLinesSettings : Configurable {
 
-    private val settingsPanel = JumpingLinesSettingPanel()
-    private var savedNumberOfFLines: Int = 0
-    private var savedNumberOfBLines: Int = 0
+    private val pluginSettingPanel = JumpingLinesSettingPanel()
+    private var savedNumberOfForwardLines: Int = 0
+    private var savedNumberOfBackwardLines: Int = 0
 
-    override fun createComponent(): JComponent = settingsPanel.parentPanel
+    override fun createComponent(): JComponent = pluginSettingPanel.parentPanel
 
     override fun isModified(): Boolean {
-        return settingsPanel.getForwardLines() != savedNumberOfFLines ||
-                settingsPanel.getBackwardLines() != savedNumberOfBLines
+        return pluginSettingPanel.getForwardLines() != savedNumberOfForwardLines ||
+                pluginSettingPanel.getBackwardLines() != savedNumberOfBackwardLines
     }
 
     override fun apply() {
-        val newForwardNumberOfLines: Int = settingsPanel.getForwardLines()
-        val newBackwardNumberOfLines: Int = settingsPanel.getBackwardLines()
+        val newForwardNumberOfLines: Int = pluginSettingPanel.getForwardLines()
+        val newBackwardNumberOfLines: Int = pluginSettingPanel.getBackwardLines()
 
         ApplicationManager.getApplication().runWriteAction {
             // Set value or unset if equals to default value
@@ -32,16 +32,16 @@ class JumpingLinesSettings : Configurable {
         }
 
         // Save the value to plugin's settings
-        savedNumberOfFLines = newForwardNumberOfLines
-        savedNumberOfBLines = newBackwardNumberOfLines
+        savedNumberOfForwardLines = newForwardNumberOfLines
+        savedNumberOfBackwardLines = newBackwardNumberOfLines
     }
 
     override fun getDisplayName(): String = Const.JUMPING_LINES_SETTINGS // Display name in the settings dialog
 
     override fun reset() {
         // Set default values
-        settingsPanel.setNumberOfLines(NumberOfForwardLines, NumberOfBackwardLines)
-        savedNumberOfFLines = NumberOfForwardLines
-        savedNumberOfBLines = NumberOfBackwardLines
+        pluginSettingPanel.setNumberOfLines(NumberOfForwardLines, NumberOfBackwardLines)
+        savedNumberOfForwardLines = NumberOfForwardLines
+        savedNumberOfBackwardLines = NumberOfBackwardLines
     }
 }

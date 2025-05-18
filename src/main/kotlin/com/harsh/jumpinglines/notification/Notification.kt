@@ -18,12 +18,13 @@ fun showNotification(message: String) {
     val notification = notificationGroup.createNotification(
         title = Const.PLUGIN_NAME,
         content = message,
-        type = NotificationType.INFORMATION // The notification type (ERROR, WARNING, INFORMATION, IDE_UPDATE)
+        type = NotificationType.INFORMATION // can be ERROR, WARNING, INFORMATION, IDE_UPDATE
     ).apply {
         if (message.contains("plugin updates")) { // Show plugin settings link only post update of plugin
             addAction(object : NotificationAction("Plugin settings") {
                 override fun actionPerformed(event: AnActionEvent, notification: Notification) {
-                    notification.expire()
+                    notification.expire() // Dismiss notification balloon
+                    // Show plugin settings dialog
                     ShowSettingsUtil.getInstance().showSettingsDialog(event.project, JumpingLinesSettings::class.java)
                 }
             })
@@ -42,14 +43,14 @@ fun promptPluginReviewNotification() {
     ).apply {
         addAction(object : NotificationAction("Leave a Review") {
             override fun actionPerformed(e: AnActionEvent, notification: Notification) {
-                BrowserUtil.browse(Const.PLUGIN_URL + "/reviews")
-                notification.expire()
+                BrowserUtil.browse(Const.PLUGIN_URL + "/reviews") // Open browser to the URL
+                notification.expire() // Dismiss notification balloon
                 properties().setValue(Const.HAS_PLUGIN_REVIEWED, true)
             }
         })
         addAction(object : NotificationAction("Maybe Later") {
             override fun actionPerformed(e: AnActionEvent, notification: Notification) {
-                notification.expire()
+                notification.expire() // Dismiss notification balloon
             }
         })
     }

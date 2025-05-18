@@ -4,10 +4,7 @@ import com.intellij.ide.plugins.PluginManagerCore
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
-import com.intellij.openapi.editor.CaretModel
-import com.intellij.openapi.editor.Document
-import com.intellij.openapi.editor.Editor
-import com.intellij.openapi.editor.FoldingModel
+import com.intellij.openapi.editor.*
 import com.intellij.openapi.extensions.PluginId
 
 val AnActionEvent.editor: Editor
@@ -33,11 +30,11 @@ val hasPluginReviewed: Boolean
 
 fun Long.inHumanReadableForm(): String {
     return when {
-        this >= 1_000_000_000 -> String.format("%.2fB", this / 1_000_000_000.0)
-        this >= 1_000_000 -> String.format("%.2fM", this / 1_000_000.0)
-        this >= 1_00_000 -> String.format("%.2fL", this / 1_00_000.0)
-        this >= 1_000 -> String.format("%.2fK", this / 1_000.0)
-        else -> this.toString()
+        this >= 1_000_000_000 -> String.format("%.2fB", this / 1_000_000_000.0) // Billions
+        this >= 1_000_000 -> String.format("%.2fM", this / 1_000_000.0) // Millions
+        this >= 1_00_000 -> String.format("%.2fL", this / 1_00_000.0) // Lacs
+        this >= 1_000 -> String.format("%.2fK", this / 1_000.0) // Thousands
+        else -> this.toString() // Under 1000
     }
 }
 
@@ -57,33 +54,41 @@ fun calculateForwardOffset(document: Document, foldingModel: FoldingModel, curre
     var linesJumped = 0
     var targetOffset = currentOffset
 
+    // Run folding-aware navigation as a batch operation for performance
     foldingModel.runBatchFoldingOperation {
         while (linesJumped < linesToJump) {
+
+            // Get the line number for the current offset and move one line down
             val currentLineNumber = document.getLineNumber(targetOffset)
             val newLineNumber = currentLineNumber + 1
 
+            // Stop if we’ve reached the bottom of the document
             if (newLineNumber >= document.lineCount)
                 break
 
+            // Get the offset at the start of the new line
             val newOffset = document.getLineStartOffset(newLineNumber)
+
+            // Check if this offset is inside a collapsed fold region
             val foldRegion = foldingModel.getCollapsedRegionAtOffset(newOffset)
 
             if (foldRegion != null) {
-                // Skip the folded region
+                // If folded, skip the region and move to the end of the fold
                 targetOffset = foldRegion.endOffset
 
-                // If the folded region ends at the last line of the document, stop jumping
+                // Stop if we’ve gone after the last line
                 if (document.getLineNumber(targetOffset) >= document.lineCount - 1)
                     break
 
             } else {
-                // move to the next line
+                // Otherwise, update offset and count the line as jumped
                 targetOffset = newOffset
                 linesJumped++
             }
         }
     }
 
+    // Return the final offset after jumping backward
     return targetOffset
 }
 
@@ -92,57 +97,116 @@ fun calculateBackwardOffset(document: Document, foldingModel: FoldingModel, curr
     var linesJumped = 0
     var targetOffset = currentOffset
 
+    // Run folding-aware navigation as a batch operation for performance
     foldingModel.runBatchFoldingOperation {
         while (linesJumped < linesToJump) {
+            // Get the line number for the current offset and move one line up
             val currentLineNumber = document.getLineNumber(targetOffset)
             val newLineNumber = currentLineNumber - 1
 
+            // Stop if we’ve reached the top of the document
             if (newLineNumber < 0)
                 break
 
+            // Get the offset at the end of the new line
             val newOffset = document.getLineEndOffset(newLineNumber)
+
+            // Check if this offset is inside a collapsed fold region
             val foldRegion = foldingModel.getCollapsedRegionAtOffset(newOffset)
 
             if (foldRegion != null) {
-                // Skip the folded region
+                // If folded, skip the region and move to the start of the fold
                 targetOffset = foldRegion.startOffset
 
-                // If the folded region ends at the last line of the document, stop jumping
+                // Stop if we’ve gone past the first line
                 if (document.getLineNumber(targetOffset) <= 0)
                     break
 
             } else {
-                // move to the next line
+                // Otherwise, update offset and count the line as jumped
                 targetOffset = newOffset
                 linesJumped++
             }
         }
     }
 
+    // Return the final offset after jumping backward
     return targetOffset
 }
 
-fun addCaretsOnJumpedLines(
-    editor: Editor,
-    document: Document,
-    caretModel: CaretModel,
-    currentLine: Int,
-    targetLine: Int,
-    column: Int
-) {
+fun addCaretsOnJumpedLines(editor: Editor, currentLine: Int, targetLine: Int, column: Int) {
 
+    if (currentLine == targetLine) return  // Nothing to do
+
+    // Determine direction to go on.
     val lines = if (targetLine > currentLine) {
-        currentLine + 1..targetLine  // Forward direction
+        (currentLine + 1)..targetLine  // Forward direction
     } else {
-        targetLine + 1..currentLine  // Backward direction
+        (currentLine - 1) downTo targetLine // Backward direction
     }
 
+    // For each line in the jump range, add a caret at the correct column
     for (line in lines) {
-        // if (line == caretModel.logicalPosition.line) continue  // Skip original caret line
+        val lineStartOffset = editor.document.getLineStartOffset(line)
+        val lineEndOffset = editor.document.getLineEndOffset(line)
 
-        val lineStartOffset = document.getLineStartOffset(line)
-        val lineEndOffset = document.getLineEndOffset(line)
+        // Ensure the caret column does not go past the end of the line
         val offset = minOf(lineStartOffset + column, lineEndOffset)
-        caretModel.addCaret(editor.offsetToVisualPosition(offset))
+
+        // Add a new caret at the calculated visual position
+        editor.caretModel.addCaret(editor.offsetToVisualPosition(offset))
+    }
+}
+
+fun moveCaretAndScroll(editor: Editor, toOffset: Int) {
+    val caretModel = editor.caretModel
+    val selectionModel = editor.selectionModel
+
+    // Remove already selected block(s) if any.
+    if (selectionModel.hasSelection()) {
+        selectionModel.removeSelection(true)
+    }
+
+    val targetLine = editor.document.getLineNumber(toOffset)
+    val column = caretModel.logicalPosition.column
+
+    // Move caret to the target offset
+    caretModel.moveToOffset(toOffset)
+
+    // Move caret and scroll editor to the new logical position
+    val newLogicalPosition = LogicalPosition(targetLine, column)
+    caretModel.moveToLogicalPosition(newLogicalPosition)
+    editor.scrollingModel.scrollTo(newLogicalPosition, ScrollType.RELATIVE)
+
+}
+
+fun moveCaretAndScrollWithSelection(editor: Editor, currentOffset: Int, targetOffset: Int) {
+    val caretModel = editor.caretModel
+    val selectionModel = editor.selectionModel
+
+    // If there is a selection, start from the beginning of the selection; otherwise, start from the current caret position
+    val startOffset: Int =
+        if (selectionModel.hasSelection()) selectionModel.leadSelectionOffset else currentOffset
+
+    // Move caret to the target offset and extend the selection
+    caretModel.moveToOffset(targetOffset)
+    val visualLineStart = caretModel.visualLineStart
+    selectionModel.setSelection(/* startOffset = */ startOffset, /* endOffset = */ visualLineStart)
+
+    val newLineNumber = editor.document.getLineNumber(targetOffset)
+    val newLogicalPosition = LogicalPosition(/* line = */ newLineNumber, /* column = */ 0)
+
+    // Move caret and scroll editor to the new logical position
+    caretModel.moveToLogicalPosition(newLogicalPosition)
+    editor.scrollingModel.scrollTo(newLogicalPosition, ScrollType.RELATIVE)
+}
+
+fun updateJumpScore(document: Document, fromOffset: Int, toOffset: Int) {
+    // Get line numbers
+    val fromLine = document.getLineNumber(fromOffset)
+    val toLine = document.getLineNumber(toOffset)
+
+    if (fromLine != toLine) {
+        increaseJumpScoreBy(fromLine - toLine)
     }
 }
