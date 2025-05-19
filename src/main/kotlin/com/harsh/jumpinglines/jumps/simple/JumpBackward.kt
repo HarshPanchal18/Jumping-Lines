@@ -1,4 +1,4 @@
-package com.harsh.jumpinglines.jumps
+package com.harsh.jumpinglines.jumps.simple
 
 import com.harsh.jumpinglines.notification.showNotification
 import com.harsh.jumpinglines.utils.*
@@ -7,7 +7,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.DumbAwareAction
 
-class JumpBackwardLines : DumbAwareAction() {
+class JumpBackward : DumbAwareAction() {
 
     override fun actionPerformed(event: AnActionEvent) {
 

@@ -1,4 +1,4 @@
-package com.harsh.jumpinglines.cursortrace
+package com.harsh.jumpinglines.jumps.cursortrace
 
 import com.harsh.jumpinglines.notification.showNotification
 import com.harsh.jumpinglines.utils.*
@@ -7,7 +7,7 @@ import com.intellij.openapi.editor.*
 import com.intellij.openapi.project.DumbAwareAction
 import kotlin.math.abs
 
-class CursorTraceBackward : DumbAwareAction() {
+class CursorTraceForward : DumbAwareAction() {
     override fun actionPerformed(event: AnActionEvent) {
 
         event.project ?: return
@@ -18,18 +18,17 @@ class CursorTraceBackward : DumbAwareAction() {
             val caretModel: CaretModel = editor.caretModel
 
             val currentOffset = caretModel.offset
-            val targetOffset = calculateBackwardOffset(
+            val targetOffset = calculateForwardOffset(
                 document = document,
                 foldingModel = editor.foldingModel,
                 currentOffset = currentOffset,
-                linesToJump = NumberOfBackwardLines
+                linesToJump = NumberOfForwardLines
             )
 
             val currentLine = document.getLineNumber(currentOffset)
             val targetLine = document.getLineNumber(targetOffset)
 
             val column = caretModel.logicalPosition.column
-
             addCaretsOnJumpedLines(editor = editor, currentLine = currentLine, targetLine = targetLine, column = column)
 
             // Scroll to target line

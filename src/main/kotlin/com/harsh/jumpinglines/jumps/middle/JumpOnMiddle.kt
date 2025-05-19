@@ -1,4 +1,4 @@
-package com.harsh.jumpinglines.middle
+package com.harsh.jumpinglines.jumps.middle
 
 import com.harsh.jumpinglines.notification.showNotification
 import com.harsh.jumpinglines.utils.editor

@@ -53,27 +53,27 @@
 
     <actions>
         <action id="com.harsh.jumpinglines.jumps.JumpForwardLines"
-                class="com.harsh.jumpinglines.jumps.JumpForwardLines"
+                class="com.harsh.jumpinglines.jumps.simple.JumpForward"
                 text="Jump Forward">
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl PERIOD"/>
         </action>
         <action id="com.harsh.jumpinglines.jumps.JumpBackwardLines"
-                class="com.harsh.jumpinglines.jumps.JumpBackwardLines"
+                class="com.harsh.jumpinglines.jumps.simple.JumpBackward"
                 text="Jump Backward">
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl COMMA"/>
         </action>
-        <action id="com.harsh.jumpinglines.selectionjump.JumpForwardSelected"
-                class="com.harsh.jumpinglines.selectionjump.JumpForwardSelected"
+        <action id="com.harsh.jumpinglines.jumps.selection.JumpForwardSelected"
+                class="com.harsh.jumpinglines.jumps.selection.JumpForwardSelected"
                 text="Jump Forward with Selection">
             <keyboard-shortcut keymap="$default" first-keystroke="shift alt PERIOD"/>
         </action>
-        <action id="com.harsh.jumpinglines.selectionjump.JumpBackwardSelected"
-                class="com.harsh.jumpinglines.selectionjump.JumpBackwardSelected"
+        <action id="com.harsh.jumpinglines.jumps.selection.JumpBackwardSelected"
+                class="com.harsh.jumpinglines.jumps.selection.JumpBackwardSelected"
                 text="Jump Backward with Selection">
             <keyboard-shortcut keymap="$default" first-keystroke="shift alt COMMA"/>
         </action>
-        <action id="com.harsh.jumpinglines.middle.JumpOnMiddle"
-                class="com.harsh.jumpinglines.middle.JumpOnMiddle"
+        <action id="com.harsh.jumpinglines.jumps.middle.JumpOnMiddle"
+                class="com.harsh.jumpinglines.jumps.middle.JumpOnMiddle"
                 text="Jump on Middle Line"
                 description="Place cursor on the middle line of editor.">
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl COMMA"/>
@@ -86,14 +86,14 @@
             <add-to-group group-id="ToolsMenu" anchor="last"/>
             <keyboard-shortcut first-keystroke="alt L" keymap="$default"/>
         </action>
-        <action id="com.harsh.jumpinglines.cursortrace.CursorTraceForward"
-                class="com.harsh.jumpinglines.cursortrace.CursorTraceForward"
+        <action id="com.harsh.jumpinglines.jumps.cursortrace.CursorTraceForward"
+                class="com.harsh.jumpinglines.jumps.cursortrace.CursorTraceForward"
                 text="Cursor Trace Forward"
                 description="Putting cursors over lines the cursor jumped forward.">
             <keyboard-shortcut keymap="$default" first-keystroke="shift alt QUOTE"/>
         </action>
-        <action id="com.harsh.jumpinglines.cursortrace.CursorTraceBackward"
-                class="com.harsh.jumpinglines.cursortrace.CursorTraceBackward"
+        <action id="com.harsh.jumpinglines.jumps.cursortrace.CursorTraceBackward"
+                class="com.harsh.jumpinglines.jumps.cursortrace.CursorTraceBackward"
                 text="Cursor Trace Backward"
                 description="Putting cursors over lines the cursor jumped backward.">
             <keyboard-shortcut keymap="$default" first-keystroke="shift alt SEMICOLON"/>

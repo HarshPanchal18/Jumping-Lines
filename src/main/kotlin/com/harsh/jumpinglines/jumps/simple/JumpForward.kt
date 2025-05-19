@@ -1,4 +1,4 @@
-package com.harsh.jumpinglines.selectionjump
+package com.harsh.jumpinglines.jumps.simple
 
 import com.harsh.jumpinglines.notification.showNotification
 import com.harsh.jumpinglines.utils.*
@@ -7,7 +7,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.DumbAwareAction
 
-class JumpForwardSelected : DumbAwareAction() {
+class JumpForward : DumbAwareAction() {
 
     override fun actionPerformed(event: AnActionEvent) {
 
@@ -18,7 +18,7 @@ class JumpForwardSelected : DumbAwareAction() {
             val editor: Editor = event.editor
             val currentOffset: Int = editor.caretModel.offset
 
-            // Calculate the new caret position
+            // Calculate the new caret position while skipping folded regions
             val targetOffset = calculateForwardOffset(
                 document = editor.document,
                 foldingModel = editor.foldingModel,
@@ -26,7 +26,7 @@ class JumpForwardSelected : DumbAwareAction() {
                 linesToJump = NumberOfForwardLines
             )
 
-            moveCaretAndScrollWithSelection(editor = editor, currentOffset = currentOffset, targetOffset = targetOffset)
+            moveCaretAndScroll(editor = editor, toOffset = targetOffset)
 
             updateJumpScore(document = editor.document, fromOffset = currentOffset, toOffset = targetOffset)
 
