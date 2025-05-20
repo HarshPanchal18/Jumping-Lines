@@ -31,7 +31,7 @@ class CursorTraceForward : DumbAwareAction() {
             val column = caretModel.logicalPosition.column
             addCaretsOnJumpedLines(editor = editor, currentLine = currentLine, targetLine = targetLine, column = column)
 
-            // Scroll to target line
+            // Move caret and scroll editor to the new logical position
             val newPosition = LogicalPosition(targetLine, column)
             caretModel.moveToLogicalPosition(newPosition)
             editor.scrollingModel.scrollTo(newPosition, ScrollType.RELATIVE)

@@ -40,11 +40,17 @@ class JumpOnMiddle : DumbAwareAction() {
             val middleLineOffset =
                 document.getLineStartOffset(middleVisibleLogicalLine.coerceIn(0, document.lineCount - 1))
 
+            // Move cursor to the middle line.
             caretModel.moveToOffset(middleLineOffset)
 
             // Remove selection blocks before jumping (if any).
             if (selectionModel.hasSelection()) {
                 selectionModel.removeSelection(/* allCarets = */ true)
+            }
+
+            // Remove secondary cursors if any.
+            if (caretModel.caretCount > 1) {
+                caretModel.removeSecondaryCarets()
             }
 
             updateJumpScore(document, currentOffset, middleLineOffset)

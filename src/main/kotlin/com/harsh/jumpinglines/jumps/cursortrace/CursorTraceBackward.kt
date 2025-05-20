@@ -32,10 +32,10 @@ class CursorTraceBackward : DumbAwareAction() {
 
             addCaretsOnJumpedLines(editor = editor, currentLine = currentLine, targetLine = targetLine, column = column)
 
-            // Scroll to target line
-            val newPosition = LogicalPosition(targetLine, column)
-            caretModel.moveToLogicalPosition(newPosition)
-            editor.scrollingModel.scrollTo(newPosition, ScrollType.RELATIVE)
+            // Move caret and scroll editor to the new logical position
+            val newLogicalPosition = LogicalPosition(targetLine, column)
+            caretModel.moveToLogicalPosition(newLogicalPosition)
+            editor.scrollingModel.scrollTo(newLogicalPosition, ScrollType.RELATIVE)
 
             val score = abs(currentLine - targetLine)
             increaseJumpScoreBy(score)

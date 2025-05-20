@@ -138,6 +138,11 @@ fun addCaretsOnJumpedLines(editor: Editor, currentLine: Int, targetLine: Int, co
 
     if (currentLine == targetLine) return  // Nothing to do
 
+    // Remove selection blocks before jumping (if any).
+    if (editor.selectionModel.hasSelection()) {
+        editor.selectionModel.removeSelection(/* allCarets = */ true)
+    }
+
     // Determine direction to go on.
     val lines = if (targetLine > currentLine) {
         (currentLine + 1)..targetLine  // Forward direction
@@ -165,6 +170,11 @@ fun moveCaretAndScroll(editor: Editor, toOffset: Int) {
     // Remove already selected block(s) if any.
     if (selectionModel.hasSelection()) {
         selectionModel.removeSelection(true)
+    }
+
+    // Remove secondary cursors if any.
+    if (caretModel.caretCount > 1) {
+        caretModel.removeSecondaryCarets()
     }
 
     val targetLine = editor.document.getLineNumber(toOffset)
