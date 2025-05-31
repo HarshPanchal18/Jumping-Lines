@@ -106,10 +106,12 @@
 
         <p>
 
-        <b>2.3 (2025-05-08)</b><br/>
+        <b>3.0 (2025-06-02)</b><br/>
         +++++++++++++++<br/>
-        Moved plugin settings inside Editor settings</br>
-        Migrated deprecated class.<br/><br/>
+        Introducing CursorTrace to replicate cursors on the lines cursor crossed over.</br>
+        Improved plugin setting panel.</br>
+        Moved plugin settings inside 'Editor' settings.</br>
+        Migrated from deprecated entities.<br/><br/>
 
         <b>2.2 (2024-09-02)</b><br/>
         +++++++++++++++<br/>
