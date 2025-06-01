@@ -15,6 +15,9 @@ build/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+.run/
+.idea/
+.kotlin/
 
 ### Eclipse ###
 .apt_generated
