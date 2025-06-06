@@ -1,7 +1,8 @@
 package com.harsh.jumpinglines.jumps.cursortrace
 
 import com.harsh.jumpinglines.notification.showNotification
-import com.harsh.jumpinglines.utils.*
+import com.harsh.jumpinglines.utils.Jumper
+import com.harsh.jumpinglines.utils.editor
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.editor.*
 import com.intellij.openapi.project.DumbAwareAction
@@ -18,11 +19,11 @@ class CursorTraceBackward : DumbAwareAction() {
             val caretModel: CaretModel = editor.caretModel
 
             val currentOffset = caretModel.offset
-            val targetOffset = calculateBackwardOffset(
+            val targetOffset = Jumper.calculateBackwardOffset(
                 document = document,
                 foldingModel = editor.foldingModel,
                 currentOffset = currentOffset,
-                linesToJump = NumberOfBackwardLines
+                linesToJump = Jumper.NumberOfBackwardLines
             )
 
             val currentLine = document.getLineNumber(currentOffset)
@@ -30,7 +31,12 @@ class CursorTraceBackward : DumbAwareAction() {
 
             val column = caretModel.logicalPosition.column
 
-            addCaretsOnJumpedLines(editor = editor, currentLine = currentLine, targetLine = targetLine, column = column)
+            Jumper.addCaretsOnJumpedLines(
+                editor = editor,
+                currentLine = currentLine,
+                targetLine = targetLine,
+                column = column
+            )
 
             // Move caret and scroll editor to the new logical position
             val newLogicalPosition = LogicalPosition(targetLine, column)
@@ -38,7 +44,7 @@ class CursorTraceBackward : DumbAwareAction() {
             editor.scrollingModel.scrollTo(newLogicalPosition, ScrollType.RELATIVE)
 
             val score = abs(currentLine - targetLine)
-            increaseJumpScoreBy(score)
+            Jumper.increaseJumpScoreBy(score)
 
         } catch (e: AssertionError) {
             showNotification("Nope, cursor can't jump outside the editor.")

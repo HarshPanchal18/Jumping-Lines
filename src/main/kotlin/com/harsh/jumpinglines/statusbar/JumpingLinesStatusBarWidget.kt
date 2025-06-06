@@ -2,8 +2,8 @@ package com.harsh.jumpinglines.statusbar
 
 import com.harsh.jumpinglines.settings.JumpingLinesSettings
 import com.harsh.jumpinglines.utils.Const
+import com.harsh.jumpinglines.utils.Jumper.jumpScore
 import com.harsh.jumpinglines.utils.inHumanReadableForm
-import com.harsh.jumpinglines.utils.jumpScore
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.options.ShowSettingsUtil
 import com.intellij.openapi.project.Project

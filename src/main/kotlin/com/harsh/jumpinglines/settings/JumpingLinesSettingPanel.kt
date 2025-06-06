@@ -1,7 +1,7 @@
 package com.harsh.jumpinglines.settings
 
+import com.harsh.jumpinglines.utils.Jumper.jumpScore
 import com.harsh.jumpinglines.utils.inHumanReadableForm
-import com.harsh.jumpinglines.utils.jumpScore
 import com.intellij.icons.AllIcons
 import com.intellij.ui.components.panels.VerticalLayout
 import java.awt.FlowLayout
@@ -35,7 +35,9 @@ class JumpingLinesSettingPanel {
 
         val forwardJumpLayout = FlowLayout(/* align = */ FlowLayout.LEFT, /* hgap = */ 5, /* vgap = */ 2)
         forwardJumpRow = JPanel(forwardJumpLayout).apply {
-            add(JLabel(AllIcons.General.ArrowDown))
+            add(
+                JLabel(runCatching { AllIcons.General.ArrowDown }.getOrNull())
+            )
             val forwardLabel = "<html>Number of lines to jump <b>forward:" + "&nbsp;".repeat(3) + "</b></html>"
             add(JLabel(forwardLabel))
             add(forwardLineSpinner)
@@ -43,7 +45,9 @@ class JumpingLinesSettingPanel {
 
         val backwardJumpLayout = FlowLayout(/* align = */ FlowLayout.LEFT, /* hgap = */ 5, /* vgap = */ 2)
         backwardJumpRow = JPanel(backwardJumpLayout).apply {
-            add(JLabel(AllIcons.General.ArrowUp))
+            add(
+                JLabel(runCatching { AllIcons.General.ArrowUp }.getOrNull())
+            )
             val backwardLabel = "<html>Number of lines to jump <b>backward:</b></html>"
             add(JLabel(backwardLabel))
             add(backwardLineSpinner)
@@ -56,7 +60,15 @@ class JumpingLinesSettingPanel {
                         "Your progress is <b>remarkable!</b> " +
                         "You've jumped over <b>~${jumpScore.inHumanReadableForm()}</b> lines." +
                         "</html>"
-            ).apply { icon = AllIcons.General.GreenCheckmark }
+            ).apply {
+                // val fallbackIcon = UIManager.getIcon("OptionPane.informationIcon")
+                val checkmarkIcon = runCatching {
+                    AllIcons.General.GreenCheckmark
+                }.getOrNull()
+                // }.getOrElse { fallbackIcon }
+
+                icon = checkmarkIcon
+            }
 
         scoreRow = JPanel(jumpScoreLayout).apply {
             add(scoreLabel)

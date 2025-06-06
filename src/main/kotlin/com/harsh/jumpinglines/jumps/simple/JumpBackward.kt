@@ -1,7 +1,8 @@
 package com.harsh.jumpinglines.jumps.simple
 
 import com.harsh.jumpinglines.notification.showNotification
-import com.harsh.jumpinglines.utils.*
+import com.harsh.jumpinglines.utils.Jumper
+import com.harsh.jumpinglines.utils.editor
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.editor.Editor
@@ -19,16 +20,16 @@ class JumpBackward : DumbAwareAction() {
             val currentOffset: Int = editor.caretModel.offset
 
             // Calculate the new caret position while skipping folded regions
-            val targetOffset = calculateBackwardOffset(
+            val targetOffset = Jumper.calculateBackwardOffset(
                 document = editor.document,
                 foldingModel = editor.foldingModel,
                 currentOffset = currentOffset,
-                linesToJump = NumberOfBackwardLines
+                linesToJump = Jumper.NumberOfBackwardLines
             )
 
-            moveCaretAndScroll(editor = editor, toOffset = targetOffset)
+            Jumper.moveCaretAndScroll(editor = editor, toOffset = targetOffset)
 
-            updateJumpScore(document = editor.document, fromOffset = currentOffset, toOffset = targetOffset)
+            Jumper.updateJumpScore(document = editor.document, fromOffset = currentOffset, toOffset = targetOffset)
 
         } catch (e: AssertionError) {
             showNotification("Nope, cursor can't jump outside the editor.")

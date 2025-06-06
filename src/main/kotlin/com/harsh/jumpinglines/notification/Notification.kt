@@ -4,15 +4,14 @@ import com.harsh.jumpinglines.settings.JumpingLinesSettings
 import com.harsh.jumpinglines.utils.Const
 import com.harsh.jumpinglines.utils.properties
 import com.intellij.ide.BrowserUtil
-import com.intellij.notification.Notification
-import com.intellij.notification.NotificationAction
-import com.intellij.notification.NotificationType
-import com.intellij.notification.Notifications
+import com.intellij.notification.*
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.options.ShowSettingsUtil
-import com.intellij.openapi.updateSettings.impl.pluginsAdvertisement.notificationGroup
 
 fun showNotification(message: String) {
+
+    val notificationGroup = NotificationGroupManager.getInstance()
+        .getNotificationGroup(Const.NOTIFICATION_PLUGIN_UPDATED)
 
     // Create a notification with the specified message and notification group
     val notification = notificationGroup.createNotification(
@@ -36,6 +35,9 @@ fun showNotification(message: String) {
 }
 
 fun promptPluginReviewNotification() {
+    val notificationGroup = NotificationGroupManager.getInstance()
+        .getNotificationGroup(Const.NOTIFICATION_PLUGIN_REVIEW)
+
     val notificationRating = notificationGroup.createNotification(
         title = "Enjoying Jumping Lines?",
         content = "If you find this plugin helpful, please consider leaving a review!",

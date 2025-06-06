@@ -1,7 +1,7 @@
 package com.harsh.jumpinglines.statusbar
 
 import com.harsh.jumpinglines.utils.Const
-import com.harsh.jumpinglines.utils.jumpScore
+import com.harsh.jumpinglines.utils.Jumper.jumpScore
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.StatusBar
 import com.intellij.openapi.wm.StatusBarWidget

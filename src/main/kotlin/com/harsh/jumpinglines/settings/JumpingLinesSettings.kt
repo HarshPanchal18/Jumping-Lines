@@ -1,8 +1,8 @@
 package com.harsh.jumpinglines.settings
 
 import com.harsh.jumpinglines.utils.Const
-import com.harsh.jumpinglines.utils.NumberOfBackwardLines
-import com.harsh.jumpinglines.utils.NumberOfForwardLines
+import com.harsh.jumpinglines.utils.Jumper.NumberOfBackwardLines
+import com.harsh.jumpinglines.utils.Jumper.NumberOfForwardLines
 import com.harsh.jumpinglines.utils.properties
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.options.Configurable

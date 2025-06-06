@@ -12,4 +12,6 @@ object Const {
     const val PLUGIN_URL = "https://plugins.jetbrains.com/plugin/22878-jumping-lines"
     const val LAST_RATING_PROMPT = "Asked last rating"
     const val HAS_PLUGIN_REVIEWED = "IsPluginReviewedByUser"
+    const val NOTIFICATION_PLUGIN_UPDATED = "Plugin Updated Notification"
+    const val NOTIFICATION_PLUGIN_REVIEW = "Plugin Review Notification"
 }

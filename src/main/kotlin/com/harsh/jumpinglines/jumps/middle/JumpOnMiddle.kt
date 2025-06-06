@@ -1,8 +1,8 @@
 package com.harsh.jumpinglines.jumps.middle
 
 import com.harsh.jumpinglines.notification.showNotification
+import com.harsh.jumpinglines.utils.Jumper
 import com.harsh.jumpinglines.utils.editor
-import com.harsh.jumpinglines.utils.updateJumpScore
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.editor.*
@@ -53,7 +53,7 @@ class JumpOnMiddle : DumbAwareAction() {
                 caretModel.removeSecondaryCarets()
             }
 
-            updateJumpScore(document, currentOffset, middleLineOffset)
+            Jumper.updateJumpScore(document = document, fromOffset = currentOffset, toOffset = middleLineOffset)
 
         } catch (e: AssertionError) {
             showNotification("Nope, cursor can't jump outside the editor.")

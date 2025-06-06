@@ -1,7 +1,8 @@
 package com.harsh.jumpinglines.jumps.cursortrace
 
 import com.harsh.jumpinglines.notification.showNotification
-import com.harsh.jumpinglines.utils.*
+import com.harsh.jumpinglines.utils.Jumper
+import com.harsh.jumpinglines.utils.editor
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.editor.*
 import com.intellij.openapi.project.DumbAwareAction
@@ -18,18 +19,23 @@ class CursorTraceForward : DumbAwareAction() {
             val caretModel: CaretModel = editor.caretModel
 
             val currentOffset = caretModel.offset
-            val targetOffset = calculateForwardOffset(
+            val targetOffset = Jumper.calculateForwardOffset(
                 document = document,
                 foldingModel = editor.foldingModel,
                 currentOffset = currentOffset,
-                linesToJump = NumberOfForwardLines
+                linesToJump = Jumper.NumberOfForwardLines
             )
 
             val currentLine = document.getLineNumber(currentOffset)
             val targetLine = document.getLineNumber(targetOffset)
 
             val column = caretModel.logicalPosition.column
-            addCaretsOnJumpedLines(editor = editor, currentLine = currentLine, targetLine = targetLine, column = column)
+            Jumper.addCaretsOnJumpedLines(
+                editor = editor,
+                currentLine = currentLine,
+                targetLine = targetLine,
+                column = column
+            )
 
             // Move caret and scroll editor to the new logical position
             val newPosition = LogicalPosition(targetLine, column)
@@ -37,7 +43,7 @@ class CursorTraceForward : DumbAwareAction() {
             editor.scrollingModel.scrollTo(newPosition, ScrollType.RELATIVE)
 
             val score = abs(currentLine - targetLine)
-            increaseJumpScoreBy(score)
+            Jumper.increaseJumpScoreBy(score)
 
         } catch (e: AssertionError) {
             showNotification("Nope, cursor can't jump outside the editor.")
