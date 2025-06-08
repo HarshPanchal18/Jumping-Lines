@@ -29,12 +29,15 @@ class JumpBackward : DumbAwareAction() {
 
             Jumper.moveCaretAndScroll(editor = editor, toOffset = targetOffset)
 
+            Jumper.updateJumpLineMarkers(
+                project = editor.project!!, document = editor.document, targetOffset = targetOffset
+            )
+
             Jumper.updateJumpScore(document = editor.document, fromOffset = currentOffset, toOffset = targetOffset)
 
         } catch (e: AssertionError) {
             showNotification("Nope, cursor can't jump outside the editor.")
         }
-
     }
 
     override fun update(e: AnActionEvent) {
