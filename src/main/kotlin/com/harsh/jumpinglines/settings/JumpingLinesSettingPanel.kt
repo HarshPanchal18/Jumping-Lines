@@ -13,6 +13,7 @@ class JumpingLinesSettingPanel {
     private var forwardJumpRow: JPanel
     private var backwardJumpRow: JPanel
     private var scoreRow: JPanel
+    private var titleLabel: JLabel
     private var scoreLabel: JLabel
     private val forwardLineSpinner = JSpinner(
         SpinnerNumberModel(
@@ -36,7 +37,7 @@ class JumpingLinesSettingPanel {
         val forwardJumpLayout = FlowLayout(/* align = */ FlowLayout.LEFT, /* hgap = */ 5, /* vgap = */ 2)
         forwardJumpRow = JPanel(forwardJumpLayout).apply {
             add(
-                JLabel(runCatching { AllIcons.General.ArrowDown }.getOrNull())
+                JLabel(runCatching { AllIcons.Chooser.Bottom }.getOrNull())
             )
             val forwardLabel = "<html>Number of lines to jump <b>forward:" + "&nbsp;".repeat(3) + "</b></html>"
             add(JLabel(forwardLabel))
@@ -46,7 +47,7 @@ class JumpingLinesSettingPanel {
         val backwardJumpLayout = FlowLayout(/* align = */ FlowLayout.LEFT, /* hgap = */ 5, /* vgap = */ 2)
         backwardJumpRow = JPanel(backwardJumpLayout).apply {
             add(
-                JLabel(runCatching { AllIcons.General.ArrowUp }.getOrNull())
+                JLabel(runCatching { AllIcons.Chooser.Top }.getOrNull())
             )
             val backwardLabel = "<html>Number of lines to jump <b>backward:</b></html>"
             add(JLabel(backwardLabel))
@@ -54,26 +55,22 @@ class JumpingLinesSettingPanel {
         }
 
         val jumpScoreLayout = FlowLayout(/* align = */ FlowLayout.LEFT, /* hgap = */ 5, /* vgap = */ 2)
-        scoreLabel =
-            JLabel(
-                "<html>" +
-                        "Your progress is <b>remarkable!</b> " +
-                        "You've jumped over <b>~${jumpScore.inHumanReadableForm()}</b> lines." +
-                        "</html>"
-            ).apply {
-                // val fallbackIcon = UIManager.getIcon("OptionPane.informationIcon")
-                val checkmarkIcon = runCatching {
-                    AllIcons.General.GreenCheckmark
-                }.getOrNull()
-                // }.getOrElse { fallbackIcon }
 
-                icon = checkmarkIcon
-            }
+        // Icon cheatsheet: https://intellij-icons.jetbrains.design/
+        val lightningIcon = AllIcons.Actions.Lightning
+        val scoreIcon = AllIcons.Debugger.Overhead
 
-        scoreRow = JPanel(jumpScoreLayout).apply {
-            add(scoreLabel)
+        titleLabel = JLabel("<html>Your progress is <b>remarkable!</b></html>").apply {
+            icon = runCatching { scoreIcon }.getOrNull()
+        }
+        scoreLabel = JLabel("<html>You've jumped over <b>~${jumpScore.inHumanReadableForm()}</b> lines.</html>").apply {
+            icon = runCatching { lightningIcon }.getOrNull()
         }
 
+        scoreRow = JPanel(jumpScoreLayout).apply {
+            add(titleLabel)
+            add(scoreLabel)
+        }
 
         val parentLayout = VerticalLayout(/* gap = */ 2,/* alignment = */ SwingConstants.LEFT)
         parentPanel = JPanel(parentLayout).apply {
