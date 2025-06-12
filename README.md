@@ -7,7 +7,7 @@
 ![JetBrains Plugin Rating](https://img.shields.io/jetbrains/plugin/r/rating/22878?style=for-the-badge&logo=jetbrains&label=Rating&color=blue)
 ![JetBrains Plugin Version](https://img.shields.io/jetbrains/plugin/v/22878?style=for-the-badge&logo=jetbrains&label=Version&color=blue)
 
-### `Introduction:`
+## `Introduction:`
 
 **Jumping Lines** is a powerful plugin for JetBrains IDEs that allows you to easily navigate through your code by
 jumping multiple lines forward and backward with fewer keystrokes than ever.
@@ -17,7 +17,7 @@ reducing the need to scroll through long files or navigate through complex codeb
 
 [Preview](https://github.com/HarshPanchal18/Jumping-Lines/assets/63415584/fe86d298-7875-4744-ba4b-68e21a876d70)
 
-### `Key Features:`
+## `Key Features:`
 
 1. **Line Jumping:** Jump forward or backward multiple lines at a time.
 2. **Line Jumping with selection:** Jump forward or backward multiple lines at a time with selection.
@@ -30,7 +30,7 @@ reducing the need to scroll through long files or navigate through complex codeb
 8. **Compatible with All JetBrains IDEs:** This plugin is compatible with all JetBrains IDEs, including IntelliJ IDEA,
    PyCharm, Android Studio, PHPStorm, and RubyMine.
 
-### `How to Use:`
+## `How to Use:`
 
 1. **Install plugin:** [Download](https://plugins.jetbrains.com/plugin/22878-jumping-lines) and install plugin
    from the JetBrains plugin repository or Search "`Jumping Lines`" through `Settings -> Plugins` in IDE.
@@ -52,7 +52,7 @@ reducing the need to scroll through long files or navigate through complex codeb
    > * <kbd>Alt + Shift + Semi-Colon</kbd> to replicate cursor on `backward` jump.
    > * <kbd>Alt + L</kbd> to open `plugin settings`.
 
-### `Benefits:`
+## `Benefits:`
 
 1. **Time-Saving:** With Jumping Lines, you can quickly and easily navigate through your code without having to scroll
    through long files or navigate through complex codebases.
@@ -61,11 +61,17 @@ reducing the need to scroll through long files or navigate through complex codeb
 3. **Customizable:** The plugin allows you to define the number of lines to jump forward and backward, giving you
    complete control over your navigation experience.
 
-### `Conclusion:`
+## `Conclusion:`
 
 Jumping Lines is a powerful and customizable plugin that simplifies the process of navigating through your code. With
 its intuitive interface and efficient performance, you can save time and increase your productivity, making it an
 essential tool for any developer. Try it out today and see the difference it can make in your coding experience!
+
+## Top Contributors
+
+<a href="https://github.com/HarshPanchal18/Jumping-Lines/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=HarshPanchal18/Jumping-Lines" alt="contrib.rocks image" /><br/>
+</a>
 
 ---
 
