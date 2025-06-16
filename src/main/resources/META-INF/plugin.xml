@@ -51,8 +51,8 @@
                                 implementation="com.harsh.jumpinglines.statusbar.JumpingLinesStatusBarWidgetFactory"/>
         <notificationGroup displayType="STICKY_BALLOON" id="Plugin Updated Notification" isLogByDefault="true"/>
         <notificationGroup displayType="STICKY_BALLOON" id="Plugin Review Notification" isLogByDefault="true"/>
-        <codeInsight.lineMarkerProvider language=""
-                                        implementationClass="com.harsh.jumpinglines.jumps.gutterpreview.JumpPreviewLineMarkerProvider"/>
+        <!--        <codeInsight.lineMarkerProvider language=""
+                                                implementationClass="com.harsh.jumpinglines.jumps.gutterpreview.JumpPreviewLineMarkerProvider"/> -->
     </extensions>
 
     <actions>

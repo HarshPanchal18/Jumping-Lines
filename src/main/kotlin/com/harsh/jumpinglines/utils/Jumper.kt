@@ -2,6 +2,7 @@ package com.harsh.jumpinglines.utils
 
 import com.harsh.jumpinglines.jumps.gutterpreview.JumpLineStateService
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.service
 import com.intellij.openapi.editor.*
 import com.intellij.openapi.project.Project
@@ -209,14 +210,18 @@ object Jumper {
         val forwardLineNumber = (currentLineNumber + NumberOfForwardLines).coerceIn(0, document.lineCount)
         val backwardLineNumber = (currentLineNumber - NumberOfBackwardLines).coerceIn(0, document.lineCount)
 
-        println("Next Backward: $backwardLineNumber")
-        println("Next Forward: $forwardLineNumber")
-        println()
+//        println("Next Backward: $backwardLineNumber")
+//        println("Next Forward: $forwardLineNumber")
+//        println()
 
         project.service<JumpLineStateService>().setBoundary(forwardLineNumber, backwardLineNumber)
 
         // Trigger a gutter refresh
-        DaemonCodeAnalyzer.getInstance(project).restart()
+        ApplicationManager.getApplication().invokeLater {
+//            PsiDocumentManager.getInstance(project).commitAllDocuments()
+            DaemonCodeAnalyzer.getInstance(project).restart()
+            println("Daemon restarted for line markers")
+        }
     }
 
 }

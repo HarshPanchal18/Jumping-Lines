@@ -12,22 +12,44 @@ class JumpPreviewLineMarkerProvider : LineMarkerProvider {
 
     override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<*>? {
         val project = element.project
+
+        // Avoid non-leaf elements
+        if (element.firstChild != null) return null
+
         val document = PsiDocumentManager.getInstance(project).getDocument(element.containingFile) ?: return null
 
         val offset = element.textRange.startOffset
         val lineNumber = document.getLineNumber(offset)
 
+        // Only one icon per line — first leaf element
+        val lineStartOffset = document.getLineStartOffset(lineNumber)
+//        if (offset != lineStartOffset) return null
+        if (offset < lineStartOffset || offset >= document.getLineEndOffset(lineNumber)) return null
+
         val state = project.service<JumpLineStateService>()
-        if (lineNumber != state.forwardLine && lineNumber != state.backwardLine) return null
+        println("Checking line: $lineNumber | forward=${state.forwardLine}, backward=${state.backwardLine}")
+
+        if (lineNumber != state.forwardLine && lineNumber != state.backwardLine) {
+            println("MATCH on line $lineNumber | element: ${element.text}")
+            return null
+        }
+
+        val icon = when (lineNumber) {
+            state.forwardLine -> AllIcons.General.InlineAdd
+            state.backwardLine -> AllIcons.General.Remove
+            else -> null
+        } ?: return null
+
+        println("ICON $icon")
 
         return LineMarkerInfo(
             /* element = */ element,
             /* range = */ element.textRange,
-            /* icon = */ AllIcons.General.ModifiedSelected,
-            /* tooltipProvider = */ { "Jump marker on line $lineNumber" },
+            /* icon = */ icon,
+            /* tooltipProvider = */ { null },
             /* navHandler = */ null,
-            /* alignment = */ GutterIconRenderer.Alignment.LEFT,
-            /* accessibleNameProvider = */ { "Future jump to line $lineNumber" }
+            /* alignment = */ GutterIconRenderer.Alignment.RIGHT,
+            /* accessibleNameProvider = */ { "" }
         )
     }
 
