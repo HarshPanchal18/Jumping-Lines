@@ -1,11 +1,8 @@
 package com.harsh.jumpinglines.utils
 
-import com.harsh.jumpinglines.jumps.gutterpreview.JumpLineStateService
-import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer
 import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.components.service
 import com.intellij.openapi.editor.*
-import com.intellij.openapi.project.Project
+import kotlin.math.abs
 
 object Jumper {
 
@@ -18,7 +15,7 @@ object Jumper {
     val NumberOfBackwardLines: Int
         get() = properties().getInt(Const.BACKWARD_LINES, 2)
 
-    fun calculateForwardOffset(
+    private fun calculateForwardOffset(
         document: Document,
         foldingModel: FoldingModel,
         currentOffset: Int,
@@ -66,7 +63,7 @@ object Jumper {
         return targetOffset
     }
 
-    fun calculateBackwardOffset(
+    private fun calculateBackwardOffset(
         document: Document,
         foldingModel: FoldingModel,
         currentOffset: Int,
@@ -110,6 +107,58 @@ object Jumper {
         }
 
         // Return the final offset after jumping backward
+        return targetOffset
+    }
+
+    fun jumpForwardPreservingFolds(editor: Editor): Int {
+        val foldingModel = editor.foldingModel
+        val caretModel = editor.caretModel
+
+        val previouslyCollapsedRegions = foldingModel.allFoldRegions.filter { !it.isExpanded }
+
+        val targetOffset = calculateForwardOffset(
+            document = editor.document,
+            foldingModel = foldingModel,
+            currentOffset = caretModel.offset,
+            linesToJump = NumberOfForwardLines
+        )
+
+        ApplicationManager.getApplication().runWriteAction {
+            foldingModel.runBatchFoldingOperation {
+                caretModel.moveToOffset(targetOffset)
+                previouslyCollapsedRegions.forEach { region ->
+                    if (region.isValid)
+                        region.isExpanded = false
+                }
+            }
+        }
+
+        return targetOffset
+    }
+
+    fun jumpBackwardPreservingFolds(editor: Editor): Int {
+        val foldingModel = editor.foldingModel
+        val caretModel = editor.caretModel
+
+        val previouslyCollapsedRegions = foldingModel.allFoldRegions.filter { !it.isExpanded }
+
+        val targetOffset = calculateBackwardOffset(
+            document = editor.document,
+            foldingModel = foldingModel,
+            currentOffset = caretModel.offset,
+            linesToJump = NumberOfBackwardLines
+        )
+
+        ApplicationManager.getApplication().runWriteAction {
+            foldingModel.runBatchFoldingOperation {
+                caretModel.moveToOffset(targetOffset)
+                previouslyCollapsedRegions.forEach { region ->
+                    if (region.isValid)
+                        region.isExpanded = false
+                }
+            }
+        }
+
         return targetOffset
     }
 
@@ -169,7 +218,7 @@ object Jumper {
 
     }
 
-    fun moveCaretAndScrollWithSelection(editor: Editor, currentOffset: Int, targetOffset: Int) {
+    fun moveCaretAndScrollWithSelection(editor: Editor, currentOffset: Int) {
         val caretModel = editor.caretModel
         val selectionModel = editor.selectionModel
 
@@ -178,11 +227,11 @@ object Jumper {
             if (selectionModel.hasSelection()) selectionModel.leadSelectionOffset else currentOffset
 
         // Move caret to the target offset and extend the selection
-        caretModel.moveToOffset(targetOffset)
         val visualLineStart = caretModel.visualLineStart
+        caretModel.moveToOffset(visualLineStart)
         selectionModel.setSelection(/* startOffset = */ startOffset, /* endOffset = */ visualLineStart)
 
-        val newLineNumber = editor.document.getLineNumber(targetOffset)
+        val newLineNumber = editor.document.getLineNumber(visualLineStart)
         val newLogicalPosition = LogicalPosition(/* line = */ newLineNumber, /* column = */ 0)
 
         // Move caret and scroll editor to the new logical position
@@ -196,32 +245,12 @@ object Jumper {
         val toLine = document.getLineNumber(toOffset)
 
         if (fromLine != toLine) {
-            increaseJumpScoreBy(fromLine - toLine)
+            increaseJumpScoreBy(abs(fromLine - toLine))
         }
     }
 
     fun increaseJumpScoreBy(score: Int) {
         properties().setValue(Const.JUMP_SCORE, (jumpScore + score).toString())
-    }
-
-    fun updateJumpLineMarkers(project: Project, document: Document, targetOffset: Int) {
-
-        val currentLineNumber = document.getLineNumber(targetOffset)
-        val forwardLineNumber = (currentLineNumber + NumberOfForwardLines).coerceIn(0, document.lineCount)
-        val backwardLineNumber = (currentLineNumber - NumberOfBackwardLines).coerceIn(0, document.lineCount)
-
-//        println("Next Backward: $backwardLineNumber")
-//        println("Next Forward: $forwardLineNumber")
-//        println()
-
-        project.service<JumpLineStateService>().setBoundary(forwardLineNumber, backwardLineNumber)
-
-        // Trigger a gutter refresh
-        ApplicationManager.getApplication().invokeLater {
-//            PsiDocumentManager.getInstance(project).commitAllDocuments()
-            DaemonCodeAnalyzer.getInstance(project).restart()
-            println("Daemon restarted for line markers")
-        }
     }
 
 }

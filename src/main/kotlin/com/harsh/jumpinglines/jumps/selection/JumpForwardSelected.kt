@@ -20,17 +20,11 @@ class JumpForwardSelected : DumbAwareAction() {
             val currentOffset: Int = editor.caretModel.offset
 
             // Calculate the new caret position
-            val targetOffset = Jumper.calculateForwardOffset(
-                document = editor.document,
-                foldingModel = editor.foldingModel,
-                currentOffset = currentOffset,
-                linesToJump = Jumper.NumberOfForwardLines
-            )
+            val targetOffset = Jumper.jumpForwardPreservingFolds(editor)
 
             Jumper.moveCaretAndScrollWithSelection(
                 editor = editor,
-                currentOffset = currentOffset,
-                targetOffset = targetOffset
+                currentOffset = currentOffset
             )
 
             Jumper.updateJumpScore(document = editor.document, fromOffset = currentOffset, toOffset = targetOffset)

@@ -19,12 +19,7 @@ class CursorTraceBackward : DumbAwareAction() {
             val caretModel: CaretModel = editor.caretModel
 
             val currentOffset = caretModel.offset
-            val targetOffset = Jumper.calculateBackwardOffset(
-                document = document,
-                foldingModel = editor.foldingModel,
-                currentOffset = currentOffset,
-                linesToJump = Jumper.NumberOfBackwardLines
-            )
+            val targetOffset = Jumper.jumpBackwardPreservingFolds(editor)
 
             val currentLine = document.getLineNumber(currentOffset)
             val targetLine = document.getLineNumber(targetOffset)

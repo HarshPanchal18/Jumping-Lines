@@ -51,8 +51,6 @@
                                 implementation="com.harsh.jumpinglines.statusbar.JumpingLinesStatusBarWidgetFactory"/>
         <notificationGroup displayType="STICKY_BALLOON" id="Plugin Updated Notification" isLogByDefault="true"/>
         <notificationGroup displayType="STICKY_BALLOON" id="Plugin Review Notification" isLogByDefault="true"/>
-        <!--        <codeInsight.lineMarkerProvider language=""
-                                                implementationClass="com.harsh.jumpinglines.jumps.gutterpreview.JumpPreviewLineMarkerProvider"/> -->
     </extensions>
 
     <actions>
@@ -109,6 +107,13 @@
         <![CDATA[
 
         <p>
+
+        <b>3.1 (2025-06-17)</b><br/>
+        +++++++++++++++<br/>
+        Fixed behavior of jumping over folded regions.</br>
+        Improved plugin setting panel.</br>
+        Fixed Jumpscore status-bar widget counter.</br>
+        Migrated from deprecated entities.<br/><br/>
 
         <b>3.0 (2025-06-02)</b><br/>
         +++++++++++++++<br/>

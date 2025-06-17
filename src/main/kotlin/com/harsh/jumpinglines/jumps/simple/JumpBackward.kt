@@ -20,18 +20,9 @@ class JumpBackward : DumbAwareAction() {
             val currentOffset: Int = editor.caretModel.offset
 
             // Calculate the new caret position while skipping folded regions
-            val targetOffset = Jumper.calculateBackwardOffset(
-                document = editor.document,
-                foldingModel = editor.foldingModel,
-                currentOffset = currentOffset,
-                linesToJump = Jumper.NumberOfBackwardLines
-            )
+            val targetOffset = Jumper.jumpBackwardPreservingFolds(editor = editor)
 
             Jumper.moveCaretAndScroll(editor = editor, toOffset = targetOffset)
-
-            Jumper.updateJumpLineMarkers(
-                project = editor.project!!, document = editor.document, targetOffset = targetOffset
-            )
 
             Jumper.updateJumpScore(document = editor.document, fromOffset = currentOffset, toOffset = targetOffset)
 

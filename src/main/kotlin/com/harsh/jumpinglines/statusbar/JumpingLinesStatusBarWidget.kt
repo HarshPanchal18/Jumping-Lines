@@ -8,21 +8,14 @@ import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.options.ShowSettingsUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Disposer
-import com.intellij.openapi.wm.IconLikeCustomStatusBarWidget
 import com.intellij.openapi.wm.StatusBar
 import com.intellij.openapi.wm.StatusBarWidget
 import com.intellij.util.Consumer
 import java.awt.Component
 import java.awt.event.MouseEvent
 import java.util.*
-import javax.swing.JComponent
-import javax.swing.JLabel
 
-class JumpingLinesStatusBarWidget(
-    private val project: Project
-) : StatusBarWidget,
-    IconLikeCustomStatusBarWidget,
-    StatusBarWidget.TextPresentation {
+class JumpingLinesStatusBarWidget(private val project: Project) : StatusBarWidget, StatusBarWidget.TextPresentation {
 
     private val timer = Timer()
 
@@ -33,8 +26,6 @@ class JumpingLinesStatusBarWidget(
     private var statusBar: StatusBar? = null
 
     override fun ID(): String = Const.PLUGIN_ID
-
-//    override fun getIcon(): Icon = IconLoader.getIcon("/META-INF/pluginIcon16.svg", javaClass)
 
     override fun getText(): String = jumpScore.inHumanReadableForm()
 
@@ -51,19 +42,6 @@ class JumpingLinesStatusBarWidget(
 
     override fun install(statusBar: StatusBar) {
         this.statusBar = statusBar
-    }
-
-    override fun getComponent(): JComponent {
-        return JLabel().apply {
-            /*icon = runCatching {
-                IconLoader.getIcon("/icons/statusbarIcon.svg", JumpingLinesStatusBarWidget::class.java)
-            }.getOrElse {
-                AllIcons.Nodes.ExceptionClass
-            }*/
-            text = jumpScore.inHumanReadableForm()
-            toolTipText = "Total lines jumped with Jumping Lines"
-            iconTextGap = 4
-        }
     }
 
     override fun getClickConsumer(): Consumer<MouseEvent> {

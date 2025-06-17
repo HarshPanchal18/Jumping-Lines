@@ -1,8 +1,10 @@
 package com.harsh.jumpinglines.settings
 
+import com.harsh.jumpinglines.utils.Const
 import com.harsh.jumpinglines.utils.Icons
 import com.harsh.jumpinglines.utils.Jumper.jumpScore
 import com.harsh.jumpinglines.utils.inHumanReadableForm
+import com.intellij.ui.HyperlinkLabel
 import com.intellij.ui.components.panels.VerticalLayout
 import java.awt.FlowLayout
 import javax.swing.*
@@ -13,8 +15,12 @@ class JumpingLinesSettingPanel {
     private var forwardJumpRow: JPanel
     private var backwardJumpRow: JPanel
     private var scoreRow: JPanel
+    private var linksRow: JPanel
     private var titleLabel: JLabel
     private var scoreLabel: JLabel
+    private var reviewLabel: HyperlinkLabel
+    private var reportLabel: HyperlinkLabel
+
     private val forwardLineSpinner = JSpinner(
         SpinnerNumberModel(
             /* value = */ 0,
@@ -68,11 +74,25 @@ class JumpingLinesSettingPanel {
             add(scoreLabel)
         }
 
+        val linksLayout = FlowLayout(/* align = */ FlowLayout.LEFT, /* hgap = */ 5, /* vgap = */ 2)
+        reviewLabel =
+            HyperlinkLabel("Enjoying this plugin?").apply { setHyperlinkTarget(Const.PLUGIN_URL + "/reviews") }
+
+        reportLabel =
+            HyperlinkLabel("Spotted an issue?").apply { setHyperlinkTarget(Const.PLUGIN_REPO_URL + "/issues") }
+
+        linksRow = JPanel(linksLayout).apply {
+            add(reviewLabel)
+            add(JLabel("|"))
+            add(reportLabel)
+        }
+
         val parentLayout = VerticalLayout(/* gap = */ 2,/* alignment = */ SwingConstants.LEFT)
         parentPanel = JPanel(parentLayout).apply {
             add(backwardJumpRow)
             add(forwardJumpRow)
             add(scoreRow)
+            add(linksRow)
         }
     }
 
