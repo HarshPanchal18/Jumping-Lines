@@ -19,6 +19,9 @@ object Jumper {
     val NumberOfBackwardLines: Int
         get() = properties().getInt(Const.BACKWARD_LINES, 2)
 
+    val IsMarkerEnabled: Boolean
+        get() = properties().getBoolean(Const.IS_MARKER_ENABLED, false)
+
     fun calculateForwardOffset(
         document: Document,
         foldingModel: FoldingModel,
@@ -190,15 +193,17 @@ object Jumper {
         if (currentLine == targetLine) return  // Nothing to do
 
         // Listen events of caret(cursor).
-        caretModel.addCaretListener(object : CaretListener {
-            override fun caretAdded(event: CaretEvent) {}
-            override fun caretPositionChanged(event: CaretEvent) {}
-            override fun caretRemoved(event: CaretEvent) {
-                if (caretModel.caretCount == 1) {
-                    clearAllDecorations(editor)
+        if (properties().getBoolean(Const.IS_MARKER_ENABLED)) {
+            caretModel.addCaretListener(object : CaretListener {
+                override fun caretAdded(event: CaretEvent) {}
+                override fun caretPositionChanged(event: CaretEvent) {}
+                override fun caretRemoved(event: CaretEvent) {
+                    if (caretModel.caretCount == 1) {
+                        clearAllDecorations(editor)
+                    }
                 }
-            }
-        })
+            })
+        }
 
         // Remove selection blocks before jumping (if any).
         if (selectionModel.hasSelection()) {
@@ -230,13 +235,15 @@ object Jumper {
                 caretModel.addCaret(visualPosition)
 
                 // Add markers to lines the cursor is covering.
-                CaretReplicateDecorationManager.addDecorationForCaret(editor, offset)
+                if (properties().getBoolean(Const.IS_MARKER_ENABLED))
+                    CaretReplicateDecorationManager.addDecorationForCaret(editor, offset)
             } else {
                 // Otherwise remove cursor on the current line. Helps in changing the direction.
                 caretModel.removeCaret(caretModel.currentCaret)
 
                 // Remove markers from lines the cursor is no longer.
-                CaretReplicateDecorationManager.removeDecorationAtOffset(editor, offset)
+                if (properties().getBoolean(Const.IS_MARKER_ENABLED))
+                    CaretReplicateDecorationManager.removeDecorationAtOffset(editor, offset)
             }
 
             // Add a new caret at the calculated visual position

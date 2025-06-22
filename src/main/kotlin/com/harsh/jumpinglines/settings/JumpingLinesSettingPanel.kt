@@ -4,6 +4,7 @@ import com.harsh.jumpinglines.utils.Const
 import com.harsh.jumpinglines.utils.Icons
 import com.harsh.jumpinglines.utils.Jumper.jumpScore
 import com.harsh.jumpinglines.utils.inHumanReadableForm
+import com.harsh.jumpinglines.utils.properties
 import com.intellij.ui.HyperlinkLabel
 import com.intellij.ui.components.panels.VerticalLayout
 import java.awt.FlowLayout
@@ -16,10 +17,13 @@ class JumpingLinesSettingPanel {
     private var backwardJumpRow: JPanel
     private var scoreRow: JPanel
     private var hyperlinksRow: JPanel
+    private var markerRow: JPanel
+
     private var titleLabel: JLabel
     private var scoreLabel: JLabel
     private var reviewLinkLabel: HyperlinkLabel
     private var reportLinkLabel: HyperlinkLabel
+    private var markerCheckbox: JCheckBox
 
     private val forwardLineSpinner = JSpinner(
         SpinnerNumberModel(
@@ -87,11 +91,22 @@ class JumpingLinesSettingPanel {
             add(reportLinkLabel)
         }
 
+        val markerLayout = FlowLayout(/* align = */ FlowLayout.LEFT)
+        markerCheckbox = JCheckBox("Show guided markers?").apply {
+            isSelected = properties().getBoolean(Const.IS_MARKER_ENABLED)
+            addActionListener {
+                properties().setValue(Const.IS_MARKER_ENABLED, isSelected)
+            }
+        }
+
+        markerRow = JPanel(markerLayout).apply { add(markerCheckbox) }
+
         val parentLayout = VerticalLayout(/* gap = */ 2,/* alignment = */ SwingConstants.LEFT)
         parentPanel = JPanel(parentLayout).apply {
             add(backwardJumpRow)
             add(forwardJumpRow)
             add(scoreRow)
+            add(markerRow)
             add(hyperlinksRow)
         }
     }
@@ -100,9 +115,12 @@ class JumpingLinesSettingPanel {
 
     fun getBackwardLinesValue(): Int = backwardLineSpinner.value as Int
 
-    fun setNumberOfLines(forwardLine: Int, backwardLine: Int) {
+    fun getMarkerState(): Boolean = markerCheckbox.isSelected
+
+    fun setValues(forwardLine: Int, backwardLine: Int, isMarkerEnabled: Boolean) {
         forwardLineSpinner.value = forwardLine
         backwardLineSpinner.value = backwardLine
+        markerCheckbox.isSelected = isMarkerEnabled
     }
 
 }

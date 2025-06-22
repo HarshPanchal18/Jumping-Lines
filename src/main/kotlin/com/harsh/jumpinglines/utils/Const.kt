@@ -15,4 +15,5 @@ object Const {
     const val HAS_PLUGIN_REVIEWED = "IsPluginReviewedByUser"
     const val NOTIFICATION_PLUGIN_UPDATED = "Plugin Updated Notification"
     const val NOTIFICATION_PLUGIN_REVIEW = "Plugin Review Notification"
+    const val IS_MARKER_ENABLED = "IsGuideMarkersEnabled"
 }

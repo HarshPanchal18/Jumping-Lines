@@ -4,24 +4,16 @@ import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.EditorCustomElementRenderer
 import com.intellij.openapi.editor.Inlay
-import com.intellij.openapi.editor.markup.RangeHighlighter
 import com.intellij.openapi.editor.markup.TextAttributes
-import com.intellij.openapi.util.Key
 import com.intellij.ui.JBColor
 import java.awt.Graphics
 import java.awt.Rectangle
 
-
 object CaretReplicateDecorationManager {
 
-    private val editorLineMarks = mutableMapOf<Editor, MutableSet<Int>>()
-
-    // Store inlays per editor
+    // Store inlays and marks per editor
     private val editorInlays = mutableMapOf<Editor, MutableList<Inlay<*>>>()
-
-    private val decorations = mutableMapOf<Editor, MutableList<RangeHighlighter>>()
-
-    private val CARET_CLEAR_LISTENER_ADDED_KEY = Key.create<Boolean>("jumpplugin.caret.clear.listener.added")
+    private val editorLineMarks = mutableMapOf<Editor, MutableSet<Int>>()
 
     fun addDecorationForCaret(editor: Editor, offset: Int) {
 
