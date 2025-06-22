@@ -19,10 +19,9 @@ class PluginUpdateNotifier : StartupActivity.DumbAware {
         }
 
         val now: Long = System.currentTimeMillis()
-        val oneWeekInMillis: Long = 60 * 60 * 24 * 7 * 1000L
-        val numberOfWeeksToRemindAfter = 2
+        val oneMonthInMillis: Long = 60 * 60 * 24 * 30 * 1000L
 
-        if (!hasPluginReviewed && ((now - lastNotificationShown) > (oneWeekInMillis * numberOfWeeksToRemindAfter))) {
+        if (!hasPluginReviewed && ((now - lastNotificationShown) > oneMonthInMillis)) {
             promptPluginReviewNotification()
             properties().setValue(Const.LAST_RATING_PROMPT, now.toString())
             println(now)
