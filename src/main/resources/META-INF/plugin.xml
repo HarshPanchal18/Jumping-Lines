@@ -22,11 +22,38 @@
 
         <b>Features:</b>
         <ul>
-            <li>Jump multiple lines at once</li>
-            <li>Jump multiple lines at once with selection</li>
-            <li>Jump on a middle of editor</li>
-            <li>Increase Jump score as you jump</li>
-            <li>Works with all JetBrains IDEs</li>
+            <li>
+            Jump multiple lines at once.<br/>
+            Forward:<kbd>SHIFT+CTRL+PERIOD</kbd> | Backward:<kbd>SHIFT+CTRL+COMMA</kbd>
+            </li>
+
+            <li>
+            Jump multiple lines at once with selection.<br/>
+            Forward:<kbd>SHIFT+ALT+PERIOD</kbd> | Backward:<kbd>SHIFT+ALT+COMMA</kbd>
+            </li>
+
+            <li>
+            Jump on a middle of editor.<br/>
+            <kbd>CTRL+COMMA</kbd>
+            </li>
+
+            <li>
+            Replicate cursors on lines cursor jumped over.<br/>
+            Forward:<kbd>SHIFT+ALT+QUOTE</kbd> | Backward:<kbd>SHIFT+ALT+SEMICOLON</kbd>
+            </li>
+
+            <li>
+            Increase Jump score as you jump.
+            </li>
+
+            <li>
+            Customized number of jumps.<br/>
+            Plugin settings:<kbd>ALT+L</kbd>
+            </li>
+
+            <li>
+            Works with all JetBrains IDEs.
+            </li>
         </ul>
 
 <!--        <p style=”text-indent: 40px”>Once upon a time when <a href="https://github.com/HarshPanchal18">developer</a> of this plugin started using <b>VIM</b> and then he addicted to one of its feature about jumping multiple lines through <i><b>5j</b></i> or <i><b>5k</b></i> and later the developer started developing Android and Kotlin based projects on Jetbrains based IDEs.-->
@@ -108,90 +135,111 @@
 
         <p>
 
-        <b>3.1 (2025-06-17)</b><br/>
-        +++++++++++++++<br/>
-        Fixed behavior of jumping over folded regions.</br>
-        Improved plugin setting panel.</br>
-        Fixed Jumpscore status-bar widget counter.</br>
-        Migrated from deprecated entities.<br/><br/>
+        <u><b>3.1.1 (2025-06-17)</b></u>
+        <ul>
+            <li>Minor fixes and improvements.</li>
+        </ul>
 
-        <b>3.0 (2025-06-02)</b><br/>
-        +++++++++++++++<br/>
-        Introducing CursorTrace to replicate cursors on the lines cursor crossed over.</br>
-        Improved plugin setting panel and status-bar widget.</br>
-        Moved plugin settings inside 'Editor' settings.</br>
-        Migrated from deprecated entities.<br/><br/>
+        <u><b>3.1 (2025-06-17)</b></u>
+        <ul>
+            <li>Fixed behavior of jumping over folded regions.</li>
+            <li>Improved plugin setting panel.</li>
+            <li>Fixed Jumpscore status-bar widget counter.</li>
+            <li>Migrated from deprecated entities.</li>
+        </ul>
 
-        <b>2.2 (2024-09-02)</b><br/>
-        +++++++++++++++<br/>
-        Created Status-bar widget for displaying Jump score.<br/>
-        Notifying user after updating plugin and restarting IDE.<br/>
-        Created shortcut of plugin settings inside 'Tools' menu.<br/>
-        Open Jumping Lines Setting with Alt + L.<br/>
-        Improved plugin-icon.<br/><br/>
+        <u><b>3.0 (2025-06-02)</b></u>
+        <ul>
+            <li>Introducing CursorTrace to replicate cursors on the lines cursor crossed over.</li>
+            <li>Improved plugin setting panel and status-bar widget.</li>
+            <li>Moved plugin settings inside 'Editor' settings.</li>
+            <li>Migrated from deprecated entities.</li>
+        </ul>
 
-        <b>2.1 (2024-08-17)</b><br/>
-        +++++++++++++++<br/>
-        Folded block will not be expanded while jumping backward with selection.<br/>
-        Unified key names through constants for consistency.<br/><br/>
+        <u><b>2.2 (2024-09-02)</b></u>
+        <ul>
+            <li>Created Status-bar widget for displaying Jump score.</li>
+            <li>Notifying user after updating plugin and restarting IDE.</li>
+            <li>Created shortcut of plugin settings inside 'Tools' menu.</li>
+            <li>Open Jumping Lines Setting with Alt + L.</li>
+            <li>Improved plugin-icon.</li>
+        </ul>
 
-        <b>2.0 (2024-08-15)</b><br/>
-        +++++++++++++++<br/>
-        Introduced Jump Score, indicates the number of lines you've jumped through this plugin.<br/>
-        Achieve more Jump Score on every Jump.<br/><br/>
+        <u><b>2.1 (2024-08-17)</b></u>
+        <ul>
+            <li>Folded block will not be expanded while jumping backward with selection.</li>
+            <li>Unified key names through constants for consistency.</li>
+        </ul>
 
-        <b>1.9 (2024-07-23)</b><br/>
-        +++++++++++++++<br/>
-        Cursor can jump with selection over folded blocks.<br/>
-        Redesigned Plugin Icon.<br/>
-        Replaced TextField with Spinner on Settings Panel for more convenience.<br/><br/>
+        <u><b>2.0 (2024-08-15)</b></u>
+        <ul>
+            <li>Introduced Jump Score, indicates the number of lines you've jumped through this plugin.</li>
+            <li>Achieve more Jump Score on every Jump.</li>
+        </ul>
 
-        <b>1.8 (2024-07-05)</b><br/>
-        +++++++++++++++<br/>
-        Cursor can jump over folded blocks.<br/>
-        Fixed behaviour of Jump on Middle action.<br/>
-        Jumping is allowed while indexing.<br/><br/>
+        <u><b>1.9 (2024-07-23)</b></u>
+        <ul>
+            <li>Cursor can jump with selection over folded blocks.</li>
+            <li>Redesigned Plugin Icon.</li>
+            <li>Replaced TextField with Spinner on Settings Panel for more convenience.</li>
+        </ul>
 
-        <b>1.7 (2024-04-14)</b><br/>
-        +++++++++++++++<br/>
-        Prevented Jumping on Find dialog and Replace dialog.<br/>
-        Showing Information Notification if the "Jumping" is attempted outside the editor.<br/><br/>
+        <u><b>1.8 (2024-07-05)</b></u>
+        <ul>
+            <li>Cursor can jump over folded blocks.</li>
+            <li>Fixed behaviour of Jump on Middle action.</li>
+            <li>Jumping is allowed while indexing.</li>
+        </ul>
 
-        <b>1.6.1 (2024-03-20)</b><br/>
-        +++++++++++++++<br/>
-        Reformatted plugin setting panel.<br/>
-        Changed default keymap of Jump on middle line to CTRL+COMMA in order to avoid conflict.<br/><br/>
+        <u><b>1.7 (2024-04-14)</b></u>
+        <ul>
+            <li>Prevented Jumping on Find dialog and Replace dialog.</li>
+            <li>Showing Information Notification if the "Jumping" is attempted outside the editor.</li>
+        </ul>
 
-        <b>1.6 (2024-02-28)</b><br/>
-        +++++++++++++++<br/>
-        Introducing jumping on a middle line of an editor with keymap SHIFT+J+K.<br/><br/>
+        <u><b>1.6.1 (2024-03-20)</b></u>
+        <ul>
+            <li>Reformatted plugin setting panel.</li>
+            <li>Changed default keymap of Jump on middle line to CTRL+COMMA in order to avoid conflict.</li>
+        </ul>
 
-        <b>1.5 (2024-02-22)</b><br/>
-        +++++++++++++++<br/>
-        Now you don't need to select the block manually, just start hitting ALT+SHIFT+COMMA / ALT+SHIFT+PERIOD.<br/>
-        Fixed the cursor position while doing jumping with selection.<br/><br/>
+        <u><b>1.6 (2024-02-28)</b></u>
+        <ul>
+            <li>Introducing jumping on a middle line of an editor with keymap SHIFT+J+K.</li>
+        </ul>
 
-        <b>1.4 (2024-02-22)</b><br/>
-        +++++++++++++++<br/>
-        Introducing jumping lines with selection through ALT+SHIFT+COMMA / ALT+SHIFT+PERIOD<br/>
-        Fixed: Removing selection from all carets before an ordinary jump.<br/><br/>
+        <u><b>1.5 (2024-02-22)</b></u>
+        <ul>
+            <li>Now you don't need to select the block manually, just start hitting ALT+SHIFT+COMMA / ALT+SHIFT+PERIOD.</li>
+            <li>Fixed the cursor position while doing jumping with selection.</li>
+        </ul>
 
-        <b>1.3 (2023-12-10)</b><br/>
-        +++++++++++++++<br/>
-        Reduced width of text field on setting panel.<br/>
-        Made plugin compatible with latest builds<br/><br/>
+        <u><b>1.4 (2024-02-22)</b></u>
+        <ul>
+            <li>Introducing jumping lines with selection through ALT+SHIFT+COMMA / ALT+SHIFT+PERIOD.</li>
+            <li>Fixed: Removing selection from all carets before an ordinary jump.</li>
+        </ul>
 
-        <b>1.2 (2023-11-08)</b><br/>
-        +++++++++++++++<br/>
-        Introduced option for changing number of lines to jump.<br/><br/>
+        <u><b>1.3 (2023-12-10)</b></u>
+        <ul>
+            <li>Reduced width of text field on setting panel.</li>
+            <li>Made plugin compatible with latest builds.</li>
+        </ul>
 
-        <b>1.1 (2023-10-12)</b><br/>
-        +++++++++++++++<br/>
-        Minor fixes and improvements.<br/><br/>
+        <u><b>1.2 (2023-11-08)</b></u>
+        <ul>
+            <li>Introduced option for changing number of lines to jump.</li>
+        </ul>
 
-        <b>1.0 (2023-10-09)</b><br/>
-        +++++++++++++++<br/>
-        Initial version.<br/><br/>
+        <u><b>1.1 (2023-10-12)</b></u>
+        <ul>
+            <li>Minor fixes and improvements.</li>
+        </ul>
+
+        <u><b>1.0 (2023-10-09)</b></u>
+        <ul>
+            <li>Initial version.</li>
+        </ul>
 
         </p>
 

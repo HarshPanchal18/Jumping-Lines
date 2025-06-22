@@ -11,19 +11,19 @@ import javax.swing.JComponent
 class JumpingLinesSettings : Configurable {
 
     private val pluginSettingPanel = JumpingLinesSettingPanel()
-    private var savedNumberOfForwardLines: Int = 0
+    private var savedNumberOfForwardLines: Int = 0 // Default to 0
     private var savedNumberOfBackwardLines: Int = 0
 
     override fun createComponent(): JComponent = pluginSettingPanel.parentPanel
 
     override fun isModified(): Boolean {
-        return pluginSettingPanel.getForwardLines() != savedNumberOfForwardLines ||
-                pluginSettingPanel.getBackwardLines() != savedNumberOfBackwardLines
+        return pluginSettingPanel.getForwardLinesValue() != savedNumberOfForwardLines ||
+                pluginSettingPanel.getBackwardLinesValue() != savedNumberOfBackwardLines
     }
 
     override fun apply() {
-        val newForwardNumberOfLines: Int = pluginSettingPanel.getForwardLines()
-        val newBackwardNumberOfLines: Int = pluginSettingPanel.getBackwardLines()
+        val newForwardNumberOfLines: Int = pluginSettingPanel.getForwardLinesValue()
+        val newBackwardNumberOfLines: Int = pluginSettingPanel.getBackwardLinesValue()
 
         ApplicationManager.getApplication().runWriteAction {
             // Set value or unset if equals to default value

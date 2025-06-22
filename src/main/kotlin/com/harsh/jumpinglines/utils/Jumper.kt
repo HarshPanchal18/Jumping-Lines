@@ -15,7 +15,7 @@ object Jumper {
     val NumberOfBackwardLines: Int
         get() = properties().getInt(Const.BACKWARD_LINES, 2)
 
-    private fun calculateForwardOffset(
+    fun calculateForwardOffset(
         document: Document,
         foldingModel: FoldingModel,
         currentOffset: Int,
@@ -63,7 +63,7 @@ object Jumper {
         return targetOffset
     }
 
-    private fun calculateBackwardOffset(
+    fun calculateBackwardOffset(
         document: Document,
         foldingModel: FoldingModel,
         currentOffset: Int,
@@ -110,12 +110,15 @@ object Jumper {
         return targetOffset
     }
 
+    // Performs a forward jump while preserving the original folding state.
     fun jumpForwardPreservingFolds(editor: Editor): Int {
         val foldingModel = editor.foldingModel
         val caretModel = editor.caretModel
 
+        // Capture the folding regions that are currently collapsed
         val previouslyCollapsedRegions = foldingModel.allFoldRegions.filter { !it.isExpanded }
 
+        // Calculate the target offset while skipping over folded regions
         val targetOffset = calculateForwardOffset(
             document = editor.document,
             foldingModel = foldingModel,
@@ -123,9 +126,14 @@ object Jumper {
             linesToJump = NumberOfForwardLines
         )
 
+        // Perform caret move and folding restore inside a batch operation
         ApplicationManager.getApplication().runWriteAction {
             foldingModel.runBatchFoldingOperation {
+
+                // Move the caret to the target position
                 caretModel.moveToOffset(targetOffset)
+
+                // Restore previously collapsed regions (re-collapse)
                 previouslyCollapsedRegions.forEach { region ->
                     if (region.isValid)
                         region.isExpanded = false
@@ -136,12 +144,15 @@ object Jumper {
         return targetOffset
     }
 
+    // Performs a backward jump while preserving the original folding state.
     fun jumpBackwardPreservingFolds(editor: Editor): Int {
         val foldingModel = editor.foldingModel
         val caretModel = editor.caretModel
 
+        // Capture the folding regions that are currently collapsed
         val previouslyCollapsedRegions = foldingModel.allFoldRegions.filter { !it.isExpanded }
 
+        // Calculate the target offset while skipping over folded regions
         val targetOffset = calculateBackwardOffset(
             document = editor.document,
             foldingModel = foldingModel,
@@ -151,7 +162,11 @@ object Jumper {
 
         ApplicationManager.getApplication().runWriteAction {
             foldingModel.runBatchFoldingOperation {
+
+                // Move the caret to the target position
                 caretModel.moveToOffset(targetOffset)
+
+                // Restore previously collapsed regions (re-collapse)
                 previouslyCollapsedRegions.forEach { region ->
                     if (region.isValid)
                         region.isExpanded = false
@@ -164,11 +179,15 @@ object Jumper {
 
     fun addCaretsOnJumpedLines(editor: Editor, currentLine: Int, targetLine: Int, column: Int) {
 
+        val caretModel: CaretModel = editor.caretModel
+        val document: Document = editor.document
+        val selectionModel: SelectionModel = editor.selectionModel
+
         if (currentLine == targetLine) return  // Nothing to do
 
         // Remove selection blocks before jumping (if any).
-        if (editor.selectionModel.hasSelection()) {
-            editor.selectionModel.removeSelection(/* allCarets = */ true)
+        if (selectionModel.hasSelection()) {
+            selectionModel.removeSelection(/* allCarets = */ true)
         }
 
         // Determine direction to go on.
@@ -180,14 +199,24 @@ object Jumper {
 
         // For each line in the jump range, add a caret at the correct column
         for (line in lines) {
-            val lineStartOffset = editor.document.getLineStartOffset(line)
-            val lineEndOffset = editor.document.getLineEndOffset(line)
+            val lineStartOffset = document.getLineStartOffset(line)
+            val lineEndOffset = document.getLineEndOffset(line)
 
             // Ensure the caret column does not go past the end of the line
             val offset = minOf(lineStartOffset + column, lineEndOffset)
 
+            val visualPosition = editor.offsetToVisualPosition(offset)
+
+            // Check if any caret already exists at this visual line
+            val caretExists = caretModel.allCarets.any { it.visualPosition.line == visualPosition.line }
+
+            // If there is no caret on current line, only then put cursor.
+            if (!caretExists)
+                caretModel.addCaret(visualPosition)
+
             // Add a new caret at the calculated visual position
-            editor.caretModel.addCaret(editor.offsetToVisualPosition(offset))
+            caretModel.addCaret(editor.offsetToVisualPosition(offset))
+
         }
     }
 
@@ -205,6 +234,7 @@ object Jumper {
             caretModel.removeSecondaryCarets()
         }
 
+        // Get upcoming line number and column of cursor.
         val targetLine = editor.document.getLineNumber(toOffset)
         val column = caretModel.logicalPosition.column
 
@@ -231,6 +261,7 @@ object Jumper {
         caretModel.moveToOffset(visualLineStart)
         selectionModel.setSelection(/* startOffset = */ startOffset, /* endOffset = */ visualLineStart)
 
+        // Get the next line number cursor is about to jump.
         val newLineNumber = editor.document.getLineNumber(visualLineStart)
         val newLogicalPosition = LogicalPosition(/* line = */ newLineNumber, /* column = */ 0)
 
@@ -244,9 +275,8 @@ object Jumper {
         val fromLine = document.getLineNumber(fromOffset)
         val toLine = document.getLineNumber(toOffset)
 
-        if (fromLine != toLine) {
-            increaseJumpScoreBy(abs(fromLine - toLine))
-        }
+        // Increase score only if cursor is jumped.
+        increaseJumpScoreBy(abs(fromLine - toLine))
     }
 
     fun increaseJumpScoreBy(score: Int) {

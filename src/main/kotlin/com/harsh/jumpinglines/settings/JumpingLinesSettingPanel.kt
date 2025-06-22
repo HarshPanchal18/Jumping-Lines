@@ -15,11 +15,11 @@ class JumpingLinesSettingPanel {
     private var forwardJumpRow: JPanel
     private var backwardJumpRow: JPanel
     private var scoreRow: JPanel
-    private var linksRow: JPanel
+    private var hyperlinksRow: JPanel
     private var titleLabel: JLabel
     private var scoreLabel: JLabel
-    private var reviewLabel: HyperlinkLabel
-    private var reportLabel: HyperlinkLabel
+    private var reviewLinkLabel: HyperlinkLabel
+    private var reportLinkLabel: HyperlinkLabel
 
     private val forwardLineSpinner = JSpinner(
         SpinnerNumberModel(
@@ -75,16 +75,16 @@ class JumpingLinesSettingPanel {
         }
 
         val linksLayout = FlowLayout(/* align = */ FlowLayout.LEFT, /* hgap = */ 5, /* vgap = */ 2)
-        reviewLabel =
+        reviewLinkLabel =
             HyperlinkLabel("Enjoying this plugin?").apply { setHyperlinkTarget(Const.PLUGIN_URL + "/reviews") }
 
-        reportLabel =
+        reportLinkLabel =
             HyperlinkLabel("Spotted an issue?").apply { setHyperlinkTarget(Const.PLUGIN_REPO_URL + "/issues") }
 
-        linksRow = JPanel(linksLayout).apply {
-            add(reviewLabel)
+        hyperlinksRow = JPanel(linksLayout).apply {
+            add(reviewLinkLabel)
             add(JLabel("|"))
-            add(reportLabel)
+            add(reportLinkLabel)
         }
 
         val parentLayout = VerticalLayout(/* gap = */ 2,/* alignment = */ SwingConstants.LEFT)
@@ -92,17 +92,13 @@ class JumpingLinesSettingPanel {
             add(backwardJumpRow)
             add(forwardJumpRow)
             add(scoreRow)
-            add(linksRow)
+            add(hyperlinksRow)
         }
     }
 
-    fun getForwardLines(): Int {
-        return forwardLineSpinner.value as Int
-    }
+    fun getForwardLinesValue(): Int = forwardLineSpinner.value as Int
 
-    fun getBackwardLines(): Int {
-        return backwardLineSpinner.value as Int
-    }
+    fun getBackwardLinesValue(): Int = backwardLineSpinner.value as Int
 
     fun setNumberOfLines(forwardLine: Int, backwardLine: Int) {
         forwardLineSpinner.value = forwardLine

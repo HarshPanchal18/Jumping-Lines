@@ -11,9 +11,7 @@ class OpenSettings : DumbAwareAction() {
         ShowSettingsUtil.getInstance().showSettingsDialog(project, JumpingLinesSettings::class.java)
     }
 
-    override fun getActionUpdateThread(): ActionUpdateThread {
-        return ActionUpdateThread.EDT
-    }
+    override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.EDT
 
     override fun update(e: AnActionEvent) {
         e.presentation.isEnabledAndVisible = e.project != null

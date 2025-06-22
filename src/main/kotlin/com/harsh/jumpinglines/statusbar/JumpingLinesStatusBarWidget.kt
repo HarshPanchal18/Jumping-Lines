@@ -44,6 +44,7 @@ class JumpingLinesStatusBarWidget(private val project: Project) : StatusBarWidge
         this.statusBar = statusBar
     }
 
+    // Open plugin settings on click over widget.
     override fun getClickConsumer(): Consumer<MouseEvent> {
         return Consumer {
             ApplicationManager.getApplication().invokeLater {
@@ -52,20 +53,22 @@ class JumpingLinesStatusBarWidget(private val project: Project) : StatusBarWidge
         }
     }
 
-    // Method to refresh the widget
+    // Refresh the widget
     fun refreshWidget() {
         statusBar?.updateWidget(ID())
     }
 
+    // Schedule a task to refresh widget in given period.
     private fun startTimer() {
         timer.scheduleAtFixedRate(
+            /* task = */
             object : TimerTask() {
                 override fun run() {
                     refreshWidget()
                 }
             },
-            /* delay = */ 0, // delay in milliseconds before task is to be executed.
-            /* period = */ 800 // check every 800 milliseconds
+            /* delay = */ 0, // delay 0ms before task is to be executed. Start immediately.
+            /* period = */ 800 // reflect change in 800ms.
         )
     }
 
