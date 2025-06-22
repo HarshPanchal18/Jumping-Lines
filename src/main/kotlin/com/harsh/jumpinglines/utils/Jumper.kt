@@ -1,7 +1,11 @@
 package com.harsh.jumpinglines.utils
 
+import com.harsh.jumpinglines.jumps.cursortrace.CaretReplicateDecorationManager
+import com.harsh.jumpinglines.jumps.cursortrace.CaretReplicateDecorationManager.clearAllDecorations
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.*
+import com.intellij.openapi.editor.event.CaretEvent
+import com.intellij.openapi.editor.event.CaretListener
 import kotlin.math.abs
 
 object Jumper {
@@ -185,6 +189,17 @@ object Jumper {
 
         if (currentLine == targetLine) return  // Nothing to do
 
+        // Listen events of caret(cursor).
+        caretModel.addCaretListener(object : CaretListener {
+            override fun caretAdded(event: CaretEvent) {}
+            override fun caretPositionChanged(event: CaretEvent) {}
+            override fun caretRemoved(event: CaretEvent) {
+                if (caretModel.caretCount == 1) {
+                    clearAllDecorations(editor)
+                }
+            }
+        })
+
         // Remove selection blocks before jumping (if any).
         if (selectionModel.hasSelection()) {
             selectionModel.removeSelection(/* allCarets = */ true)
@@ -213,15 +228,22 @@ object Jumper {
             // If there is no caret on current line, only then put cursor.
             if (!caretExists) {
                 caretModel.addCaret(visualPosition)
+
+                // Add markers to lines the cursor is covering.
+                CaretReplicateDecorationManager.addDecorationForCaret(editor, offset)
             } else {
                 // Otherwise remove cursor on the current line. Helps in changing the direction.
                 caretModel.removeCaret(caretModel.currentCaret)
+
+                // Remove markers from lines the cursor is no longer.
+                CaretReplicateDecorationManager.removeDecorationAtOffset(editor, offset)
             }
 
             // Add a new caret at the calculated visual position
             caretModel.addCaret(editor.offsetToVisualPosition(offset))
 
         }
+
     }
 
     fun moveCaretAndScroll(editor: Editor, toOffset: Int) {
