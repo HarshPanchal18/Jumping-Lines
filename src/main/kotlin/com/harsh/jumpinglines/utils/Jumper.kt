@@ -211,8 +211,12 @@ object Jumper {
             val caretExists = caretModel.allCarets.any { it.visualPosition.line == visualPosition.line }
 
             // If there is no caret on current line, only then put cursor.
-            if (!caretExists)
+            if (!caretExists) {
                 caretModel.addCaret(visualPosition)
+            } else {
+                // Otherwise remove cursor on the current line. Helps in changing the direction.
+                caretModel.removeCaret(caretModel.currentCaret)
+            }
 
             // Add a new caret at the calculated visual position
             caretModel.addCaret(editor.offsetToVisualPosition(offset))
