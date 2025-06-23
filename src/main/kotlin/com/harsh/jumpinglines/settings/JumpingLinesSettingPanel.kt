@@ -5,6 +5,9 @@ import com.harsh.jumpinglines.utils.Icons
 import com.harsh.jumpinglines.utils.Jumper.jumpScore
 import com.harsh.jumpinglines.utils.inHumanReadableForm
 import com.harsh.jumpinglines.utils.properties
+import com.intellij.openapi.actionSystem.Shortcut
+import com.intellij.openapi.keymap.KeymapManager
+import com.intellij.openapi.keymap.KeymapUtil
 import com.intellij.ui.HyperlinkLabel
 import com.intellij.ui.components.panels.VerticalLayout
 import java.awt.FlowLayout
@@ -18,6 +21,7 @@ class JumpingLinesSettingPanel {
     private var scoreRow: JPanel
     private var hyperlinksRow: JPanel
     private var markerRow: JPanel
+    private var keymapPanel: JPanel
 
     private var titleLabel: JLabel
     private var scoreLabel: JLabel
@@ -101,14 +105,29 @@ class JumpingLinesSettingPanel {
 
         markerRow = JPanel(markerLayout).apply { add(markerCheckbox) }
 
+        keymapPanel = JPanel().apply {
+            layout = BoxLayout(this, BoxLayout.Y_AXIS)
+            border = BorderFactory.createTitledBorder("<html><b><u>Keymaps & Shortcuts</b></u></html>")
+        }
+
+        addShortcutRow("com.harsh.jumpinglines.jumps.JumpForwardLines", "Jump in Forward")
+        addShortcutRow("com.harsh.jumpinglines.jumps.JumpBackwardLines", "Jump in Backward")
+        addShortcutRow("com.harsh.jumpinglines.jumps.selection.JumpForwardSelected", "Jump in Forward with Selection")
+        addShortcutRow("com.harsh.jumpinglines.jumps.selection.JumpBackwardSelected", "Jump in Backward with Selection")
+        addShortcutRow("com.harsh.jumpinglines.jumps.middle.JumpOnMiddle", "Jump on Middle of editor")
+        addShortcutRow("com.harsh.jumpinglines.jumps.cursortrace.CursorTraceForward", "Replicate Cursor Forward")
+        addShortcutRow("com.harsh.jumpinglines.jumps.cursortrace.CursorTraceBackward", "Replicate Cursor Backward")
+
         val parentLayout = VerticalLayout(/* gap = */ 2,/* alignment = */ SwingConstants.LEFT)
         parentPanel = JPanel(parentLayout).apply {
             add(backwardJumpRow)
             add(forwardJumpRow)
             add(scoreRow)
             add(markerRow)
+            add(keymapPanel)
             add(hyperlinksRow)
         }
+
     }
 
     fun getForwardLinesValue(): Int = forwardLineSpinner.value as Int
@@ -121,6 +140,26 @@ class JumpingLinesSettingPanel {
         forwardLineSpinner.value = forwardLine
         backwardLineSpinner.value = backwardLine
         markerCheckbox.isSelected = isMarkerEnabled
+    }
+
+    private fun addShortcutRow(actionId: String, description: String) {
+        val shortcuts: Array<Shortcut> = KeymapManager.getInstance()
+            .activeKeymap
+            .getShortcuts(actionId)
+        val shortcutText: String = KeymapUtil.getShortcutsText(shortcuts)
+            .replace(".", "Period")
+            .replace(";", "Semicolon")
+
+        val row =
+            JLabel(
+                "<html>" +
+                        "<b>${description}:</b>\t\t<i>${shortcutText.ifBlank { "Not Assigned" }}</i>" +
+                        "</html>"
+            ).apply {
+                border = BorderFactory.createEmptyBorder(5, 5, 2, 5)
+            }
+
+        keymapPanel.add(row)
     }
 
 }

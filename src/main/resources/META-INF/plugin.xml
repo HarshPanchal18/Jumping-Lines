@@ -10,15 +10,7 @@
 
     <description>
         <![CDATA[
-        <p>Jumping Lines is a plugin for JetBrains IDEs that allows you to navigate your code more efficiently by jumping multiple lines at once, saving your time and reducing the strain on your hands.
-        </p>
-
-        <p>With Jumping Lines, you can move your cursor 2 lines upward by pressing <kbd>Ctrl+Shift+Comma</kbd> or 4 lines downward by pressing <kbd>Ctrl+Shift+Period</kbd>.
-        You can also jump lines with selection by pressing <kbd>Ctrl+Shift+Comma</kbd> for upward and <kbd>Ctrl+Shift+Period</kbd> for downward.
-        For jumping on middle line of the editor, press <kbd>Ctrl+Comma</kbd>.
-        </p>
-
-        <p>In the settings, you can adjust the number of lines to jump in each direction.</p>
+        <p>Jumping Lines is a plugin for JetBrains IDEs that allows you to navigate your code more efficiently by jumping multiple lines at once, saving your time and reducing the strain on your hands. </p>
 
         <b>Features:</b>
         <ul>
@@ -127,7 +119,6 @@
                 description="Putting cursors over lines the cursor jumped backward.">
             <keyboard-shortcut keymap="$default" first-keystroke="shift alt SEMICOLON"/>
         </action>
-
     </actions>
 
     <change-notes>
@@ -135,9 +126,11 @@
 
         <p>
 
-        <u><b>3.1.1 (2025-06-22)</b></u>
+        <u><b>3.2 (2025-06-23)</b></u>
         <ul>
-            <li>Replicated cursors can be removed on changing direction.</li>
+            <li>Introducing guided markers.</li>
+            <li>Replicated cursors can be picked up as cursor moves in other direction.</li>
+            <li>Showed all shortcuts in plugin setting panel.</li>
             <li>Minor fixes & improvements.</li>
         </ul>
 
