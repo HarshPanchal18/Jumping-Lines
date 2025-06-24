@@ -1,8 +1,7 @@
 package com.harsh.jumpinglines.jumps.middle
 
 import com.harsh.jumpinglines.notification.showNotification
-import com.harsh.jumpinglines.utils.Jumper
-import com.harsh.jumpinglines.utils.editor
+import com.harsh.jumpinglines.utils.*
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.editor.*
@@ -51,6 +50,10 @@ class JumpOnMiddle : DumbAwareAction() {
             // Remove secondary cursors if any.
             if (caretModel.caretCount > 1) {
                 caretModel.removeSecondaryCarets()
+            }
+
+            if (properties().getBoolean(Const.IS_SOUND_ENABLED)) {
+                SoundPlayer.playJumpSound()
             }
 
             Jumper.updateJumpScore(document = document, fromOffset = currentOffset, toOffset = middleLineOffset)

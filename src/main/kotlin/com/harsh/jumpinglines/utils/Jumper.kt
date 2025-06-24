@@ -24,6 +24,9 @@ object Jumper {
     val IsMarkerEnabled: Boolean
         get() = properties().getBoolean(Const.IS_MARKER_ENABLED, false)
 
+    val IsSoundEnabled: Boolean
+        get() = properties().getBoolean(Const.IS_SOUND_ENABLED, false)
+
     fun calculateForwardOffset(
         document: Document,
         foldingModel: FoldingModel,
@@ -260,8 +263,8 @@ object Jumper {
             // Clear markers of previous jump (if any).
             clearAllDecorations(editor)
 
-            // Auto-clear markers after 3s.
-            scheduleClearMarkers(editor, delayMillis = 3 * 1000)
+            // Auto-clear markers after 2s.
+            scheduleClearMarkers(editor, delayMillis = 2 * 1000)
         }
 
         val caretModel = editor.caretModel

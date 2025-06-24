@@ -1,8 +1,7 @@
 package com.harsh.jumpinglines.jumps.selection
 
 import com.harsh.jumpinglines.notification.showNotification
-import com.harsh.jumpinglines.utils.Jumper
-import com.harsh.jumpinglines.utils.editor
+import com.harsh.jumpinglines.utils.*
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.editor.Editor
@@ -26,6 +25,10 @@ class JumpForwardSelected : DumbAwareAction() {
                 editor = editor,
                 currentOffset = currentOffset
             )
+
+            if (properties().getBoolean(Const.IS_SOUND_ENABLED)) {
+                SoundPlayer.playJumpSound()
+            }
 
             Jumper.updateJumpScore(document = editor.document, fromOffset = currentOffset, toOffset = targetOffset)
 

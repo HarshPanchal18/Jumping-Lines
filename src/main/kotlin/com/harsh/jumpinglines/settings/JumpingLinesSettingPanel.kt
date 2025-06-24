@@ -21,6 +21,7 @@ class JumpingLinesSettingPanel {
     private var scoreRow: JPanel
     private var hyperlinksRow: JPanel
     private var markerRow: JPanel
+    private var soundRow: JPanel
     private var keymapPanel: JPanel
 
     private var titleLabel: JLabel
@@ -28,6 +29,7 @@ class JumpingLinesSettingPanel {
     private var reviewLinkLabel: HyperlinkLabel
     private var reportLinkLabel: HyperlinkLabel
     private var markerCheckbox: JCheckBox
+    private var soundCheckbox: JCheckBox
 
     private val forwardLineSpinner = JSpinner(
         SpinnerNumberModel(
@@ -96,7 +98,7 @@ class JumpingLinesSettingPanel {
         }
 
         val markerLayout = FlowLayout(/* align = */ FlowLayout.LEFT)
-        markerCheckbox = JCheckBox("Show guided markers?").apply {
+        markerCheckbox = JCheckBox("Show markers to guide next jump?").apply {
             isSelected = properties().getBoolean(Const.IS_MARKER_ENABLED)
             addActionListener {
                 properties().setValue(Const.IS_MARKER_ENABLED, isSelected)
@@ -106,6 +108,19 @@ class JumpingLinesSettingPanel {
         markerRow = JPanel(markerLayout).apply {
             add(JLabel().apply { icon = runCatching { Icons.guideIcon }.getOrNull() })
             add(markerCheckbox)
+        }
+
+        val soundLayout = FlowLayout(/* align = */ FlowLayout.LEFT)
+        soundCheckbox = JCheckBox("Play sound on jump?").apply {
+            isSelected = properties().getBoolean(Const.IS_MARKER_ENABLED)
+            addActionListener {
+                properties().setValue(Const.IS_SOUND_ENABLED, isSelected)
+            }
+        }
+
+        soundRow = JPanel(soundLayout).apply {
+            add(JLabel().apply { icon = runCatching { Icons.soundIcon }.getOrNull() })
+            add(soundCheckbox)
         }
 
         keymapPanel = JPanel().apply {
@@ -125,8 +140,9 @@ class JumpingLinesSettingPanel {
         parentPanel = JPanel(parentLayout).apply {
             add(backwardJumpRow)
             add(forwardJumpRow)
-            add(scoreRow)
             add(markerRow)
+            add(soundRow)
+            add(scoreRow)
             add(keymapPanel)
             add(hyperlinksRow)
         }
@@ -139,10 +155,13 @@ class JumpingLinesSettingPanel {
 
     fun getMarkerState(): Boolean = markerCheckbox.isSelected
 
-    fun setValues(forwardLine: Int, backwardLine: Int, isMarkerEnabled: Boolean) {
+    fun getSoundState(): Boolean = markerCheckbox.isSelected
+
+    fun setValues(forwardLine: Int, backwardLine: Int, isMarkerEnabled: Boolean, isSoundEnabled: Boolean) {
         forwardLineSpinner.value = forwardLine
         backwardLineSpinner.value = backwardLine
         markerCheckbox.isSelected = isMarkerEnabled
+        soundCheckbox.isSelected = isSoundEnabled
     }
 
     private fun addShortcutRow(actionId: String, description: String) {

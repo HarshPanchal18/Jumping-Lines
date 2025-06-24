@@ -9,4 +9,5 @@ object Icons {
     val lightningIcon = AllIcons.Actions.Lightning
     val scoreIcon = AllIcons.Debugger.Overhead
     val guideIcon = AllIcons.Debugger.MultipleBreakpointsMuted
+    val soundIcon = AllIcons.Actions.RunAll
 }
