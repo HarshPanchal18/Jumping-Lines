@@ -1,21 +1,20 @@
-package com.harsh.jumpinglines.jumps.cursortrace
+package com.harsh.jumpinglines.utils
 
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.EditorCustomElementRenderer
 import com.intellij.openapi.editor.Inlay
 import com.intellij.openapi.editor.markup.TextAttributes
-import com.intellij.ui.JBColor
-import java.awt.Graphics
-import java.awt.Rectangle
+import com.intellij.util.Alarm
+import java.awt.*
 
-object CaretReplicateDecorationManager {
+object DecorationManager {
 
     // Store inlays and marks per editor
     private val editorInlays = mutableMapOf<Editor, MutableList<Inlay<*>>>()
     private val editorLineMarks = mutableMapOf<Editor, MutableSet<Int>>()
 
-    fun addDecorationForCaret(editor: Editor, offset: Int) {
+    fun addDecorationForCaret(editor: Editor, offset: Int, guideColor: Color) {
 
         val lineMarks = editorLineMarks.getOrPut(editor) { mutableSetOf() }
 
@@ -34,8 +33,18 @@ object CaretReplicateDecorationManager {
                     targetRegion: Rectangle,
                     textAttributes: TextAttributes
                 ) {
-                    g.color = JBColor.RED
-                    g.fillOval(targetRegion.x, targetRegion.y + targetRegion.height / 2 - 3, 6, 6)
+                    val g2d = g as Graphics2D  // Cast to Graphics2D to access alpha settings
+
+                    // Set opacity (alpha value between 0.0f = transparent and 1.0f = opaque)
+                    val alpha = 0.6f  // 60% opacity
+                    val originalComposite = g2d.composite
+                    g2d.composite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha)
+
+                    g2d.color = guideColor
+                    g2d.fillOval(targetRegion.x, targetRegion.y + targetRegion.height / 2 - 3, 6, 6)
+
+                    // Restore original composite so it doesn’t affect other painting
+                    g2d.composite = originalComposite
                 }
             })
 
@@ -70,6 +79,15 @@ object CaretReplicateDecorationManager {
             inlays.forEach { it.dispose() }
         }
         editorLineMarks.remove(editor)
+    }
+
+    private val alarm = Alarm(Alarm.ThreadToUse.SWING_THREAD)
+
+    fun scheduleClearMarkers(editor: Editor, delayMillis: Int = 5000) {
+        alarm.cancelAllRequests()
+        alarm.addRequest({
+            clearAllDecorations(editor)
+        }, delayMillis)
     }
 
 }

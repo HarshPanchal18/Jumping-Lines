@@ -1,11 +1,13 @@
 package com.harsh.jumpinglines.utils
 
-import com.harsh.jumpinglines.jumps.cursortrace.CaretReplicateDecorationManager
-import com.harsh.jumpinglines.jumps.cursortrace.CaretReplicateDecorationManager.clearAllDecorations
+import com.harsh.jumpinglines.utils.DecorationManager.addDecorationForCaret
+import com.harsh.jumpinglines.utils.DecorationManager.clearAllDecorations
+import com.harsh.jumpinglines.utils.DecorationManager.scheduleClearMarkers
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.*
 import com.intellij.openapi.editor.event.CaretEvent
 import com.intellij.openapi.editor.event.CaretListener
+import java.awt.Color
 import kotlin.math.abs
 
 object Jumper {
@@ -236,14 +238,14 @@ object Jumper {
 
                 // Add markers to lines the cursor is covering.
                 if (properties().getBoolean(Const.IS_MARKER_ENABLED))
-                    CaretReplicateDecorationManager.addDecorationForCaret(editor, offset)
+                    addDecorationForCaret(editor = editor, offset = offset, guideColor = Color(255, 100, 33))
             } else {
                 // Otherwise remove cursor on the current line. Helps in changing the direction.
                 caretModel.removeCaret(caretModel.currentCaret)
 
                 // Remove markers from lines the cursor is no longer.
                 if (properties().getBoolean(Const.IS_MARKER_ENABLED))
-                    CaretReplicateDecorationManager.removeDecorationAtOffset(editor, offset)
+                    DecorationManager.removeDecorationAtOffset(editor, offset)
             }
 
             // Add a new caret at the calculated visual position
@@ -254,7 +256,16 @@ object Jumper {
     }
 
     fun moveCaretAndScroll(editor: Editor, toOffset: Int) {
+        if (properties().getBoolean(Const.IS_MARKER_ENABLED)) {
+            // Clear markers of previous jump (if any).
+            clearAllDecorations(editor)
+
+            // Auto-clear markers after 3s.
+            scheduleClearMarkers(editor, delayMillis = 3 * 1000)
+        }
+
         val caretModel = editor.caretModel
+        val document = editor.document
         val selectionModel = editor.selectionModel
 
         // Remove already selected block(s) if any.
@@ -278,6 +289,22 @@ object Jumper {
         val newLogicalPosition = LogicalPosition(targetLine, column)
         caretModel.moveToLogicalPosition(newLogicalPosition)
         editor.scrollingModel.scrollTo(newLogicalPosition, ScrollType.RELATIVE)
+
+        if (properties().getBoolean(Const.IS_MARKER_ENABLED)) {
+            val backwardGuideLineNumber =
+                (document.getLineNumber(toOffset) - NumberOfBackwardLines)
+                    .coerceIn(minimumValue = 0, document.lineCount - 1)
+            val backwardOffset = document.getLineEndOffset(backwardGuideLineNumber)
+
+            addDecorationForCaret(editor = editor, offset = backwardOffset, guideColor = Color(24, 163, 232))
+
+            val forwardGuideLineNumber =
+                (document.getLineNumber(toOffset) + NumberOfForwardLines)
+                    .coerceIn(minimumValue = 0, document.lineCount - 1)
+            val forwardOffset = document.getLineStartOffset(forwardGuideLineNumber)
+
+            addDecorationForCaret(editor = editor, offset = forwardOffset, guideColor = Color(254, 242, 23))
+        }
 
     }
 

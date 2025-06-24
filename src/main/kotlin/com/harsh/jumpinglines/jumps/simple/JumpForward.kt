@@ -2,6 +2,7 @@ package com.harsh.jumpinglines.jumps.simple
 
 import com.harsh.jumpinglines.notification.showNotification
 import com.harsh.jumpinglines.utils.Jumper
+import com.harsh.jumpinglines.utils.SoundPlayer
 import com.harsh.jumpinglines.utils.editor
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -23,6 +24,8 @@ class JumpForward : DumbAwareAction() {
             val targetOffset = Jumper.jumpForwardPreservingFolds(editor)
 
             Jumper.moveCaretAndScroll(editor = editor, toOffset = targetOffset)
+
+            SoundPlayer.playJumpSound()
 
             Jumper.updateJumpScore(document = editor.document, fromOffset = currentOffset, toOffset = targetOffset)
 

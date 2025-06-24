@@ -1,6 +1,8 @@
 package com.harsh.jumpinglines.notification
 
-import com.harsh.jumpinglines.utils.*
+import com.harsh.jumpinglines.utils.Const
+import com.harsh.jumpinglines.utils.getPluginVersion
+import com.harsh.jumpinglines.utils.properties
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.startup.StartupActivity
 
@@ -27,4 +29,11 @@ class PluginUpdateNotifier : StartupActivity.DumbAware {
             println(now)
         }
     }
+
+    private val lastNotificationShown: Long
+        get() = properties().getLong(Const.LAST_RATING_PROMPT, 0L)
+
+    private val hasPluginReviewed: Boolean
+        get() = properties().getBoolean(Const.HAS_PLUGIN_REVIEWED, false)
+
 }

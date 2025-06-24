@@ -103,7 +103,10 @@ class JumpingLinesSettingPanel {
             }
         }
 
-        markerRow = JPanel(markerLayout).apply { add(markerCheckbox) }
+        markerRow = JPanel(markerLayout).apply {
+            add(JLabel().apply { icon = runCatching { Icons.guideIcon }.getOrNull() })
+            add(markerCheckbox)
+        }
 
         keymapPanel = JPanel().apply {
             layout = BoxLayout(this, BoxLayout.Y_AXIS)
@@ -115,8 +118,8 @@ class JumpingLinesSettingPanel {
         addShortcutRow("com.harsh.jumpinglines.jumps.selection.JumpForwardSelected", "Jump in Forward with Selection")
         addShortcutRow("com.harsh.jumpinglines.jumps.selection.JumpBackwardSelected", "Jump in Backward with Selection")
         addShortcutRow("com.harsh.jumpinglines.jumps.middle.JumpOnMiddle", "Jump on Middle of editor")
-        addShortcutRow("com.harsh.jumpinglines.jumps.cursortrace.CursorTraceForward", "Replicate Cursor Forward")
-        addShortcutRow("com.harsh.jumpinglines.jumps.cursortrace.CursorTraceBackward", "Replicate Cursor Backward")
+        addShortcutRow("com.harsh.jumpinglines.jumps.cursortrace.CursorTraceForward", "Replicate Cursor in Forward")
+        addShortcutRow("com.harsh.jumpinglines.jumps.cursortrace.CursorTraceBackward", "Replicate Cursor in Backward")
 
         val parentLayout = VerticalLayout(/* gap = */ 2,/* alignment = */ SwingConstants.LEFT)
         parentPanel = JPanel(parentLayout).apply {
@@ -156,7 +159,9 @@ class JumpingLinesSettingPanel {
                         "<b>${description}:</b>\t\t<i>${shortcutText.ifBlank { "Not Assigned" }}</i>" +
                         "</html>"
             ).apply {
-                border = BorderFactory.createEmptyBorder(5, 5, 2, 5)
+                border = BorderFactory.createEmptyBorder(
+                    /* top = */ 6, /* left = */ 6, /* bottom = */ 4, /* right = */ 6
+                )
             }
 
         keymapPanel.add(row)

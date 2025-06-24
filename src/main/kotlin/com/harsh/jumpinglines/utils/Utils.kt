@@ -13,12 +13,6 @@ val AnActionEvent.editor: Editor
 
 fun properties(): PropertiesComponent = PropertiesComponent.getInstance()
 
-val lastNotificationShown: Long
-    get() = properties().getLong(Const.LAST_RATING_PROMPT, 0L)
-
-val hasPluginReviewed: Boolean
-    get() = properties().getBoolean(Const.HAS_PLUGIN_REVIEWED, false)
-
 fun Long.inHumanReadableForm(): String {
     return when {
         this >= 1_000_000_000 -> String.format("%.2fB", this / 1_000_000_000.0) // Billions
@@ -30,7 +24,7 @@ fun Long.inHumanReadableForm(): String {
 }
 
 fun getPluginVersion(): String? {
-    val pluginId = PluginId.getId("com.example.JumpingLines")
+    val pluginId = PluginId.getId(Const.PLUGIN_ID)
     val pluginDescriptor = PluginManagerCore.getPlugin(pluginId)
 
     return pluginDescriptor?.version
