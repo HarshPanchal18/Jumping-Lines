@@ -66,7 +66,7 @@
                 instance="com.harsh.jumpinglines.settings.JumpingLinesSettings"
                 dynamic="true"/>
         <postStartupActivity implementation="com.harsh.jumpinglines.notification.PluginUpdateNotifier"/>
-        <statusBarWidgetFactory id="JumpingLines"
+        <statusBarWidgetFactory id="com.example.JumpingLines"
                                 implementation="com.harsh.jumpinglines.statusbar.JumpingLinesStatusBarWidgetFactory"/>
         <notificationGroup displayType="STICKY_BALLOON" id="Plugin Updated Notification" isLogByDefault="true"/>
         <notificationGroup displayType="STICKY_BALLOON" id="Plugin Review Notification" isLogByDefault="true"/>
