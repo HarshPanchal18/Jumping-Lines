@@ -25,7 +25,7 @@
             </li>
 
             <li>
-            Jump on a middle of editor.<br/>
+            Jump on a middle of the editor.<br/>
             <kbd>CTRL+COMMA</kbd>
             </li>
 
@@ -35,12 +35,12 @@
             </li>
 
             <li>
-            Increase Jump score as you jump.
+            Increase Jump score with sound as you jump.
             </li>
 
             <li>
-            Customized number of jumps.<br/>
-            Plugin settings:<kbd>ALT+L</kbd>
+            Customizable number of jumps.<br/>
+            Plugin settings:<kbd>ALT+L</kbd> or From Tools Menu
             </li>
 
             <li>
@@ -126,12 +126,13 @@
 
         <p>
 
-        <u><b>3.2 (2025-06-23)</b></u>
+        <u><b>4.0 (2025-06-25)</b></u>
         <ul>
-            <li>Introducing guided markers.</li>
+            <li>Introducing jump-sound for sound feedback.</li>
+            <li>Introducing markers for guiding next jumps.</li>
+            <li>Showed plugin's all shortcuts on plugin setting panel.</li>
             <li>Replicated cursors can be picked up as cursor moves in other direction.</li>
-            <li>Showed all shortcuts in plugin setting panel.</li>
-            <li>Minor fixes & improvements.</li>
+            <li>Required fixes & improvements.</li>
         </ul>
 
         <u><b>3.1 (2025-06-17)</b></u>
@@ -144,7 +145,7 @@
 
         <u><b>3.0 (2025-06-02)</b></u>
         <ul>
-            <li>Introducing CursorTrace to replicate cursors on the lines cursor crossed over.</li>
+            <li>Introducing RepliCursor to replicate cursors on the lines cursor crossed over.</li>
             <li>Improved plugin setting panel and status-bar widget.</li>
             <li>Moved plugin settings inside 'Editor' settings.</li>
             <li>Migrated from deprecated entities.</li>

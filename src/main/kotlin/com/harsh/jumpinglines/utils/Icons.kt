@@ -8,6 +8,6 @@ object Icons {
     val backwardJumpIcon = AllIcons.Chooser.Top
     val lightningIcon = AllIcons.Actions.Lightning
     val scoreIcon = AllIcons.Debugger.Overhead
-    val guideIcon = AllIcons.Debugger.MultipleBreakpointsMuted
+    val guideIcon = AllIcons.CodeWithMe.CwmPermissionView
     val soundIcon = AllIcons.Actions.RunAll
 }

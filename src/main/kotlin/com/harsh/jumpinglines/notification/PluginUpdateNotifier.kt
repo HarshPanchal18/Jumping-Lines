@@ -16,7 +16,7 @@ class PluginUpdateNotifier : StartupActivity.DumbAware {
         if (previousKnownVersion != currentVersion) { // Version mismatched
             promptPluginReviewNotification() // Ask for rating and reviews
 
-            showNotification(message = "<b>New plugin updates are applied.</b>")
+            showNotification(message = "<b>New changes are applied.</b>")
             properties().setValue(Const.PREVIOUS_KNOWN_VERSION, currentVersion) // Update value
         }
 
