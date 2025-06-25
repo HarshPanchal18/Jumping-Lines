@@ -112,7 +112,7 @@ class JumpingLinesSettingPanel {
 
         val soundLayout = FlowLayout(/* align = */ FlowLayout.LEFT)
         soundCheckbox = JCheckBox("Play sound on jump?").apply {
-            isSelected = properties().getBoolean(Const.IS_MARKER_ENABLED)
+            isSelected = properties().getBoolean(Const.IS_SOUND_ENABLED)
             addActionListener {
                 properties().setValue(Const.IS_SOUND_ENABLED, isSelected)
             }
