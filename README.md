@@ -2,10 +2,11 @@
 
 <img align="right" src="src/main/resources/META-INF/pluginIcon.svg" style ="height:150px;width:150px;padding:8px;" alt="Plugin Logo">
 
-<a href="https://plugins.jetbrains.com/plugin/22878-jumping-lines"><img src="https://img.shields.io/website?down_color=red&down_message=Under%20work&label=Plugin&logo=jetbrains&style=for-the-badge&up_color=blue&up_message=Stable&url=https://plugins.jetbrains.com/plugin/22878-jumping-lines"></a>
-![JetBrains Plugin Downloads](https://img.shields.io/jetbrains/plugin/d/22878?style=for-the-badge&logo=jetbrains&label=Total%20Downloads&color=blue)
-![JetBrains Plugin Rating](https://img.shields.io/jetbrains/plugin/r/rating/22878?style=for-the-badge&logo=jetbrains&label=Rating&color=blue)
-![JetBrains Plugin Version](https://img.shields.io/jetbrains/plugin/v/22878?style=for-the-badge&logo=jetbrains&label=Version&color=blue)
+<a href="https://plugins.jetbrains.com/plugin/22878-jumping-lines"><img src="https://img.shields.io/website?down_color=red&down_message=Under%20work&label=Plugin&logo=jetbrains&style=plastic&up_color=blue&up_message=Stable&url=https://plugins.jetbrains.com/plugin/22878-jumping-lines"></a>
+![JetBrains Plugin Downloads](https://img.shields.io/jetbrains/plugin/d/22878?style=plastic&logo=jetbrains&label=Total%20Downloads&color=blue)
+![JetBrains Plugin Rating](https://img.shields.io/jetbrains/plugin/r/rating/22878?style=plastic&logo=jetbrains&label=Rating&color=blue)
+![JetBrains Plugin Version](https://img.shields.io/jetbrains/plugin/v/22878?style=plastic&logo=jetbrains&label=Version&color=blue)
+![Lines of Code](https://tokei.rs/b1/github/HarshPanchal18/Jumping-Lines)
 
 ## `Introduction:`
 
@@ -22,12 +23,14 @@ reducing the need to scroll through long files or navigate through complex codeb
 1. **Line Jumping:** Jump forward or backward multiple lines at a time.
 2. **Line Jumping with selection:** Jump forward or backward multiple lines at a time with selection.
 3. **Jump on Middle line:** Jump on middle line of an editor.
-4. **Cursor Trace:** Replicate cursors over the lines cursor has jumped.
+4. **RepliCursor:** Replicate cursors over the lines cursor has jumped.
 5. **Customizable number of Lines:** Define the number of lines to jump forward and backward through the plugin
    setting.
-6. **Jump Score:** A score that counts the number of lines you've jumped.
-7. **Status bar Widget:** View Jump Score directly from status bar.
-8. **Compatible with All JetBrains IDEs:** This plugin is compatible with all JetBrains IDEs, including IntelliJ IDEA,
+6. **Jump guide markers:** Surfacing auto-hiding markers to indicate next cursor jump position.
+7. **Jump Score:** A score that counts the number of lines you've jumped so far.
+8. **Jump sound:** Providing a sound feedback on successful jump.
+9. **Status bar Widget:** View Jump Score directly from status bar.
+10. **Compatible with All JetBrains IDEs:** This plugin is compatible with all JetBrains IDEs, including IntelliJ IDEA,
    PyCharm, Android Studio, PHPStorm, and RubyMine.
 
 ## `How to Use:`
@@ -51,6 +54,8 @@ reducing the need to scroll through long files or navigate through complex codeb
    > * <kbd>Alt + Shift + Single-Quote</kbd> to replicate cursor on `forward` jump.
    > * <kbd>Alt + Shift + Semi-Colon</kbd> to replicate cursor on `backward` jump.
    > * <kbd>Alt + L</kbd> to open `plugin settings`.
+
+   - All this keymaps and shortcuts are displayed on plugin setting.
 
 ## `Benefits:`
 
