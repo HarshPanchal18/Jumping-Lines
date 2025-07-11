@@ -281,23 +281,25 @@ object Jumper {
             caretModel.removeSecondaryCarets()
         }
 
-        // Get upcoming line number and column of cursor.
-        val targetLine = editor.document.getLineNumber(toOffset)
-        val column = caretModel.logicalPosition.column
-
         // Move caret to the target offset
         caretModel.moveToOffset(toOffset)
 
+        // snap to the visual start of that line
+        // – for an ordinary line this is column 0
+        // – for a collapsed fold this is the fold header position
+        val snappedOffset = caretModel.visualLineStart
+        if (snappedOffset != caretModel.offset) {
+            caretModel.moveToOffset(snappedOffset)
+        }
+
         // Move caret and scroll editor to the new logical position
-        val newLogicalPosition = LogicalPosition(targetLine, column)
-        caretModel.moveToLogicalPosition(newLogicalPosition)
-        editor.scrollingModel.scrollTo(newLogicalPosition, ScrollType.RELATIVE)
+        editor.scrollingModel.scrollToCaret(ScrollType.RELATIVE)
 
         if (properties().getBoolean(Const.IS_MARKER_ENABLED)) {
             val backwardGuideLineNumber =
                 (document.getLineNumber(toOffset) - NumberOfBackwardLines)
                     .coerceIn(minimumValue = 0, document.lineCount - 1)
-            val backwardOffset = document.getLineEndOffset(backwardGuideLineNumber)
+            val backwardOffset = document.getLineStartOffset(backwardGuideLineNumber)
 
             addDecorationForCaret(editor = editor, offset = backwardOffset, guideColor = Color(24, 163, 232))
 
@@ -324,13 +326,8 @@ object Jumper {
         caretModel.moveToOffset(visualLineStart)
         selectionModel.setSelection(/* startOffset = */ startOffset, /* endOffset = */ visualLineStart)
 
-        // Get the next line number cursor is about to jump.
-        val newLineNumber = editor.document.getLineNumber(visualLineStart)
-        val newLogicalPosition = LogicalPosition(/* line = */ newLineNumber, /* column = */ 0)
-
-        // Move caret and scroll editor to the new logical position
-        caretModel.moveToLogicalPosition(newLogicalPosition)
-        editor.scrollingModel.scrollTo(newLogicalPosition, ScrollType.RELATIVE)
+        // scroll editor to the new caret position
+        editor.scrollingModel.scrollToCaret(ScrollType.RELATIVE)
     }
 
     fun updateJumpScore(document: Document, fromOffset: Int, toOffset: Int) {

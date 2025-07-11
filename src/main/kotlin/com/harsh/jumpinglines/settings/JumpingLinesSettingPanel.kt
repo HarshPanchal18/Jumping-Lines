@@ -1,10 +1,7 @@
 package com.harsh.jumpinglines.settings
 
-import com.harsh.jumpinglines.utils.Const
-import com.harsh.jumpinglines.utils.Icons
+import com.harsh.jumpinglines.utils.*
 import com.harsh.jumpinglines.utils.Jumper.jumpScore
-import com.harsh.jumpinglines.utils.inHumanReadableForm
-import com.harsh.jumpinglines.utils.properties
 import com.intellij.openapi.actionSystem.Shortcut
 import com.intellij.openapi.keymap.KeymapManager
 import com.intellij.openapi.keymap.KeymapUtil
@@ -99,7 +96,7 @@ class JumpingLinesSettingPanel {
 
         val markerLayout = FlowLayout(/* align = */ FlowLayout.LEFT)
         markerCheckbox = JCheckBox("Show markers to guide next jump?").apply {
-            isSelected = properties().getBoolean(Const.IS_MARKER_ENABLED)
+            isSelected = properties().getBoolean(Const.IS_MARKER_ENABLED, true)
             addActionListener {
                 properties().setValue(Const.IS_MARKER_ENABLED, isSelected)
             }
@@ -125,16 +122,41 @@ class JumpingLinesSettingPanel {
 
         keymapPanel = JPanel().apply {
             layout = BoxLayout(this, BoxLayout.Y_AXIS)
-            border = BorderFactory.createTitledBorder("<html><b><u>Keymaps & Shortcuts</b></u></html>")
-        }
+            border = BorderFactory.createTitledBorder(
+                "<html>" +
+                        "<b><u>Keymaps & Shortcuts</b></u> " +
+                        "<i>(v${getPluginVersion()})</i>" +
+                        "</html>"
+            )
 
-        addShortcutRow("com.harsh.jumpinglines.jumps.JumpForwardLines", "Jump in Forward")
-        addShortcutRow("com.harsh.jumpinglines.jumps.JumpBackwardLines", "Jump in Backward")
-        addShortcutRow("com.harsh.jumpinglines.jumps.selection.JumpForwardSelected", "Jump in Forward with Selection")
-        addShortcutRow("com.harsh.jumpinglines.jumps.selection.JumpBackwardSelected", "Jump in Backward with Selection")
-        addShortcutRow("com.harsh.jumpinglines.jumps.middle.JumpOnMiddle", "Jump on Middle of editor")
-        addShortcutRow("com.harsh.jumpinglines.jumps.cursortrace.CursorTraceForward", "Replicate Cursor in Forward")
-        addShortcutRow("com.harsh.jumpinglines.jumps.cursortrace.CursorTraceBackward", "Replicate Cursor in Backward")
+            add(shortcutRow("com.harsh.jumpinglines.jumps.JumpForwardLines", "Jump in Forward"))
+            add(shortcutRow("com.harsh.jumpinglines.jumps.JumpBackwardLines", "Jump in Backward"))
+            add(
+                shortcutRow(
+                    "com.harsh.jumpinglines.jumps.selection.JumpForwardSelected",
+                    "Jump in Forward with Selection"
+                )
+            )
+            add(
+                shortcutRow(
+                    "com.harsh.jumpinglines.jumps.selection.JumpBackwardSelected",
+                    "Jump in Backward with Selection"
+                )
+            )
+            add(shortcutRow("com.harsh.jumpinglines.jumps.middle.JumpOnMiddle", "Jump on Middle of editor"))
+            add(
+                shortcutRow(
+                    "com.harsh.jumpinglines.jumps.cursortrace.CursorTraceForward",
+                    "Replicate Cursor in Forward"
+                )
+            )
+            add(
+                shortcutRow(
+                    "com.harsh.jumpinglines.jumps.cursortrace.CursorTraceBackward",
+                    "Replicate Cursor in Backward"
+                )
+            )
+        }
 
         val parentLayout = VerticalLayout(/* gap = */ 2,/* alignment = */ SwingConstants.LEFT)
         parentPanel = JPanel(parentLayout).apply {
@@ -164,26 +186,23 @@ class JumpingLinesSettingPanel {
         soundCheckbox.isSelected = isSoundEnabled
     }
 
-    private fun addShortcutRow(actionId: String, description: String) {
-        val shortcuts: Array<Shortcut> = KeymapManager.getInstance()
+    private fun shortcutRow(actionId: String, description: String): JLabel {
+        val pluginShortcuts: Array<Shortcut> = KeymapManager.getInstance()
             .activeKeymap
             .getShortcuts(actionId)
-        val shortcutText: String = KeymapUtil.getShortcutsText(shortcuts)
+
+        val shortcutKey: String = KeymapUtil.getShortcutsText(pluginShortcuts)
             .replace(".", "Period")
             .replace(";", "Semicolon")
 
-        val row =
-            JLabel(
-                "<html>" +
-                        "<b>${description}:</b>\t\t<i>${shortcutText.ifBlank { "Not Assigned" }}</i>" +
-                        "</html>"
-            ).apply {
-                border = BorderFactory.createEmptyBorder(
-                    /* top = */ 6, /* left = */ 6, /* bottom = */ 4, /* right = */ 6
-                )
-            }
+        return JLabel(
+            "<html>" +
+                    "<b>${description}:</b>\t\t<i>${shortcutKey.ifBlank { "Not Assigned" }}</i>" +
+                    "</html>"
+        ).apply {
+            border = BorderFactory.createEmptyBorder(/* top = */ 6, /* left = */ 6, /* bottom = */ 4, /* right = */ 6)
+        }
 
-        keymapPanel.add(row)
     }
 
 }
