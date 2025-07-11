@@ -6,6 +6,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.extensions.PluginId
+import com.intellij.util.Alarm
 
 val AnActionEvent.editor: Editor
     get() = this.getData(CommonDataKeys.EDITOR)
@@ -28,4 +29,12 @@ fun getPluginVersion(): String? {
     val pluginDescriptor = PluginManagerCore.getPlugin(pluginId)
 
     return pluginDescriptor?.version
+}
+
+// Setting a timeout after what time the markers will be disappeared.
+fun scheduleTask(delayInMs: Int = 5000, task: () -> Unit) {
+    Alarm(Alarm.ThreadToUse.SWING_THREAD).apply {
+        cancelAllRequests()
+        addRequest(task, delayInMs)
+    }
 }

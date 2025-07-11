@@ -2,7 +2,8 @@ package com.harsh.jumpinglines.utils
 
 import com.harsh.jumpinglines.utils.DecorationManager.addDecorationForCaret
 import com.harsh.jumpinglines.utils.DecorationManager.clearAllDecorations
-import com.harsh.jumpinglines.utils.DecorationManager.scheduleClearMarkers
+import com.harsh.jumpinglines.utils.DecorationManager.clearAllLineFlashes
+import com.harsh.jumpinglines.utils.DecorationManager.flashLine
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.*
 import com.intellij.openapi.editor.event.CaretEvent
@@ -242,6 +243,7 @@ object Jumper {
                 // Add markers to lines the cursor is covering.
                 if (properties().getBoolean(Const.IS_MARKER_ENABLED))
                     addDecorationForCaret(editor = editor, offset = offset, guideColor = Color(255, 100, 33))
+
             } else {
                 // Otherwise remove cursor on the current line. Helps in changing the direction.
                 caretModel.removeCaret(caretModel.currentCaret)
@@ -262,9 +264,7 @@ object Jumper {
         if (properties().getBoolean(Const.IS_MARKER_ENABLED)) {
             // Clear markers of previous jump (if any).
             clearAllDecorations(editor)
-
-            // Auto-clear markers after 2s.
-            scheduleClearMarkers(editor, delayMillis = 2 * 1000)
+            clearAllLineFlashes(editor)
         }
 
         val caretModel = editor.caretModel
@@ -300,15 +300,13 @@ object Jumper {
                 (document.getLineNumber(toOffset) - NumberOfBackwardLines)
                     .coerceIn(minimumValue = 0, document.lineCount - 1)
             val backwardOffset = document.getLineStartOffset(backwardGuideLineNumber)
-
-            addDecorationForCaret(editor = editor, offset = backwardOffset, guideColor = Color(24, 163, 232))
+            flashLine(editor, backwardOffset, Color(24, 163, 232))
 
             val forwardGuideLineNumber =
                 (document.getLineNumber(toOffset) + NumberOfForwardLines)
                     .coerceIn(minimumValue = 0, document.lineCount - 1)
             val forwardOffset = document.getLineStartOffset(forwardGuideLineNumber)
-
-            addDecorationForCaret(editor = editor, offset = forwardOffset, guideColor = Color(254, 242, 23))
+            flashLine(editor, forwardOffset, Color(254, 242, 23))
         }
 
     }

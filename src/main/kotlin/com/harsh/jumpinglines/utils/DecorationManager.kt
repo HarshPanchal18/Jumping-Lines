@@ -4,8 +4,10 @@ import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.EditorCustomElementRenderer
 import com.intellij.openapi.editor.Inlay
+import com.intellij.openapi.editor.markup.HighlighterLayer
+import com.intellij.openapi.editor.markup.HighlighterTargetArea
+import com.intellij.openapi.editor.markup.RangeHighlighter
 import com.intellij.openapi.editor.markup.TextAttributes
-import com.intellij.util.Alarm
 import java.awt.*
 
 object DecorationManager {
@@ -81,13 +83,45 @@ object DecorationManager {
         editorLineMarks.remove(editor)
     }
 
-    private val alarm = Alarm(Alarm.ThreadToUse.SWING_THREAD)
+    fun flashLine(editor: Editor, offset: Int, guideColor: Color, durationInMs: Int = 5000) {
 
-    fun scheduleClearMarkers(editor: Editor, delayMillis: Int = 5000) {
-        alarm.cancelAllRequests()
-        alarm.addRequest({
-            clearAllDecorations(editor)
-        }, delayMillis)
+        // keep a set of line numbers that are already flashing so we don’t stack multiple highlighters on a single line.
+        val lineMarks = editorLineMarks.getOrPut(editor) { mutableSetOf() }
+        val document = editor.document
+        val line = document.getLineNumber(offset)
+
+        // already flashing?  ──► do nothing
+        if (lineMarks.contains(line)) return
+
+        val start = document.getLineStartOffset(line)
+        val end = document.getLineEndOffset(line)
+
+        val attributes = TextAttributes().apply {
+            backgroundColor = Color(guideColor.red, guideColor.green, guideColor.blue, (guideColor.alpha * 0.1).toInt())
+        }
+
+        val markup = editor.markupModel
+        ApplicationManager.getApplication().runWriteAction<RangeHighlighter> {
+            markup.addRangeHighlighter(
+                start, end,
+                HighlighterLayer.SELECTION - 1, // beneath selection, above default
+                attributes,
+                HighlighterTargetArea.LINES_IN_RANGE
+            )
+        }
+
+        // Track the highlight so we can clear it later
+        editorInlays.computeIfAbsent(editor) { mutableListOf() } // reuse same map
+        lineMarks.add(line)
+
+        // auto‑clear after duration
+        scheduleTask(durationInMs) {
+            markup.removeAllHighlighters()
+        }
+    }
+
+    fun clearAllLineFlashes(editor: Editor) {
+        editor.markupModel.removeAllHighlighters()
     }
 
 }
