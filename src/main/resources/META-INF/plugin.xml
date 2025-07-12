@@ -126,6 +126,12 @@
 
         <p>
 
+        <u><b>4.1 (2025-07-13)</b></u>
+        <ul>
+            <li>Introducing auto-hide line highlights in replacement of guide markers to guide in next jumps.</li>
+            <li>Improvements in cursor behavior.</li>
+        </ul>
+
         <u><b>4.0 (2025-06-26)</b></u>
         <ul>
             <li>Introducing jump-sound for sound feedback.</li>

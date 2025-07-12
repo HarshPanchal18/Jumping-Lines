@@ -1,13 +1,10 @@
 package com.harsh.jumpinglines.utils
 
-import com.harsh.jumpinglines.utils.DecorationManager.addDecorationForCaret
 import com.harsh.jumpinglines.utils.DecorationManager.clearAllDecorations
 import com.harsh.jumpinglines.utils.DecorationManager.clearAllLineFlashes
 import com.harsh.jumpinglines.utils.DecorationManager.flashLine
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.*
-import com.intellij.openapi.editor.event.CaretEvent
-import com.intellij.openapi.editor.event.CaretListener
 import java.awt.Color
 import kotlin.math.abs
 
@@ -23,7 +20,7 @@ object Jumper {
         get() = properties().getInt(Const.BACKWARD_LINES, 2)
 
     val IsMarkerEnabled: Boolean
-        get() = properties().getBoolean(Const.IS_MARKER_ENABLED, false)
+        get() = properties().getBoolean(Const.IS_MARKER_ENABLED, true)
 
     val IsSoundEnabled: Boolean
         get() = properties().getBoolean(Const.IS_SOUND_ENABLED, false)
@@ -198,19 +195,6 @@ object Jumper {
 
         if (currentLine == targetLine) return  // Nothing to do
 
-        // Listen events of caret(cursor).
-        if (properties().getBoolean(Const.IS_MARKER_ENABLED)) {
-            caretModel.addCaretListener(object : CaretListener {
-                override fun caretAdded(event: CaretEvent) {}
-                override fun caretPositionChanged(event: CaretEvent) {}
-                override fun caretRemoved(event: CaretEvent) {
-                    if (caretModel.caretCount == 1) {
-                        clearAllDecorations(editor)
-                    }
-                }
-            })
-        }
-
         // Remove selection blocks before jumping (if any).
         if (selectionModel.hasSelection()) {
             selectionModel.removeSelection(/* allCarets = */ true)
@@ -239,23 +223,13 @@ object Jumper {
             // If there is no caret on current line, only then put cursor.
             if (!caretExists) {
                 caretModel.addCaret(visualPosition)
-
-                // Add markers to lines the cursor is covering.
-                if (properties().getBoolean(Const.IS_MARKER_ENABLED))
-                    addDecorationForCaret(editor = editor, offset = offset, guideColor = Color(255, 100, 33))
-
             } else {
                 // Otherwise remove cursor on the current line. Helps in changing the direction.
                 caretModel.removeCaret(caretModel.currentCaret)
-
-                // Remove markers from lines the cursor is no longer.
-                if (properties().getBoolean(Const.IS_MARKER_ENABLED))
-                    DecorationManager.removeDecorationAtOffset(editor, offset)
             }
 
             // Add a new caret at the calculated visual position
             caretModel.addCaret(editor.offsetToVisualPosition(offset))
-
         }
 
     }
