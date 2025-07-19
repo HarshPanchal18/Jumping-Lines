@@ -20,7 +20,7 @@ object Jumper {
         get() = properties().getInt(Const.BACKWARD_LINES, 2)
 
     val IsMarkerEnabled: Boolean
-        get() = properties().getBoolean(Const.IS_MARKER_ENABLED, true)
+        get() = properties().getBoolean(Const.IS_MARKER_ENABLED, false)
 
     val IsSoundEnabled: Boolean
         get() = properties().getBoolean(Const.IS_SOUND_ENABLED, false)

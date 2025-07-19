@@ -32,8 +32,8 @@ class JumpingLinesSettings : Configurable {
             // Set value or unset if equals to default value
             properties().setValue(Const.FORWARD_LINES, pluginSettingPanel.getForwardLinesValue(), 4)
             properties().setValue(Const.BACKWARD_LINES, pluginSettingPanel.getBackwardLinesValue(), 2)
-            properties().setValue(Const.IS_MARKER_ENABLED, pluginSettingPanel.getMarkerState())
-            properties().setValue(Const.IS_SOUND_ENABLED, pluginSettingPanel.getSoundState())
+            properties().setValue(Const.IS_MARKER_ENABLED, pluginSettingPanel.getMarkerState(), false)
+            properties().setValue(Const.IS_SOUND_ENABLED, pluginSettingPanel.getSoundState(), false)
         }
 
         // Holding values, for smelling to modify().

@@ -16,5 +16,5 @@ object Const {
     const val NOTIFICATION_PLUGIN_UPDATED = "Plugin Updated Notification"
     const val NOTIFICATION_PLUGIN_REVIEW = "Plugin Review Notification"
     const val IS_MARKER_ENABLED = "IsGuideMarkersEnabled"
-    const val IS_SOUND_ENABLED = "IsSoundEnabled"
+    const val IS_SOUND_ENABLED = "IsJumpSoundEnabled"
 }

@@ -26,12 +26,12 @@ reducing the need to scroll through long files or navigate through complex codeb
 4. **RepliCursor:** Replicate cursors over the lines cursor has jumped.
 5. **Customizable number of Lines:** Define the number of lines to jump forward and backward through the plugin
    setting.
-6. **Jump guide markers:** Surfacing auto-hiding markers to indicate next cursor jump position.
+6. **Jump Highlights:** Surfacing auto-hiding line highlights to indicate next cursor jump position line.
 7. **Jump Score:** A score that counts the number of lines you've jumped so far.
-8. **Jump sound:** Providing a sound feedback on successful jump.
+8. **Jump Sound:** Providing a sound feedback on successful jump.
 9. **Status bar Widget:** View Jump Score directly from status bar.
 10. **Compatible with All JetBrains IDEs:** This plugin is compatible with all JetBrains IDEs, including IntelliJ IDEA,
-   PyCharm, Android Studio, PHPStorm, and RubyMine.
+    PyCharm, Android Studio, PHPStorm, and RubyMine.
 
 ## `How to Use:`
 
@@ -55,7 +55,7 @@ reducing the need to scroll through long files or navigate through complex codeb
    > * <kbd>Alt + Shift + Semi-Colon</kbd> to replicate cursor on `backward` jump.
    > * <kbd>Alt + L</kbd> to open `plugin settings`.
 
-   - All this keymaps and shortcuts are displayed on plugin setting.
+    - All this keymaps and shortcuts are displayed on plugin setting.
 
 ## `Benefits:`
 

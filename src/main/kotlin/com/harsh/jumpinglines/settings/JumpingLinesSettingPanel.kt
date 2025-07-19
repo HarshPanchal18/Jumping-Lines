@@ -95,8 +95,8 @@ class JumpingLinesSettingPanel {
         }
 
         val markerLayout = FlowLayout(/* align = */ FlowLayout.LEFT)
-        markerCheckbox = JCheckBox("Show markers to guide next jump?").apply {
-            isSelected = properties().getBoolean(Const.IS_MARKER_ENABLED, true)
+        markerCheckbox = JCheckBox("Flash lines to guide you for next jump?").apply {
+            isSelected = properties().getBoolean(Const.IS_MARKER_ENABLED)
             addActionListener {
                 properties().setValue(Const.IS_MARKER_ENABLED, isSelected)
             }
@@ -177,7 +177,7 @@ class JumpingLinesSettingPanel {
 
     fun getMarkerState(): Boolean = markerCheckbox.isSelected
 
-    fun getSoundState(): Boolean = markerCheckbox.isSelected
+    fun getSoundState(): Boolean = soundCheckbox.isSelected
 
     fun setValues(forwardLine: Int, backwardLine: Int, isMarkerEnabled: Boolean, isSoundEnabled: Boolean) {
         forwardLineSpinner.value = forwardLine
