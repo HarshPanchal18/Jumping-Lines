@@ -21,7 +21,7 @@ class JumpBackward : DumbAwareAction() {
             // Calculate the new caret position while skipping folded regions
             val targetOffset = Jumper.jumpBackwardPreservingFolds(editor = editor)
 
-            Jumper.moveCaretAndScroll(editor = editor, toOffset = targetOffset)
+            Jumper.moveCaretAndScroll(editor = editor, currentOffset = currentOffset, toOffset = targetOffset)
 
             if (properties().getBoolean(Const.IS_SOUND_ENABLED)) {
                 SoundPlayer.playJumpSound()

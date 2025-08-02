@@ -234,7 +234,7 @@ object Jumper {
 
     }
 
-    fun moveCaretAndScroll(editor: Editor, toOffset: Int) {
+    fun moveCaretAndScroll(editor: Editor, currentOffset: Int, toOffset: Int) {
         if (properties().getBoolean(Const.IS_MARKER_ENABLED)) {
             // Clear markers of previous jump (if any).
             clearAllDecorations(editor)
@@ -255,16 +255,24 @@ object Jumper {
             caretModel.removeSecondaryCarets()
         }
 
-        // Move caret to the target offset
-        caretModel.moveToOffset(toOffset)
+        val currentLineNumber: Int = document.getLineNumber(currentOffset)
+        val currentColumn = currentOffset - document.getLineStartOffset(currentLineNumber)
 
-        // snap to the visual start of that line
-        // – for an ordinary line this is column 0
-        // – for a collapsed fold this is the fold header position
-        val snappedOffset = caretModel.visualLineStart
-        if (snappedOffset != caretModel.offset) {
-            caretModel.moveToOffset(snappedOffset)
-        }
+        // Get the line number of the new offset
+        val targetLine = document.getLineNumber(toOffset)
+        val targetLineStartOffset = document.getLineStartOffset(targetLine)
+        val targetLineEndOffset = document.getLineEndOffset(targetLine)
+        /* Make it to the end of the line if already at the end of the line.
+        val isAtEndOfLine = currentOffset == document.getLineEndOffset(document.getLineNumber(currentOffset))
+            if (isAtEndOfLine) val safeOffset = document.getLineNumber(targetLine)
+        */
+
+        // Check if target offset is inside a collapsed fold
+        val collapsedRegion = editor.foldingModel.getCollapsedRegionAtOffset(toOffset)
+        val safeOffset =
+            collapsedRegion?.startOffset ?: (targetLineStartOffset + currentColumn).coerceAtMost(targetLineEndOffset)
+
+        caretModel.moveToOffset(safeOffset)
 
         // Move caret and scroll editor to the new logical position
         editor.scrollingModel.scrollToCaret(ScrollType.RELATIVE)

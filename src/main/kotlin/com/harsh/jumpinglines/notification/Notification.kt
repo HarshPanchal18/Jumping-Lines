@@ -45,7 +45,7 @@ fun promptPluginReviewNotification() {
     ).apply {
         addAction(object : NotificationAction("Leave a Review") {
             override fun actionPerformed(e: AnActionEvent, notification: Notification) {
-                BrowserUtil.browse(Const.PLUGIN_URL + "/reviews") // Open browser to the URL
+                BrowserUtil.browse(Const.PLUGIN_URL + "/reviews?ref=from-ide") // Open browser to the URL
                 notification.expire() // Dismiss notification balloon
                 properties().setValue(Const.HAS_PLUGIN_REVIEWED, true)
             }

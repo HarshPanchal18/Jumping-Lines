@@ -126,6 +126,11 @@
 
         <p>
 
+        <u><b>4.1.2 (2025-08-01)</b></u>
+        <ul>
+            <li>The cursor will be jump on the same column.</li>
+        </ul>
+
         <u><b>4.1.1 (2025-07-13)</b></u>
         <ul>
             <li>Fixes and improvements.</li>
