@@ -126,6 +126,12 @@
 
         <p>
 
+        <u><b>4.2 (2025-08-06)</b></u>
+        <ul>
+            <li>Made jumps compatible with Visual mode (Editor -> General -> Virtual Space).</li>
+            <li>The cursor will jump on the same column over folds too.</li>
+        </ul>
+
         <u><b>4.1.2 (2025-08-01)</b></u>
         <ul>
             <li>The cursor will be jump on the same column.</li>
