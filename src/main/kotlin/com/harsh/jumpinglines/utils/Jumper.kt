@@ -139,15 +139,9 @@ object Jumper {
         // Perform caret move and folding restore inside a batch operation
         ApplicationManager.getApplication().runWriteAction {
             foldingModel.runBatchFoldingOperation {
-
-                // Move the caret to the target position
-                if (editor.selectionModel.hasSelection())
-                    caretModel.moveToOffset(targetOffset)
-
                 // Restore previously collapsed regions (re-collapse)
                 previouslyCollapsedRegions.forEach { region ->
-                    if (region.isValid)
-                        region.isExpanded = false
+                    if (region.isValid) region.isExpanded = false
                 }
             }
         }
@@ -173,15 +167,9 @@ object Jumper {
 
         ApplicationManager.getApplication().runWriteAction {
             foldingModel.runBatchFoldingOperation {
-
-                // Move the caret to the target position
-                if (editor.selectionModel.hasSelection())
-                    caretModel.moveToOffset(targetOffset)
-
                 // Restore previously collapsed regions (re-collapse)
                 previouslyCollapsedRegions.forEach { region ->
-                    if (region.isValid)
-                        region.isExpanded = false
+                    if (region.isValid) region.isExpanded = false
                 }
             }
         }
@@ -252,8 +240,6 @@ object Jumper {
             val fromVisualPosition = editor.caretModel.visualPosition
             val targetVisualLineNumber = editor.offsetToVisualPosition(toOffset).line
 
-            println("Visual (line,column):($targetVisualLineNumber,${fromVisualPosition.column})")
-
             // Create a new visual position, maintaining the original column.
             val newVisualPosition = VisualPosition(targetVisualLineNumber, fromVisualPosition.column)
 
@@ -296,7 +282,7 @@ object Jumper {
 
     }
 
-    fun moveCaretAndScrollWithSelection(editor: Editor, currentOffset: Int) {
+    fun moveCaretAndScrollWithSelection(editor: Editor, currentOffset: Int, targetOffset: Int) {
         val caretModel = editor.caretModel
         val selectionModel = editor.selectionModel
 
@@ -304,10 +290,20 @@ object Jumper {
         val startOffset: Int =
             if (selectionModel.hasSelection()) selectionModel.leadSelectionOffset else currentOffset
 
-        // Move caret to the target offset and extend the selection
-        val visualLineStart = caretModel.visualLineStart
-        caretModel.moveToOffset(visualLineStart)
-        selectionModel.setSelection(/* startOffset = */ startOffset, /* endOffset = */ visualLineStart)
+        // Move caret to the target offset and extend the selection based on given condition.
+        if (editor.settings.isVirtualSpace) {
+            val targetVisualLine = editor.offsetToVisualPosition(targetOffset).line
+            val newVisualPos = VisualPosition(targetVisualLine, 0)
+
+            caretModel.moveToVisualPosition(newVisualPos)
+            selectionModel.setSelection(startOffset, editor.visualPositionToOffset(newVisualPos))
+        } else {
+            val targetLogicalLine = editor.offsetToLogicalPosition(targetOffset).line
+            val newLogicalPos = LogicalPosition(targetLogicalLine, 0)
+
+            caretModel.moveToLogicalPosition(newLogicalPos)
+            selectionModel.setSelection(startOffset, editor.logicalPositionToOffset(newLogicalPos))
+        }
 
         // scroll editor to the new caret position
         editor.scrollingModel.scrollToCaret(ScrollType.RELATIVE)

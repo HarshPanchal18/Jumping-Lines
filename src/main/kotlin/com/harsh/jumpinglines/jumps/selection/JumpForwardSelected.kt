@@ -23,7 +23,8 @@ class JumpForwardSelected : DumbAwareAction() {
 
             Jumper.moveCaretAndScrollWithSelection(
                 editor = editor,
-                currentOffset = currentOffset
+                currentOffset = currentOffset,
+                targetOffset = targetOffset
             )
 
             if (properties().getBoolean(Const.IS_SOUND_ENABLED)) {
