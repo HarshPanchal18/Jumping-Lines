@@ -180,7 +180,6 @@ object Jumper {
     fun addCaretsOnJumpedLines(editor: Editor, currentLine: Int, targetLine: Int, column: Int) {
 
         val caretModel: CaretModel = editor.caretModel
-        val document: Document = editor.document
         val selectionModel: SelectionModel = editor.selectionModel
 
         if (currentLine == targetLine) return  // Nothing to do
@@ -197,13 +196,7 @@ object Jumper {
 
         // For each line in the jump range, add a caret at the correct column
         for (line in lines) {
-            val lineStartOffset = document.getLineStartOffset(line)
-            val lineEndOffset = document.getLineEndOffset(line)
-
-            // Ensure the caret column does not go past the end of the line
-            val offset = minOf(lineStartOffset + column, lineEndOffset)
-
-            val visualPosition = editor.offsetToVisualPosition(offset)
+            val visualPosition = VisualPosition(line, column)
 
             // Check if any caret already exists at this visual line
             val caretExists = caretModel.allCarets.any { it.visualPosition.line == visualPosition.line }
