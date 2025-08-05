@@ -141,7 +141,8 @@ object Jumper {
             foldingModel.runBatchFoldingOperation {
 
                 // Move the caret to the target position
-                caretModel.moveToOffset(targetOffset)
+                if (editor.selectionModel.hasSelection())
+                    caretModel.moveToOffset(targetOffset)
 
                 // Restore previously collapsed regions (re-collapse)
                 previouslyCollapsedRegions.forEach { region ->
@@ -174,7 +175,8 @@ object Jumper {
             foldingModel.runBatchFoldingOperation {
 
                 // Move the caret to the target position
-                caretModel.moveToOffset(targetOffset)
+                if (editor.selectionModel.hasSelection())
+                    caretModel.moveToOffset(targetOffset)
 
                 // Restore previously collapsed regions (re-collapse)
                 previouslyCollapsedRegions.forEach { region ->
@@ -196,9 +198,7 @@ object Jumper {
         if (currentLine == targetLine) return  // Nothing to do
 
         // Remove selection blocks before jumping (if any).
-        if (selectionModel.hasSelection()) {
-            selectionModel.removeSelection(/* allCarets = */ true)
-        }
+        selectionModel.removeSelection(/* allCarets = */ true)
 
         // Determine direction to go on.
         val lines = if (targetLine > currentLine) {
@@ -229,7 +229,7 @@ object Jumper {
             }
 
             // Add a new caret at the calculated visual position
-            caretModel.addCaret(editor.offsetToVisualPosition(offset))
+            caretModel.addCaret(visualPosition)
         }
 
     }
@@ -245,34 +245,37 @@ object Jumper {
         val document = editor.document
         val selectionModel = editor.selectionModel
 
-        // Remove already selected block(s) if any.
-        if (selectionModel.hasSelection()) {
-            selectionModel.removeSelection(true)
+        selectionModel.removeSelection(true) // Remove already selected block(s) if any.
+        caretModel.removeSecondaryCarets() // Remove secondary cursors if any.
+
+        if (editor.settings.isVirtualSpace) {
+            val fromVisualPosition = editor.caretModel.visualPosition
+            val targetVisualLineNumber = editor.offsetToVisualPosition(toOffset).line
+
+            println("Visual (line,column):($targetVisualLineNumber,${fromVisualPosition.column})")
+
+            // Create a new visual position, maintaining the original column.
+            val newVisualPosition = VisualPosition(targetVisualLineNumber, fromVisualPosition.column)
+
+            // Convert the visual position back to an offset to move the caret.
+            caretModel.moveToVisualPosition(newVisualPosition)
+        } else {
+            val currentLineNumber: Int = document.getLineNumber(currentOffset)
+            val currentColumn = currentOffset - document.getLineStartOffset(currentLineNumber)
+
+            // Get the line number of the new offset
+            val targetLine = document.getLineNumber(toOffset)
+            val targetLineStartOffset = document.getLineStartOffset(targetLine)
+            val targetLineEndOffset = document.getLineEndOffset(targetLine)
+
+            // Check if target offset is inside a collapsed fold
+            val collapsedRegion = editor.foldingModel.getCollapsedRegionAtOffset(toOffset)
+            val safeOffset =
+                collapsedRegion?.startOffset
+                    ?: (targetLineStartOffset + currentColumn).coerceAtMost(targetLineEndOffset)
+
+            caretModel.moveToOffset(safeOffset)
         }
-
-        // Remove secondary cursors if any.
-        if (caretModel.caretCount > 1) {
-            caretModel.removeSecondaryCarets()
-        }
-
-        val currentLineNumber: Int = document.getLineNumber(currentOffset)
-        val currentColumn = currentOffset - document.getLineStartOffset(currentLineNumber)
-
-        // Get the line number of the new offset
-        val targetLine = document.getLineNumber(toOffset)
-        val targetLineStartOffset = document.getLineStartOffset(targetLine)
-        val targetLineEndOffset = document.getLineEndOffset(targetLine)
-        /* Make it to the end of the line if already at the end of the line.
-        val isAtEndOfLine = currentOffset == document.getLineEndOffset(document.getLineNumber(currentOffset))
-            if (isAtEndOfLine) val safeOffset = document.getLineNumber(targetLine)
-        */
-
-        // Check if target offset is inside a collapsed fold
-        val collapsedRegion = editor.foldingModel.getCollapsedRegionAtOffset(toOffset)
-        val safeOffset =
-            collapsedRegion?.startOffset ?: (targetLineStartOffset + currentColumn).coerceAtMost(targetLineEndOffset)
-
-        caretModel.moveToOffset(safeOffset)
 
         // Move caret and scroll editor to the new logical position
         editor.scrollingModel.scrollToCaret(ScrollType.RELATIVE)
